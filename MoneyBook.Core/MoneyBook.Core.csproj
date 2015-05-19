@@ -40,8 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DefaultData.resx</DependentUpon>
+    </Compile>
     <Compile Include="Entries.cs" />
     <Compile Include="Entry.cs" />
+    <Compile Include="Data\SqlDbCeClient.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -49,7 +55,14 @@
     <None Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DefaultData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DefaultData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="pattern.sdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
