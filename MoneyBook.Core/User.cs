@@ -89,7 +89,25 @@ namespace MoneyBook.Core
         }
 
         // наполнение базы данными по умолчанию
+        // список валют
 
+        // типы счетов
+        foreach (var line in Resources.DefaultData.AccountTypes.Split('\n'))
+        {
+          var item = line.Split('|');
+          // item[0]
+          if (item.Length >= 2)
+          {
+            // иконка 
+            // item[1]
+          }
+        }
+
+        // счет по умолчанию
+
+        // статьи доходов
+        // статьи расходов
+        // категории
       }
 
       return new User(path, username, password);

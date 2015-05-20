@@ -58,6 +58,15 @@ CREATE TABLE [entries] (
 GO
 ALTER TABLE [entries] ADD CONSTRAINT [PK_entries] PRIMARY KEY ([id_entries]);
 GO
+CREATE TABLE [icons] (
+  [id_icons] int IDENTITY (1,1) NOT NULL, 
+	[hash] uniqueidentifier NOT NULL,
+	[data] varbinary(8000) NOT NULL,
+	[date_created] datetime DEFAULT (getdate()) NOT NULL
+);
+GO
+ALTER TABLE [icons] ADD CONSTRAINT [PK_icons] PRIMARY KEY ([id_icons]);
+GO
 CREATE TABLE [info] (
   [key] nvarchar(3) NOT NULL, 
 	[value] nvarchar(100) NOT NULL
