@@ -429,7 +429,7 @@ namespace MoneyBook.Core.Data
       DateTime timePoint = DateTime.Now;
 
       // проверяем параметры
-      this.ValidateParameters(ref cmd);
+      this.ValidateCommand(ref cmd);
       
       DataSet result = this.GetData2(cmd);
 
@@ -576,7 +576,7 @@ namespace MoneyBook.Core.Data
       DateTime timePoint = DateTime.Now;
 
       // проверяем параметры
-      this.ValidateParameters(ref cmd);
+      this.ValidateCommand(ref cmd);
 
       DataSet DS = this.GetData2(cmd);
 
@@ -733,7 +733,7 @@ namespace MoneyBook.Core.Data
       DateTime timePoint = DateTime.Now;
 
       // проверяем параметры
-      this.ValidateParameters(ref cmd);
+      this.ValidateCommand(ref cmd);
 
       DataSet DS = this.GetData2(cmd);
 
@@ -878,7 +878,7 @@ namespace MoneyBook.Core.Data
       DateTime timePoint = DateTime.Now;
 
       // проверяем параметры
-      this.ValidateParameters(ref cmd);
+      this.ValidateCommand(ref cmd);
 
       int result = 0;
       Exception ex2 = null;
@@ -902,7 +902,10 @@ namespace MoneyBook.Core.Data
         }
       }
 
-      this.GenerateException(ex2);
+      if (ex2 != null)
+      {
+        throw ex2;
+      }
 
       _LastQueryTime = DateTime.Now.Subtract(timePoint);
 
@@ -1042,7 +1045,7 @@ namespace MoneyBook.Core.Data
       DateTime timePoint = DateTime.Now;
 
       // проверяем параметры
-      this.ValidateParameters(ref cmd);
+      this.ValidateCommand(ref cmd);
 
       DataSet DS = this.GetData2(cmd);
       
@@ -1058,17 +1061,41 @@ namespace MoneyBook.Core.Data
     }
 
     /// <summary>
-    /// Проверяет и, если необходимо, корректирует параметры запроса.
+    /// Проверяет и, если необходимо, корректирует запрос.
     /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    private void ValidateParameters(ref SqlCeCommand cmd)
+    private void ValidateCommand(ref SqlCeCommand cmd)
     {
-      if (cmd == null || cmd.Parameters == null || cmd.Parameters.Count <= 0) return;
-      foreach (SqlCeParameter p in cmd.Parameters)
+      if (cmd == null)
       {
-        if (p.Value == null)
+        throw new ArgumentNullException("cmd");  
+      }
+      // проверка и нормализация текста запроса
+      if (!String.IsNullOrEmpty(cmd.CommandText))
+      {
+        var trimChars = "\r\n ".ToCharArray();
+        string[] lines = cmd.CommandText.Split('\n');
+        string normalizedCommand = "";
+        foreach (string line in lines)
         {
-          p.Value = DBNull.Value;
+          if (line.Trim(trimChars).Equals("GO", StringComparison.OrdinalIgnoreCase))
+          {
+            throw new NotSupportedException("GO is not supported.");
+          }
+          if (normalizedCommand.Length > 0) { normalizedCommand += " "; }
+          normalizedCommand += line.Trim(trimChars);
+        }
+        cmd.CommandText = normalizedCommand;
+      }
+      // нормализация параметров
+      if (cmd.Parameters != null && cmd.Parameters.Count > 0)
+      {
+        foreach (SqlCeParameter p in cmd.Parameters)
+        {
+          if (p.Value == null)
+          {
+            p.Value = DBNull.Value;
+          }
         }
       }
     }
@@ -1143,34 +1170,12 @@ namespace MoneyBook.Core.Data
         }
       }
 
-      this.GenerateException(ex2);
+      if (ex2 != null)
+      {
+        throw ex2;
+      }
 
       return DS;
-    }
-
-    /// <summary>
-    /// Передает исключение в основной поток.
-    /// </summary>
-    /// <param name="ex">Экземпляр исключения.</param>
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    private void GenerateException(Exception ex)
-    {
-      if (ex == null) return;
-
-      /*if (ex.GetType() == typeof(SqlCeException))
-      {
-        int number = ((SqlCeException)ex).Number;
-        if (number == 544)
-        {
-          throw new ValueForIdentityException(ex);
-        }
-        else if (number == 8152)
-        {
-          throw new StringOrBinaryDataWouldBeTruncatedException(ex);
-        }
-      }*/
-
-      throw ex;
     }
 
     #endregion

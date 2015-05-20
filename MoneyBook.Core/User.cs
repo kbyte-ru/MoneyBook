@@ -6,12 +6,18 @@ using System.Reflection;
 using System.Text;
 using System.Data.SqlServerCe;
 using MoneyBook.Core.Data;
+using System.Text.RegularExpressions;
 
 namespace MoneyBook.Core
 {
 
   public class User
   {
+
+    /// <summary>
+    /// Строка соединения с базой данных текущего экземпляра пользователя.
+    /// </summary>
+    private string ConnectionString = "";
 
     public User(string path, string username, string password)
     {
@@ -53,28 +59,24 @@ namespace MoneyBook.Core
         throw new Exception("Пользователь с таким именем уже существует.");
       }
 
-      // 2. Извлечение образца базы из ресурсов и создание файла профиля
-      /*var assembly = Assembly.GetExecutingAssembly();
-      var resourceName = String.Format("{0}.pattern.sdf", assembly.GetName().Name);
-      using (var reader = assembly.GetManifestResourceStream(resourceName))
-      {
-        using (var writer = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.Inheritable))
-        {
-          byte[] buffer=new byte[(int)reader.Length];
-          writer.Write(buffer, 0, buffer.Length);
-        }
-      }*/
-
-      SqlDbCeClient.CreateDatabase(String.Format("Data Source={0}", filePath));
+      // 2. Создаем новую базу данных
+      string connectionString = String.Format("Data Source={0}; password={1}", filePath, password);
+      SqlDbCeClient.CreateDatabase(connectionString);
 
       // 3. Подключаемся к базе
-      using (var client = new SqlDbCeClient(String.Format("Data Source={0}", filePath)))
+      using (var client = new SqlDbCeClient(connectionString))
       {
+        // создаем необходимые таблицы
+        string[] queries = Regex.Split(MoneyBookUtility.GetEmbeddedResourceString("DbInit.sql"), "^GO(;|)\\b", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        foreach (string query in queries)
+        {
+          if (String.IsNullOrEmpty(query)) { continue; }
+          client.ExecuteNonQuery(query);
+        }
         // test
-        client.ExecuteScalar("SELECT 1");
+        var testResult = client.ExecuteScalar("SELECT COUNT(*) FROM [accounts]");
         // 4. Наполнение базы данными по умолчанию
       }
-      
 
       throw new NotImplementedException("Не весь код есть");
 

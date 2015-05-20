@@ -20,7 +20,7 @@ namespace MoneyBook
     private void Main_Load(object sender, EventArgs e)
     {
       // test
-      // User.Create(Application.StartupPath, "test", "123");
+      //User.Create(Application.StartupPath, "test", "");
     }
   }
 }
