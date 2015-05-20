@@ -1174,6 +1174,19 @@ namespace MoneyBook.Core.Data
     }
 
     #endregion
+    #region ..статичные функции..
+
+
+    /// <summary>
+    /// Создает новую базу данных.
+    /// </summary>
+    /// <param name="connectionString">Строка соединения.</param>
+    public static void CreateDatabase(string connectionString)
+    {
+      new SqlCeEngine(connectionString).CreateDatabase();
+    }
+
+    #endregion
 
   }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Data.SqlServerCe;
+using MoneyBook.Core.Data;
 
 namespace MoneyBook.Core
 {
@@ -53,7 +54,7 @@ namespace MoneyBook.Core
       }
 
       // 2. Извлечение образца базы из ресурсов и создание файла профиля
-      var assembly = Assembly.GetExecutingAssembly();
+      /*var assembly = Assembly.GetExecutingAssembly();
       var resourceName = String.Format("{0}.pattern.sdf", assembly.GetName().Name);
       using (var reader = assembly.GetManifestResourceStream(resourceName))
       {
@@ -62,10 +63,12 @@ namespace MoneyBook.Core
           byte[] buffer=new byte[(int)reader.Length];
           writer.Write(buffer, 0, buffer.Length);
         }
-      }
-      
+      }*/
+
+      SqlDbCeClient.CreateDatabase(String.Format("Data Source={0}", filePath));
+
       // 3. Подключаемся к базе
-      using (var client = new Data.SqlDbCeClient(String.Format("Data Source={0}", filePath)))
+      using (var client = new SqlDbCeClient(String.Format("Data Source={0}", filePath)))
       {
         // test
         client.ExecuteScalar("SELECT 1");
