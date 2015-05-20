@@ -61,6 +61,19 @@ namespace MoneyBook.Core.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Кредитная карта|0
+        ///Банковский счёт|0
+        ///Наличные|0
+        ///WebMoney|0
+        ///Яндекс.Деньги|0.
+        /// </summary>
+        internal static string AccountTypes {
+            get {
+                return ResourceManager.GetString("AccountTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на .
         /// </summary>
         internal static string Categories {
