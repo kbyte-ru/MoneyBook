@@ -50,3 +50,10 @@ CREATE TABLE [entries] (
 );
 GO
 ALTER TABLE [entries] ADD CONSTRAINT [PK_entries] PRIMARY KEY ([id_entries]);
+GO
+CREATE TABLE [info] (
+  [key] nvarchar(3) NOT NULL, 
+	[value] nvarchar(100) NOT NULL
+);
+GO
+ALTER TABLE [info] ADD CONSTRAINT [PK_info] PRIMARY KEY ([key]);
