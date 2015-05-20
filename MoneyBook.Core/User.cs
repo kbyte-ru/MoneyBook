@@ -21,7 +21,21 @@ namespace MoneyBook.Core
 
     public User(string path, string username, string password)
     {
-
+      // проверка существования файла базы
+      string filePath = Path.Combine(path, String.Format("{0}.mbk", username));
+      if (!File.Exists(filePath))
+      {
+        throw new Exception("Пользователь не найден.");
+      }
+      // загрузка данных
+      this.ConnectionString = String.Format("Data Source={0}; password={1}", filePath, password);
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        // счета
+        // справочники
+        // расходы
+        // доходы
+      }
     }
 
     /// <summary>
@@ -59,11 +73,11 @@ namespace MoneyBook.Core
         throw new Exception("Пользователь с таким именем уже существует.");
       }
 
-      // 2. Создаем новую базу данных
+      // 2. Создает новую базу данных
       string connectionString = String.Format("Data Source={0}; password={1}", filePath, password);
       SqlDbCeClient.CreateDatabase(connectionString);
 
-      // 3. Подключаемся к базе
+      // 3. Подключение к базе
       using (var client = new SqlDbCeClient(connectionString))
       {
         // создаем необходимые таблицы
@@ -73,12 +87,10 @@ namespace MoneyBook.Core
           if (String.IsNullOrEmpty(query)) { continue; }
           client.ExecuteNonQuery(query);
         }
-        // test
-        var testResult = client.ExecuteScalar("SELECT COUNT(*) FROM [accounts]");
-        // 4. Наполнение базы данными по умолчанию
-      }
 
-      throw new NotImplementedException("Не весь код есть");
+        // наполнение базы данными по умолчанию
+
+      }
 
       return new User(path, username, password);
     }

@@ -6,7 +6,7 @@
 	[account_details] ntext NOT NULL, 
 	[icon] nvarchar(100) NOT NULL, 
 	[total_income_entries] int DEFAULT (0) NOT NULL, 
-	[total_expenses_entries] int DEFAULT (0) NOT NULL, 
+	[total_expense_entries] int DEFAULT (0) NOT NULL, 
 	[last_operation] datetime NULL, 
 	[date_created] datetime DEFAULT (GETDATE()) NOT NULL
 );

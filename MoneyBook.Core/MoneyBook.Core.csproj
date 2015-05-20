@@ -43,15 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DefaultData.resx</DependentUpon>
-    </Compile>
     <Compile Include="Entries.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="Data\SqlDbCeClient.cs" />
     <Compile Include="MoneyBookUtility.cs" />
+    <Compile Include="Resources\DefaultData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DefaultData.resx</DependentUpon>
+    </Compile>
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,16 +60,14 @@
     <None Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DefaultData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DefaultData.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Enums\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DbInit.sql" />
+    <EmbeddedResource Include="Resources\DefaultData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DefaultData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
