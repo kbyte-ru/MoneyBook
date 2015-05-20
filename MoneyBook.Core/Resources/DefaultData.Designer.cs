@@ -65,7 +65,8 @@ namespace MoneyBook.Core.Resources {
         ///Банковский счёт|0
         ///Наличные|0
         ///WebMoney|0
-        ///Яндекс.Деньги|0.
+        ///Яндекс.Деньги|0
+        ///PayPal|0.
         /// </summary>
         internal static string AccountTypes {
             get {

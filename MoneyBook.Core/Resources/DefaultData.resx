@@ -122,7 +122,8 @@
 Банковский счёт|0
 Наличные|0
 WebMoney|0
-Яндекс.Деньги|0</value>
+Яндекс.Деньги|0
+PayPal|0</value>
     <comment>Название|id иконки</comment>
   </data>
   <data name="Categories" xml:space="preserve">
