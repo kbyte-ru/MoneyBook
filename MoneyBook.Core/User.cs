@@ -58,6 +58,30 @@ namespace MoneyBook.Core
     }
 
     /// <summary>
+    /// Возвращает список категорий расходов/доходов.
+    /// </summary>
+    public List<Category> GetCategories()
+    {
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [categories]";
+        return client.GetEntities<Category>();
+      }
+    }
+
+    /// <summary>
+    /// Возвращает список валют.
+    /// </summary>
+    public List<Currency> GetCurrencies()
+    {
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [currencies] ORDER BY [priority]";
+        return client.GetEntities<Currency>();
+      }
+    }
+
+    /// <summary>
     /// Возвращает список записей.
     /// </summary>
     /// <param name="accountId">Идентификатор счета. По умолчанию, ноль - любой счет.</param>

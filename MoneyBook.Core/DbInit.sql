@@ -39,7 +39,7 @@ GO
 CREATE TABLE [currencies] (
   [id_currencies] nvarchar(3) NOT NULL, 
 	[id_icons] int DEFAULT(0) NOT NULL, 
-	[long_name] nvarchar(100) NOT NULL, 
+	[long_name] nvarchar(50) NOT NULL, 
 	[short_name] nvarchar(10) NOT NULL, 
 	[priority] int DEFAULT (0) NOT NULL
 );
