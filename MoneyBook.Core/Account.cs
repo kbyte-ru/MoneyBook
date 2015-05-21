@@ -46,10 +46,10 @@ namespace MoneyBook.Core
 
     #endregion
 
-    [Column("last_operation", SqlDbType.DateTime)]
+    [Column("last_operation", SqlDbType.DateTime, Flags = ColumnFlags.AllowNull)]
     public DateTime? LastOperation { get; set; }
 
-    [Column("date_created", SqlDbType.DateTime)]
+    [Column("date_created", SqlDbType.DateTime, Default = ColumnDefaultValues.Now)]
     public DateTime DateCreated { get; set; }
 
   }

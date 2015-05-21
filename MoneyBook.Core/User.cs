@@ -114,23 +114,6 @@ namespace MoneyBook.Core
           client.ExecuteNonQuery(query);
         }
 
-        // test
-        
-        /*
-        var a = new Account();
-        a.CurrencyCode = "RUB";
-        a.AccountTypeId = 1;
-        a.Details = "test";
-        a.IconId = 123;
-        a.Id = 0;
-        a.Name = "проверка";
-        var e = new List<Account>();
-        e.Add(a);
-        client.SaveEntities<Account>(e);
-        
-        var aaa = client.GetEntities<Account>("SELECT * FROM accounts");
-        */
-
         // наполнение базы данными по умолчанию
         // список валют
 
