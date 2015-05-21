@@ -315,6 +315,11 @@ namespace MoneyBook.Core.Data
     /// <param name="entity">Экземпляр сущности.</param>
     private T SaveEntityInstanceToDatabase<T>(T entity)
     {
+      if (entity == null)
+      {
+        throw new ArgumentNullException("entity");
+      }
+
       this.Parameters.Clear();
       
       // имя таблицы 

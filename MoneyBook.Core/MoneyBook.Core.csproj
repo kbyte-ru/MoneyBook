@@ -53,9 +53,11 @@
     <Compile Include="Data\SqlDbCeClient\ExecuteScalar.cs" />
     <Compile Include="Data\SqlDbCeClient\GetData.cs" />
     <Compile Include="Data\SqlDbCeClient\GetEntities.cs" />
+    <Compile Include="Data\SqlDbCeClient\GetEntity.cs" />
     <Compile Include="Data\SqlDbCeClient\GetRow.cs" />
     <Compile Include="Data\SqlDbCeClient\GetTable.cs" />
     <Compile Include="Data\SqlDbCeClient\SaveEntities.cs" />
+    <Compile Include="Data\SqlDbCeClient\SaveEntity.cs" />
     <Compile Include="Data\SqlType.cs" />
     <Compile Include="Data\TableAttribute.cs" />
     <Compile Include="Entries.cs" />
