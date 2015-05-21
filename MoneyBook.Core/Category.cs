@@ -37,6 +37,9 @@ namespace MoneyBook.Core
 
     // --
 
+    [Column("font_style", SqlDbType.Int)]
+    public int FontStyle { get; set; }
+
     [Column("total_entries", SqlDbType.Int)]
     public int TotalEntries { get; set; }
 

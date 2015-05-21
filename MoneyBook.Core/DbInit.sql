@@ -27,6 +27,7 @@ CREATE TABLE [categories] (
 	[category_name] nvarchar(100) NOT NULL, 
 	[fore_color] int NOT NULL, 
 	[back_color] int NOT NULL, 
+	[font_style] int NOT NULL, 
 	[total_entries] int NOT NULL, 
 	[last_operation] datetime NULL, 
 	[date_created] datetime DEFAULT (getdate()) NOT NULL
