@@ -225,12 +225,12 @@ namespace MoneyBook.Core.Data
     // NOTE: Потенциальная ошибка может быть, если имя поля будет содержать запрещенные символы.
 
     /// <summary>
-    /// Возвращает параметр SQL Server.
+    /// Возвращает параметр SQL Server CE.
     /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    internal protected System.Data.SqlClient.SqlParameter GetSqlParameter()
+    internal protected System.Data.SqlServerCe.SqlCeParameter GetSqlParameter()
     {
-      return new System.Data.SqlClient.SqlParameter(this.ParameterName, this.SqlDbType, this.Size);
+      return new System.Data.SqlServerCe.SqlCeParameter(this.ParameterName, this.SqlDbType, this.Size);
     }
 
     /// <summary>

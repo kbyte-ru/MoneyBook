@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MoneyBook.Core
 {
@@ -29,6 +30,41 @@ namespace MoneyBook.Core
           return reader.ReadToEnd();
         }
       }
+    }
+
+    /// <summary>
+    /// Возвращает объект указанного типа.
+    /// </summary>
+    /// <param name="value">Объект</param>
+    /// <param name="conversionType">Какой тип нужен</param>
+    public static object ChangeType(object value, Type conversionType)
+    {
+      Type t = value.GetType();
+      if (conversionType == typeof(Guid) && t == typeof(Guid))
+      {
+        return (Guid)value;
+      }
+      else if (conversionType == typeof(Guid) && t == typeof(string))
+      {
+        return new Guid(value.ToString());
+      }
+      else if (conversionType == typeof(Guid) && t == typeof(byte[]))
+      {
+        return new Guid((byte[])value);
+      }
+      else if (conversionType == typeof(double) && t == typeof(string))
+      {
+        return double.Parse(Regex.Replace(value.ToString().Trim(), @",|\.", System.Globalization.NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator), System.Globalization.NumberStyles.Any, System.Threading.Thread.CurrentThread.CurrentCulture);
+      }
+      else if (conversionType == typeof(float) && t == typeof(string))
+      {
+        return float.Parse(Regex.Replace(value.ToString().Trim(), @",|\.", System.Globalization.NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator), System.Globalization.NumberStyles.Any, System.Threading.Thread.CurrentThread.CurrentCulture);
+      }
+      else if (conversionType == typeof(decimal) && t == typeof(string))
+      {
+        return decimal.Parse(Regex.Replace(value.ToString().Trim(), @",|\.", System.Globalization.NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator), System.Globalization.NumberStyles.Any, System.Threading.Thread.CurrentThread.CurrentCulture);
+      }
+      return Convert.ChangeType(value, conversionType);
     }
 
   }

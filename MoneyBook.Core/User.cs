@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Data.SqlServerCe;
 using MoneyBook.Core.Data;
 using System.Text.RegularExpressions;
 
@@ -44,6 +43,18 @@ namespace MoneyBook.Core
     /// <param name="newPassword">Пароль, который следует установить.</param>
     public void SetPassword(string newPassword)
     {
+    }
+
+    /// <summary>
+    /// Возвращает список счетов.
+    /// </summary>
+    public List<Account> GetAccounts()
+    {
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [accounts] ORDER BY [account_name], [id_accounts]";
+        return client.GetEntities<Account>();
+      }
     }
 
     /// <summary>
@@ -102,6 +113,23 @@ namespace MoneyBook.Core
           if (String.IsNullOrEmpty(query)) { continue; }
           client.ExecuteNonQuery(query);
         }
+
+        // test
+        
+        /*
+        var a = new Account();
+        a.CurrencyCode = "RUB";
+        a.AccountTypeId = 1;
+        a.Details = "test";
+        a.IconId = 123;
+        a.Id = 0;
+        a.Name = "проверка";
+        var e = new List<Account>();
+        e.Add(a);
+        client.SaveEntities<Account>(e);
+        
+        var aaa = client.GetEntities<Account>("SELECT * FROM accounts");
+        */
 
         // наполнение базы данными по умолчанию
         // список валют

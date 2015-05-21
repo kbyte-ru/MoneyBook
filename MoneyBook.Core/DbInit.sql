@@ -12,6 +12,7 @@
 );
 GO
 ALTER TABLE [accounts] ADD CONSTRAINT [PK_accounts] PRIMARY KEY ([id_accounts]);
+GO
 CREATE TABLE [account_types] (
   [id_account_types] int IDENTITY (1,1) NOT NULL, 
 	[id_icons] int DEFAULT(0) NOT NULL,
