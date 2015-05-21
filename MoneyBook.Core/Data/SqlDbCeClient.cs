@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Data.SqlServerCe;
 using System.Runtime.Serialization;
+using MoneyBook.Core.Data.Enums;
 
 namespace MoneyBook.Core.Data
 {
@@ -34,27 +35,6 @@ namespace MoneyBook.Core.Data
   public class SqlDbCeClient : IDisposable
   {
 
-    #region ..перечисления..
-
-    /// <summary>
-    /// Режим подключения к базе данных.
-    /// </summary>
-    public enum ConnectionType
-    {
-      /// <summary>
-      /// Автоматически открывать и закрывать соединение с базой (рекомендуется). Используется по умолчанию.
-      /// </summary>
-      Auto = 0,
-      /// <summary>
-      /// Вручную закрывать соединение с базой.
-      /// </summary>
-      /// <remarks>
-      /// <para>Открытие соединений с базой данных при ручном режиме производится автоматически, при первой необходимости.</para>
-      /// </remarks>
-      Manual = 1
-    }
-
-    #endregion
     #region ..свойства..
 
     private SqlCeConnection _Conn = null;
@@ -78,11 +58,11 @@ namespace MoneyBook.Core.Data
       }
     }
 
-    private ConnectionType _ConnectionMode = ConnectionType.Auto;
+    private ConnectionMode _ConnectionMode = ConnectionMode.Auto;
     /// <summary>
     /// Режим соединения с базой данных.
     /// </summary>
-    public ConnectionType ConnectionMode
+    public ConnectionMode ConnectionMode
     {
       get
       {
@@ -896,7 +876,7 @@ namespace MoneyBook.Core.Data
       }
       finally
       {
-        if (_ConnectionMode == ConnectionType.Auto)
+        if (_ConnectionMode == ConnectionMode.Auto)
         {
           this.Disconnect();
         }
@@ -1164,7 +1144,7 @@ namespace MoneyBook.Core.Data
       }
       finally
       {
-        if (_ConnectionMode == ConnectionType.Auto)
+        if (_ConnectionMode == ConnectionMode.Auto)
         {
           this.Disconnect();
         }

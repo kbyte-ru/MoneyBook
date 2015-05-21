@@ -47,6 +47,21 @@ namespace MoneyBook.Core
     }
 
     /// <summary>
+    /// Возвращает список записей.
+    /// </summary>
+    /// <param name="accountId">Идентификатор счета. По умолчанию, ноль - любой счет.</param>
+    /// <param name="categoryId">Идентификатор категории. По умолчанию, ноль - все категории.</param>
+    /// <param name="dateFrom">Начало периода.</param>
+    /// <param name="dateTo">Конец периода.</param>
+    /// <param name="amountFrom">Сумма от.</param>
+    /// <param name="amountTo">Сумма до.</param>
+    /// <param name="search">Строка поиска.</param>
+    public Entries GetEntries(int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null)
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>
     /// Создает нового пользователя.
     /// </summary>
     /// <param name="path">Путь к каталогу, в который следует создать профиль пользователя.</param>

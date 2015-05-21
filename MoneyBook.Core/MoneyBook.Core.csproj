@@ -43,9 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="Data\ColumnAttribute.cs" />
+    <Compile Include="Data\Enums\ColumnFlags.cs" />
+    <Compile Include="Data\Enums\ColumnDefaultValues.cs" />
+    <Compile Include="Data\Enums\ConnectionMode.cs" />
+    <Compile Include="Data\SqlType.cs" />
     <Compile Include="Entries.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="Data\SqlDbCeClient.cs" />
+    <Compile Include="Info.cs" />
     <Compile Include="MoneyBookUtility.cs" />
     <Compile Include="Resources\DefaultData.Designer.cs">
       <AutoGen>True</AutoGen>

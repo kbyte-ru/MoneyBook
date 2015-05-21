@@ -4,7 +4,7 @@
 	[id_currencies] nvarchar(3) NOT NULL, 
 	[id_icons] int DEFAULT(0) NOT NULL, 
 	[account_name] nvarchar(100) NOT NULL, 
-	[account_details] ntext NOT NULL, 
+	[account_details] nvarchar(4000) NOT NULL, 
 	[total_income_entries] int DEFAULT (0) NOT NULL, 
 	[total_expense_entries] int DEFAULT (0) NOT NULL, 
 	[last_operation] datetime NULL, 
@@ -61,7 +61,7 @@ GO
 CREATE TABLE [icons] (
   [id_icons] int IDENTITY (1,1) NOT NULL, 
 	[hash] uniqueidentifier NOT NULL,
-	[data] varbinary(8000) NOT NULL,
+	[data] varbinary(2048) NOT NULL,
 	[date_created] datetime DEFAULT (getdate()) NOT NULL
 );
 GO
