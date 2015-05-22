@@ -254,16 +254,16 @@ namespace MoneyBook.Core.Data
         // используем значение по умолчанию, если есть
         if (this.Default != null && this.Default != DBNull.Value)
         {
-          if (this.Default.GetType() == typeof(ColumnDefaultValues))
+          if (this.Default.GetType() == typeof(DefaultValues))
           {
             object defaultValue = null;
-            switch ((ColumnDefaultValues)this.Default)
+            switch ((DefaultValues)this.Default)
             {
-              case ColumnDefaultValues.Now:
+              case DefaultValues.Now:
                 defaultValue = DateTime.Now;
                 p.SetValue(this.OwnerClass, defaultValue, null);
                 return defaultValue;
-              case ColumnDefaultValues.NewId:
+              case DefaultValues.NewId:
                 defaultValue = Guid.NewGuid();
                 p.SetValue(this.OwnerClass, defaultValue, null);
                 return defaultValue;

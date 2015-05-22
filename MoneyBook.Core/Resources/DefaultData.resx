@@ -141,9 +141,9 @@ GBP|Британский фунт|£|13
 JPY|Японская Йена|¥|14</value>
     <comment>Код|Название|Короткое название|Id иконки</comment>
   </data>
-  <data name="DefaultAccountName" xml:space="preserve">
-    <value>Основной</value>
-    <comment>Имя счета по умолчанию.</comment>
+  <data name="DefaultAccount" xml:space="preserve">
+    <value>RUB|Основной|3|0</value>
+    <comment>Код валюты|Номер типа, начиная с 1|Имя счета|Id иконки</comment>
   </data>
   <data name="DefaultCurrency" xml:space="preserve">
     <value>RUB</value>

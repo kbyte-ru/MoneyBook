@@ -101,11 +101,11 @@ namespace MoneyBook.Core.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Основной.
+        ///   Ищет локализованную строку, похожую на RUB|Основной|3|0.
         /// </summary>
-        internal static string DefaultAccountName {
+        internal static string DefaultAccount {
             get {
-                return ResourceManager.GetString("DefaultAccountName", resourceCulture);
+                return ResourceManager.GetString("DefaultAccount", resourceCulture);
             }
         }
         

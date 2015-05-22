@@ -16,38 +16,68 @@ namespace MoneyBook.Core
   public class Category
   {
 
+    /// <summary>
+    /// Уникальный идентификатор категории.
+    /// </summary>
     [Column("id_categories", SqlDbType.Int, ColumnFlags.PrimaryKey | ColumnFlags.Identity)]
     public int Id { get; set; }
 
+    /// <summary>
+    /// Идентификатор иконки.
+    /// </summary>
     [Column("id_icons", SqlDbType.Int)]
     public int IconId { get; set; }
 
+    /// <summary>
+    /// Идентификатор родительской категории. Ноль - категория не имеет родителя.
+    /// </summary>
     [Column("parent_id", SqlDbType.Int)]
     public int ParentId { get; set; }
 
+    /// <summary>
+    /// Название категории.
+    /// </summary>
     [Column("category_name", SqlDbType.NVarChar, Size = 100)]
     public string Name { get; set; }
 
     // TODO: https://github.com/alekseynemiro/MoneyBook/issues/10
 
+    /// <summary>
+    /// Цвета шрифта.
+    /// </summary>
     [Column("fore_color", SqlDbType.Int)]
     public int ForeColor { get; set; }
     
+    /// <summary>
+    /// Цвет фона.
+    /// </summary>
     [Column("back_color", SqlDbType.Int)]
     public int BackColor { get; set; }
 
     // --
 
+    /// <summary>
+    /// Стиль шрифта.
+    /// </summary>
     [Column("font_style", SqlDbType.Int)]
     public int FontStyle { get; set; }
 
+    /// <summary>
+    /// Общее число записей в категории.
+    /// </summary>
     [Column("total_entries", SqlDbType.Int)]
     public int TotalEntries { get; set; }
 
+    /// <summary>
+    /// Дата и время последней операции в данной категории.
+    /// </summary>
     [Column("last_operation", SqlDbType.DateTime, Flags = ColumnFlags.AllowNull)]
     public DateTime? LastOperation { get; set; }
 
-    [Column("date_created", SqlDbType.DateTime, Default = ColumnDefaultValues.Now)]
+    /// <summary>
+    /// Дата и время создания категории.
+    /// </summary>
+    [Column("date_created", SqlDbType.DateTime, Default = DefaultValues.Now)]
     public DateTime DateCreated { get; set; }
 
   }

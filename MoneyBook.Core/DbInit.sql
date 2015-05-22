@@ -16,7 +16,7 @@ GO
 CREATE TABLE [account_types] (
   [id_account_types] int IDENTITY (1,1) NOT NULL, 
 	[id_icons] int DEFAULT(0) NOT NULL,
-	[account_type_name] nvarchar(100) NOT NULL
+	[account_type_name] nvarchar(50) NOT NULL
 );
 GO
 ALTER TABLE [account_types] ADD CONSTRAINT [PK_account_types] PRIMARY KEY ([id_account_types]);

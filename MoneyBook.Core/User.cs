@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace MoneyBook.Core
 {
 
-  public class User
+  public class User : IDisposable
   {
 
     #region ..свойства..
@@ -19,7 +19,6 @@ namespace MoneyBook.Core
     /// Строка соединения с базой данных текущего экземпляра пользователя.
     /// </summary>
     private string ConnectionString = "";
-
 
     private List<Account> _Accounts = null;
 
@@ -85,6 +84,12 @@ namespace MoneyBook.Core
       }
       // строка соединения
       this.ConnectionString = String.Format("Data Source={0}; password={1}", filePath, password);
+    }
+    
+    public void Dispose()
+    {
+      // обновление информации
+      // TODO
     }
 
     #endregion
@@ -273,23 +278,50 @@ namespace MoneyBook.Core
 
         // наполнение базы данными по умолчанию
         // список валют
+        var currencies = new List<Currency>();
+        foreach (var line in Resources.DefaultData.Currencies.Split('\n'))
+        {
+          var item = line.Trim('\r', ' ').Split('|');
+          currencies.Add
+          (
+            new Currency
+            {
+              Code = item[0],
+              LongName = item[1],
+              ShortName = item[2],
+              IconId = Convert.ToInt32(item[3])
+            }
+          );
+        }
+        client.SaveEntities<Currency>(currencies);
 
         // типы счетов
+        var accountTypes = new List<AccountType>();
         foreach (var line in Resources.DefaultData.AccountTypes.Split('\n'))
         {
-          var item = line.Split('|');
-          // item[0]
-          if (item.Length >= 2)
-          {
-            // иконка 
-            // item[1]
-          }
+          var item = line.Trim('\r', ' ').Split('|');
+          accountTypes.Add
+          (
+            new AccountType
+            {
+              Name = item[0],
+              IconId = Convert.ToInt32(item[1])
+            }
+          );
         }
+        client.SaveEntities<AccountType>(accountTypes);
 
         // счет по умолчанию
+        var defaultAccount = Resources.DefaultData.DefaultAccount.Trim('\r', ' ').Split('|');
+        var account = new Account
+        {
+          CurrencyCode = defaultAccount[0],
+          Name = defaultAccount[1],
+          AccountTypeId = Convert.ToInt32(defaultAccount[2]),
+          IconId = Convert.ToInt32(defaultAccount[3])
+        };
+        client.SaveEntity<Account>(account);
 
-        // статьи доходов
-        // статьи расходов
         // категории
       }
 
