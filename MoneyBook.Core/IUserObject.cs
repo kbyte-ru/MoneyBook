@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MoneyBook.Core.Data
+namespace MoneyBook.Core
 {
 
   /// <summary>
