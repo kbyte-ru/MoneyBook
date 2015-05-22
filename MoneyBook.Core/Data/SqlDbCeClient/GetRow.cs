@@ -14,16 +14,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Data.SqlServerCe;
-using System.Runtime.Serialization;
-using MoneyBook.Core.Data.Enums;
-using System.Reflection;
 
 namespace MoneyBook.Core.Data
 {

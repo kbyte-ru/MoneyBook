@@ -245,7 +245,7 @@ namespace MoneyBook.Core
       // 0. Проверка имени пользователя
       if (username.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
       {
-        throw new ArgumentException("Имя пользователя содержит недопустимые символы.", "username"); //InvalidUserNameException();
+        throw new ArgumentException("Имя пользователя содержит недопустимые символы.", "username");
       }
 
       // 1. Проверка файлов
