@@ -13,10 +13,67 @@ namespace MoneyBook.Core
   public class User
   {
 
+    #region ..свойства..
+
     /// <summary>
     /// Строка соединения с базой данных текущего экземпляра пользователя.
     /// </summary>
     private string ConnectionString = "";
+
+
+    private List<Account> _Accounts = null;
+
+    /// <summary>
+    /// Список счетов пользователя.
+    /// </summary>
+    public List<Account> Accounts
+    {
+      get
+      {
+        if (_Accounts == null)
+        {
+          _Accounts = this.GetAccounts();
+        }
+        return _Accounts;
+      }
+    }
+
+    private List<Category> _Categories = null;
+
+    /// <summary>
+    /// Список категорий.
+    /// </summary>
+    public List<Category> Categories
+    {
+      get
+      {
+        if (_Categories == null)
+        {
+          _Categories = this.GetCategories();
+        }
+        return _Categories;
+      }
+    }
+
+    private List<Currency> _Currencies = null;
+
+    /// <summary>
+    /// Список валют.
+    /// </summary>
+    public List<Currency> Currencies
+    {
+      get
+      {
+        if (_Currencies == null)
+        {
+          _Currencies = this.GetCurrencies();
+        }
+        return _Currencies;
+      }
+    }
+
+    #endregion
+    #region ..конструктор и деструктор..
 
     public User(string path, string username, string password)
     {
@@ -37,49 +94,8 @@ namespace MoneyBook.Core
       }
     }
 
-    /// <summary>
-    /// Меняет пароль.
-    /// </summary>
-    /// <param name="newPassword">Пароль, который следует установить.</param>
-    public void SetPassword(string newPassword)
-    {
-    }
-
-    /// <summary>
-    /// Возвращает список счетов.
-    /// </summary>
-    public List<Account> GetAccounts()
-    {
-      using (var client = new SqlDbCeClient(this.ConnectionString))
-      {
-        client.CommandText = "SELECT * FROM [accounts] ORDER BY [account_name], [id_accounts]";
-        return client.GetEntities<Account>();
-      }
-    }
-
-    /// <summary>
-    /// Возвращает список категорий расходов/доходов.
-    /// </summary>
-    public List<Category> GetCategories()
-    {
-      using (var client = new SqlDbCeClient(this.ConnectionString))
-      {
-        client.CommandText = "SELECT * FROM [categories]";
-        return client.GetEntities<Category>();
-      }
-    }
-
-    /// <summary>
-    /// Возвращает список валют.
-    /// </summary>
-    public List<Currency> GetCurrencies()
-    {
-      using (var client = new SqlDbCeClient(this.ConnectionString))
-      {
-        client.CommandText = "SELECT * FROM [currencies] ORDER BY [priority]";
-        return client.GetEntities<Currency>();
-      }
-    }
+    #endregion
+    #region ..методы..
 
     /// <summary>
     /// Возвращает список записей.
@@ -95,6 +111,53 @@ namespace MoneyBook.Core
     {
       throw new NotImplementedException();
     }
+
+    /// <summary>
+    /// Меняет пароль.
+    /// </summary>
+    /// <param name="newPassword">Пароль, который следует установить.</param>
+    public void SetPassword(string newPassword)
+    {
+    }
+
+    /// <summary>
+    /// Возвращает список счетов.
+    /// </summary>
+    private List<Account> GetAccounts()
+    {
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [accounts] ORDER BY [account_name], [id_accounts]";
+        return client.GetEntities<Account>();
+      }
+    }
+
+    /// <summary>
+    /// Возвращает список категорий расходов/доходов.
+    /// </summary>
+    private List<Category> GetCategories()
+    {
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [categories]";
+        return client.GetEntities<Category>();
+      }
+    }
+
+    /// <summary>
+    /// Возвращает список валют.
+    /// </summary>
+    private List<Currency> GetCurrencies()
+    {
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [currencies] ORDER BY [priority]";
+        return client.GetEntities<Currency>();
+      }
+    }
+
+    #endregion
+    #region ..статичные методы..
 
     /// <summary>
     /// Создает нового пользователя.
@@ -162,7 +225,9 @@ namespace MoneyBook.Core
 
       return new User(path, username, password);
     }
-    
+
+    #endregion
+
   }
 
 }
