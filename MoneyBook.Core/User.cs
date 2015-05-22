@@ -18,7 +18,7 @@ namespace MoneyBook.Core
     /// <summary>
     /// Строка соединения с базой данных текущего экземпляра пользователя.
     /// </summary>
-    private string ConnectionString = "";
+    internal string ConnectionString = "";
 
     private List<Account> _Accounts = null;
 
@@ -71,6 +71,11 @@ namespace MoneyBook.Core
       }
     }
 
+    /// <summary>
+    /// Служебная информация о файле БД.
+    /// </summary>
+    public Info Info { get; protected set; }
+
     #endregion
     #region ..конструктор и деструктор..
 
@@ -84,12 +89,18 @@ namespace MoneyBook.Core
       }
       // строка соединения
       this.ConnectionString = String.Format("Data Source={0}; password={1}", filePath, password);
+      // информация о базе
+      this.Info = new Info(this);
     }
     
     public void Dispose()
     {
       // обновление информации
-      // TODO
+      // TODO:
+      // Счетчик запусков (или перенести на инициализацию)
+      // Время работы
+      // Текущая культура
+      // ...
     }
 
     #endregion

@@ -70,7 +70,7 @@ GO
 ALTER TABLE [icons] ADD CONSTRAINT [PK_icons] PRIMARY KEY ([id_icons]);
 GO
 CREATE TABLE [info] (
-  [key] nvarchar(3) NOT NULL, 
+  [key] nvarchar(50) NOT NULL, 
 	[value] nvarchar(100) NOT NULL
 );
 GO
