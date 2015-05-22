@@ -12,13 +12,11 @@ namespace UnitTestProject1
   public class SqlDbCeClientTest
   {
 
-    private string CurrentPath = AppDomain.CurrentDomain.BaseDirectory;
-
     [TestMethod]
     public void EntitiesTest()
     {
       string password = "";
-      string filePath = Path.Combine(this.CurrentPath, "test.sdf");
+      string filePath = Path.Combine(App.CurrentPath, "test.sdf");
       if (File.Exists(filePath))
       {
         File.Delete(filePath);

@@ -83,15 +83,8 @@ namespace MoneyBook.Core
       {
         throw new Exception("Пользователь не найден.");
       }
-      // загрузка данных
+      // строка соединения
       this.ConnectionString = String.Format("Data Source={0}; password={1}", filePath, password);
-      using (var client = new SqlDbCeClient(this.ConnectionString))
-      {
-        // счета
-        // справочники
-        // расходы
-        // доходы
-      }
     }
 
     #endregion
@@ -118,6 +111,74 @@ namespace MoneyBook.Core
     /// <param name="newPassword">Пароль, который следует установить.</param>
     public void SetPassword(string newPassword)
     {
+    }
+
+    /// <summary>
+    /// Сохраняет указанные объекты (счет, категория, запись) в базе данных.
+    /// </summary>
+    /// <param name="entities">Список объектов, которые необходимо сохранить.</param>
+    public void Save(List<object> entities)
+    {
+      if (entities == null)
+      {
+        throw new ArgumentNullException("entities");
+      }
+
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.SaveEntities<object>(entities);
+      }
+    }
+
+    /// <summary>
+    /// Сохраняет указанный объект (счет, категория, запись) в базе данных.
+    /// </summary>
+    /// <param name="entity">Объект, который необходимо сохранить.</param>
+    public void Save(object entity)
+    {
+      if (entity == null)
+      {
+        throw new ArgumentNullException("entity");
+      }
+
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.SaveEntity<object>(entity);
+      }
+    }
+
+    /// <summary>
+    /// Удаляет указанные объекты (счет, категория, запись) из базы данных.
+    /// </summary>
+    /// <param name="entities">Список объектов, которые необходимо удалить.</param>
+    public int Delete(List<object> entities)
+    {
+      if (entities == null)
+      {
+        throw new ArgumentNullException("entities");
+      }
+
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        return client.DeleteEntities<object>(entities);
+      }
+    }
+
+    /// <summary>
+    /// Удаляет указанный объект (счет, категория, запись) из базы данных.
+    /// </summary>
+    /// <param name="entity">Объект, который необходимо удалить.</param>
+    public int Delete(object entity)
+    {
+      if (entity == null)
+      {
+        throw new ArgumentNullException("entity");
+      }
+
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        return client.DeleteEntity<object>(entity);
+      }
     }
 
     /// <summary>
@@ -167,10 +228,19 @@ namespace MoneyBook.Core
     /// <param name="password">Пароль к файлу базы.</param>
     public static User Create(string path, string username, string password)
     {
+      if (String.IsNullOrEmpty(path))
+      {
+        throw new ArgumentNullException("path");
+      }
+      if (String.IsNullOrEmpty(username))
+      {
+        throw new ArgumentNullException("username");
+      }
+
       // 0. Проверка имени пользователя
       if (username.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
       {
-        throw new Exception("Имя пользователя содержит недопустимые символы."); //InvalidUserNameException();
+        throw new ArgumentException("Имя пользователя содержит недопустимые символы.", "username"); //InvalidUserNameException();
       }
 
       // 1. Проверка файлов
@@ -224,6 +294,56 @@ namespace MoneyBook.Core
       }
 
       return new User(path, username, password);
+    }
+
+    /// <summary>
+    /// Удаляет профиль указанного пользвателя.
+    /// </summary>
+    /// <param name="path">Путь к каталогу, в котором следует искать файл профиля пользователя.</param>
+    /// <param name="username">Имя пользователя.</param>
+    /// <returns>
+    /// <para><b>true</b> - если профиль был удален.</para>
+    /// <para><b>false</b> - если файл профиля не был найден.</para>
+    /// </returns>
+    public static bool Kill(string path, string username)
+    {
+      if (String.IsNullOrEmpty(path))
+      {
+        throw new ArgumentNullException("path");
+      }
+      if (String.IsNullOrEmpty(username))
+      {
+        throw new ArgumentNullException("username");
+      }
+
+      string filePath = Path.Combine(path, String.Format("{0}.mbk", username));
+
+      if (File.Exists(filePath))
+      {
+        File.Delete(filePath);
+        return true;
+      }
+
+      return false;
+    }
+
+    /// <summary>
+    /// Проверяет существование файла профиля пользователя.
+    /// </summary>
+    /// <param name="path">Путь к каталогу, в котором следует искать файл профиля пользователя.</param>
+    /// <param name="username">Имя пользователя.</param>
+    public static bool Exists(string path, string username)
+    {
+      if (String.IsNullOrEmpty(path))
+      {
+        throw new ArgumentNullException("path");
+      }
+      if (String.IsNullOrEmpty(username))
+      {
+        throw new ArgumentNullException("username");
+      }
+
+      return File.Exists(Path.Combine(path, String.Format("{0}.mbk", username)));
     }
 
     #endregion

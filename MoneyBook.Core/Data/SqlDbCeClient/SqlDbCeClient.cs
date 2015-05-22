@@ -321,24 +321,26 @@ namespace MoneyBook.Core.Data
       }
 
       this.Parameters.Clear();
-      
+
+      var t = entity.GetType();
+
       // имя таблицы 
       string tableName = "";
-      var tattr = (TableAttribute)typeof(T).GetCustomAttributes(typeof(TableAttribute), false).FirstOrDefault();
+      var tattr = (TableAttribute)t.GetCustomAttributes(typeof(TableAttribute), false).FirstOrDefault();
       if (tattr != null)
       {
         tableName = tattr.TableName;
       }
       else
       {
-        tableName = typeof(T).Name;
+        tableName = t.Name;
       }
 
       // извлекаем свойства
-      var properties = typeof(T).GetProperties();
+      var properties = t.GetProperties();
       // ищем ключ
       PropertyInfo primaryKey = null;
-      var pka = this.GetColumnAttribute(primaryKey);
+      ColumnAttribute pka = null;
       foreach (PropertyInfo p in properties)
       {
         var catr = this.GetColumnAttribute(p);
@@ -490,6 +492,78 @@ namespace MoneyBook.Core.Data
 
       return entity;
     }
+    
+    /// <summary>
+    /// Удаляет сущность из базы и возвращает число удаленных записей.
+    /// </summary>
+    /// <typeparam name="T">Тип сущности.</typeparam>
+    /// <param name="entity">Экземпляр сущности.</param>
+    private int DeleteEntityFromDatabase<T>(T entity)
+    {
+      if (entity == null)
+      {
+        throw new ArgumentNullException("entity");
+      }
+
+      this.Parameters.Clear();
+
+      var t = entity.GetType();
+
+      // имя таблицы 
+      string tableName = "";
+      var tattr = (TableAttribute)t.GetCustomAttributes(typeof(TableAttribute), false).FirstOrDefault();
+      if (tattr != null)
+      {
+        tableName = tattr.TableName;
+      }
+      else
+      {
+        tableName = t.Name;
+      }
+
+      // извлекаем свойства
+      var properties = t.GetProperties();
+      // ищем ключ
+      PropertyInfo primaryKey = null;
+      ColumnAttribute pka = null;
+      foreach (PropertyInfo p in properties)
+      {
+        var catr = this.GetColumnAttribute(p);
+        if (catr != null && catr.IsPrimaryKey)
+        {
+          // нашли, запоминаем
+          primaryKey = p;
+          pka = catr;
+          break;
+        }
+      }
+
+      if (pka == null)
+      { 
+        //нет ключевого поля, удаляем по уникальным
+        this.SetSqlParametersFromUniqueProperties(entity, this);
+
+        // если есть параметры, значит можно выполнять запрос
+        if (this.Parameters.Count > 0)
+        {
+          this.CommandText = String.Format("DELETE FROM {0} WHERE " + this.CommandText, this.EscapeSqlObject(tableName));
+          return Convert.ToInt32(this.ExecuteNonQuery());
+        }
+        else
+        { 
+          // параметров нет, генерируем исключение
+          throw new Exception("NoPrimaryKeyOrUniqueFieldsException()"); // TODO
+        }
+      }
+      else
+      { 
+        // есть ключевое поле
+        this.CommandText = String.Format("DELETE FROM {0} WHERE {1} = @{2}", this.EscapeSqlObject(tableName), this.EscapeSqlObject(pka.ColumnName), pka.ColumnName);
+        this.Parameters.Add(pka.GetSqlParameter()).Value = primaryKey.GetValue(entity, null);
+
+        return Convert.ToInt32(this.ExecuteNonQuery());
+      }
+    }
 
     /// <summary>
     /// Ищет и возвращает ColumnAttribute указанного свойства.
@@ -502,6 +576,28 @@ namespace MoneyBook.Core.Data
       var result = property.GetCustomAttributes(typeof(ColumnAttribute), false).FirstOrDefault();
       if (result == null) return null;
       return (ColumnAttribute)result;
+    }
+
+    /// <summary>
+    /// Устанавливает клиенту параметры SQL на основе свойств класса с флагом Unique.
+    /// </summary>
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    private void SetSqlParametersFromUniqueProperties(object parent, SqlDbCeClient client)
+    {
+      if (parent == null || client == null) return;
+      client.CommandText = "";
+      client.Parameters.Clear();
+      var properties = parent.GetType().GetProperties();
+      foreach (PropertyInfo p in properties)
+      {
+        ColumnAttribute catr = this.GetColumnAttribute(p);
+        if (catr != null && catr.IsUnique)
+        {
+          if (!String.IsNullOrEmpty(client.CommandText)) client.CommandText += " AND ";
+          client.CommandText += String.Format("{0} = @{1}", this.EscapeSqlObject(catr.ColumnName), catr.ColumnName);
+          client.Parameters.Add(catr.GetSqlParameter()).Value = p.GetValue(parent, null);
+        }
+      }
     }
 
     /// <summary>
