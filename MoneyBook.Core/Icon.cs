@@ -14,7 +14,7 @@ namespace MoneyBook.Core
   /// Представляет иконку (размер 16x16px).
   /// </summary>
   [Table("icons")]
-  public class Icon
+  public class Icon : IUserObject
   {
 
     /// <summary>

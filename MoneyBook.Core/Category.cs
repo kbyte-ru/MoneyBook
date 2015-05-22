@@ -13,7 +13,7 @@ namespace MoneyBook.Core
   /// Представляет категорию статьи расходов/доходов.
   /// </summary>
   [Table("categories")]
-  public class Category
+  public class Category : IUserObject
   {
 
     /// <summary>

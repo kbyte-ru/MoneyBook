@@ -51,6 +51,7 @@
     <Compile Include="Data\Enums\ColumnFlags.cs" />
     <Compile Include="Data\Enums\DefaultValues.cs" />
     <Compile Include="Data\Enums\ConnectionMode.cs" />
+    <Compile Include="IUserObject.cs" />
     <Compile Include="Data\SqlDbCeClient\ExecuteNonQuery.cs" />
     <Compile Include="Data\SqlDbCeClient\ExecuteScalar.cs" />
     <Compile Include="Data\SqlDbCeClient\GetData.cs" />

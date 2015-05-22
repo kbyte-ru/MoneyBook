@@ -21,7 +21,7 @@ namespace UnitTestProject1
 
       u.Save(account);
 
-      Assert.AreEqual(account.Id, 1);
+      Assert.AreEqual(account.Id, 2);
 
       var deleted = u.Delete(account);
       Assert.AreEqual(deleted, 1);

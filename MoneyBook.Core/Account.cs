@@ -13,7 +13,7 @@ namespace MoneyBook.Core
   /// Представляет счет.
   /// </summary>
   [Table("accounts")]
-  public class Account
+  public class Account: IUserObject
   {
 
     /// <summary>

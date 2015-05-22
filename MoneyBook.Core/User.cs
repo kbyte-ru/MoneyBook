@@ -122,7 +122,7 @@ namespace MoneyBook.Core
     /// Сохраняет указанные объекты (счет, категория, запись) в базе данных.
     /// </summary>
     /// <param name="entities">Список объектов, которые необходимо сохранить.</param>
-    public void Save(List<object> entities)
+    public void Save(List<IUserObject> entities)
     {
       if (entities == null)
       {
@@ -131,7 +131,7 @@ namespace MoneyBook.Core
 
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        client.SaveEntities<object>(entities);
+        client.SaveEntities<IUserObject>(entities);
       }
     }
 
@@ -139,7 +139,7 @@ namespace MoneyBook.Core
     /// Сохраняет указанный объект (счет, категория, запись) в базе данных.
     /// </summary>
     /// <param name="entity">Объект, который необходимо сохранить.</param>
-    public void Save(object entity)
+    public void Save(IUserObject entity)
     {
       if (entity == null)
       {
@@ -148,7 +148,7 @@ namespace MoneyBook.Core
 
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        client.SaveEntity<object>(entity);
+        client.SaveEntity<IUserObject>(entity);
       }
     }
 
@@ -156,7 +156,7 @@ namespace MoneyBook.Core
     /// Удаляет указанные объекты (счет, категория, запись) из базы данных.
     /// </summary>
     /// <param name="entities">Список объектов, которые необходимо удалить.</param>
-    public int Delete(List<object> entities)
+    public int Delete(List<IUserObject> entities)
     {
       if (entities == null)
       {
@@ -165,7 +165,7 @@ namespace MoneyBook.Core
 
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        return client.DeleteEntities<object>(entities);
+        return client.DeleteEntities<IUserObject>(entities);
       }
     }
 
@@ -173,7 +173,7 @@ namespace MoneyBook.Core
     /// Удаляет указанный объект (счет, категория, запись) из базы данных.
     /// </summary>
     /// <param name="entity">Объект, который необходимо удалить.</param>
-    public int Delete(object entity)
+    public int Delete(IUserObject entity)
     {
       if (entity == null)
       {
@@ -182,7 +182,7 @@ namespace MoneyBook.Core
 
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        return client.DeleteEntity<object>(entity);
+        return client.DeleteEntity<IUserObject>(entity);
       }
     }
 
@@ -242,30 +242,30 @@ namespace MoneyBook.Core
         throw new ArgumentNullException("username");
       }
 
-      // 0. Проверка имени пользователя
+      // 0. Проверяем имя пользователя
       if (username.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
       {
         throw new ArgumentException("Имя пользователя содержит недопустимые символы.", "username");
       }
 
-      // 1. Проверка файлов
+      // 1. Проверяем путь
       string filePath = Path.Combine(path, String.Format("{0}.mbk", username));
-      // проверка каталога
+      // проверяем существование каталога
       if (!Directory.Exists(path))
       {
         Directory.CreateDirectory(path);
       }
-      // проверка уникальности имени файла
+      // проверяем уникальность имени файла
       if (File.Exists(filePath))
       {
         throw new Exception("Пользователь с таким именем уже существует.");
       }
 
-      // 2. Создает новую базу данных
+      // 2. Создаем новую базу данных
       string connectionString = String.Format("Data Source={0}; password={1}", filePath, password);
       SqlDbCeClient.CreateDatabase(connectionString);
 
-      // 3. Подключение к базе
+      // 3. Подключяемся к базе
       using (var client = new SqlDbCeClient(connectionString))
       {
         // создаем необходимые таблицы
@@ -276,7 +276,7 @@ namespace MoneyBook.Core
           client.ExecuteNonQuery(query);
         }
 
-        // наполнение базы данными по умолчанию
+        // наполненяем базу данными по умолчанию
         // список валют
         var currencies = new List<Currency>();
         foreach (var line in Resources.DefaultData.Currencies.Split('\n'))
@@ -323,6 +323,7 @@ namespace MoneyBook.Core
         client.SaveEntity<Account>(account);
 
         // категории
+
       }
 
       return new User(path, username, password);
