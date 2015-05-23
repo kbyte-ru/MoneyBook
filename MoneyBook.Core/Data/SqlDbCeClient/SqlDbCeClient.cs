@@ -710,6 +710,37 @@ namespace MoneyBook.Core.Data
       new SqlCeEngine(connectionString).CreateDatabase();
     }
 
+    /// <summary>
+    /// Освобождает место на диске, занимаемое базой данных SQL Server Compact, перемещая пустые страницы в конец файла, а затем производя его усечение.
+    /// </summary>
+    /// <param name="connectionString">Строка соединения.</param>
+    public static void ShrinkDatabase(string connectionString)
+    {
+      new SqlCeEngine(connectionString).Shrink();
+    }
+
+    /// <summary>
+    /// Освобождает место на диске, занимаемое базой данных SQL Server Compact, создавая новый файл базы данных на основе уже существующего. 
+    /// </summary>
+    /// <param name="connectionString">Строка соединения.</param>
+    public static void CompactDatabase(string connectionString)
+    {
+      new SqlCeEngine(connectionString).Compact(null);
+    }
+
+    /// <summary>
+    /// Меняет пароль для указанной базы данных.
+    /// </summary>
+    /// <param name="databasePath">Путь расположения файла базы данных.</param>
+    /// <param name="newPassword">Новый пароль, который следует установить.</param>
+    /// <param name="oldPassword">Текущий пароль.</param>
+    public static void ChangeDatabasePassword(string databasePath, string oldPassword, string newPassword)
+    {
+      string connectionString = String.Format("Data Source={0}; password={1}", databasePath, oldPassword);
+      var engine = new SqlCeEngine(connectionString);
+      engine.Compact(String.Format("Data Source=; password={0}", newPassword));
+    }
+
     #endregion
 
   }

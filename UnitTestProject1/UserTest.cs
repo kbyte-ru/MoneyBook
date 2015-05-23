@@ -81,6 +81,46 @@ namespace UnitTestProject1
       Assert.AreEqual(bmp2.Width, 16);
     }
 
+    [TestMethod]
+    public void PwdTest()
+    {
+      User.Kill(App.CurrentPath, "pwd");
+
+      var u = User.Create(ApplicationType.Desktop, App.CurrentPath, "pwd", "123");
+
+      try
+      {
+        u = new User(App.CurrentPath, "pwd");
+        Assert.Fail("Что-то работает не так, т.к. на базе должен стоять пароль.");
+      }
+      catch
+      {
+      }
+
+      u = new User(App.CurrentPath, "pwd", "123");
+      u.SetPassword("test");
+
+      var account = new Account();
+      account.Name = "Проверочный счет";
+      u.Save(account);
+
+      Assert.AreEqual(account.Id, 1);
+
+
+      try
+      {
+        u = new User(App.CurrentPath, "pwd", "123");
+        Assert.Fail("Что-то работает не так, т.к. пароль был изменен.");
+      }
+      catch
+      {
+      }
+
+      u = new User(App.CurrentPath, "pwd", "test");
+      u.SetPassword(null);
+      
+      u = new User(App.CurrentPath, "pwd");
+    }
   }
 
 }

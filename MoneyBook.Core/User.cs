@@ -30,6 +30,21 @@ namespace MoneyBook.Core
     /// </summary>
     private DateTime SessionDate;
 
+    /// <summary>
+    /// Базовый каталог, в котором располагается файл профиля пользователя.
+    /// </summary>
+    private string BasePath = "";
+
+    /// <summary>
+    /// Имя текущего пользователя.
+    /// </summary>
+    public string UserName = "";
+
+    /// <summary>
+    /// Пароль текущего пользователя.
+    /// </summary>
+    private string Password = "";
+
     private List<Account> _Accounts = null;
 
     /// <summary>
@@ -103,6 +118,9 @@ namespace MoneyBook.Core
       {
         throw new Exception("Пользователь не найден.");
       }
+      this.BasePath = path;
+      this.UserName = username;
+      this.Password = password;
       // фиксируем время начала текущей сессии
       this.SessionDate = DateTime.Now;
       // строка соединения
@@ -148,6 +166,12 @@ namespace MoneyBook.Core
     /// <param name="newPassword">Пароль, который следует установить.</param>
     public void SetPassword(string newPassword)
     {
+      // путь к файлу бд
+      string filePath = Path.Combine(this.BasePath, String.Format("{0}{1}", this.UserName, User.DatabaseFileExtension));
+      // меняем пароль
+      SqlDbCeClient.ChangeDatabasePassword(filePath, this.Password, newPassword);
+      // обновляем строку соединения
+      this.ConnectionString = String.Format("Data Source={0}; password={1}", filePath, newPassword);
     }
 
     /// <summary>
