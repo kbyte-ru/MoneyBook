@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyBook.Core;
+using System.Linq;
 
 namespace UnitTestProject1
 {

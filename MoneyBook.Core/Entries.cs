@@ -19,7 +19,7 @@ namespace MoneyBook.Core
     public int CurrentPage { get; internal set; }
 
     /// <summary>
-    /// Всего записей в базе.
+    /// Всего в базе записей по текущему запросу.
     /// </summary>
     public int TotalRecords { get; internal set; }
 

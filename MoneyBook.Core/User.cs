@@ -174,6 +174,8 @@ namespace MoneyBook.Core
     /// <param name="amountFrom">Сумма от.</param>
     /// <param name="amountTo">Сумма до.</param>
     /// <param name="search">Строка поиска.</param>
+    /// <param name="page">Номер страницы, для которой следует получить записи. Начиная с 1.</param>
+    /// <param name="maxDataPerPage">Максимальное число записей на одной странице. По умолчанию - 1 000.</param>
     public Entries GetEntries(int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = 1000)
     {
       if (page <= 0) { page = 1; }
