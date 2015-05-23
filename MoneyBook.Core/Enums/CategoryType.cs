@@ -9,7 +9,7 @@ namespace MoneyBook.Core
   /// <summary>
   /// Перечень типов категорий.
   /// </summary>
-  public enum CategoryType
+  public enum CategoryType : byte
   {
     None = 0,
     /// <summary>

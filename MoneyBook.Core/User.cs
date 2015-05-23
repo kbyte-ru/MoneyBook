@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using MoneyBook.Core.Data;
 using System.Text.RegularExpressions;
+using System.Data;
 
 namespace MoneyBook.Core
 {
@@ -173,9 +174,102 @@ namespace MoneyBook.Core
     /// <param name="amountFrom">Сумма от.</param>
     /// <param name="amountTo">Сумма до.</param>
     /// <param name="search">Строка поиска.</param>
-    public Entries GetEntries(int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null)
+    public Entries GetEntries(int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = 1000)
     {
-      throw new NotImplementedException();
+      if (page <= 0) { page = 1; }
+      if (maxDataPerPage <= 0) { maxDataPerPage = 1000; }
+      page--;
+
+      Entries result = new Entries();
+      result.CurrentPage = page;
+      result.MaxDataPerPage = maxDataPerPage;
+      
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        // формируем условия выборки
+        string w = "";
+
+        if (accountId > 0)
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "id_accounts = @id_accounts";
+          client.Parameters.Add("@id_accounts", SqlDbType.Int).Value = accountId;
+        }
+
+        if (categoryId > 0)
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "id_categories = @id_categories";
+          client.Parameters.Add("@id_categories", SqlDbType.Int).Value = categoryId;
+        }
+       
+        /*if (dateFrom.HasValue && dateTo.HasValue)
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "date_entry @dateFrom AND @dateTo";
+          client.Parameters.Add("@dateFrom", SqlDbType.DateTime).Value = dateFrom.Value;
+          client.Parameters.Add("@dateTo", SqlDbType.DateTime).Value = dateTo.Value;
+        }*/
+        if (dateFrom.HasValue)
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "DateDiff(Day, @dateFrom, date_entry) >= 0";
+          client.Parameters.Add("@dateFrom", SqlDbType.DateTime).Value = dateFrom.Value;
+        }
+        if (dateTo.HasValue)
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "DateDiff(Day, @dateTo, date_entry) <= 0";
+          client.Parameters.Add("@dateTo", SqlDbType.DateTime).Value = dateTo.Value;
+        }
+
+        if (amountFrom.HasValue)
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "[amount] >= @amountFrom";
+          client.Parameters.Add("@amountFrom", SqlDbType.Money).Value = amountFrom.Value;
+        }
+        if (amountTo.HasValue)
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "[amount] <= @amountTo";
+          client.Parameters.Add("@amountTo", SqlDbType.Money).Value = amountTo.Value;
+        }
+
+        if (!String.IsNullOrWhiteSpace(search))
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "([title] LIKE @search OR [description] LIKE @search)";
+          client.Parameters.Add("@search", SqlDbType.NVarChar, 200).Value = String.Format("%{0}%", search);
+        }
+
+        if (!String.IsNullOrEmpty(w))
+        {
+          w = " WHERE " + w;
+        }
+
+        // определяем число записей
+        client.CommandText = "SELECT COUNT([id_entries]) FROM [entries]" + w;
+        result.TotalRecords = Convert.ToInt32(client.ExecuteScalar());
+
+        if (result.TotalRecords <= 0)
+        {
+          return result;
+        }
+
+        // получаем записи для текущей страницы
+        client.CommandText = String.Format
+        (
+          "SELECT * FROM [entries] {0} ORDER BY [date_entry] DESC, [id_entries] DESC " + 
+          "OFFSET {1} ROWS FETCH NEXT {2} ROWS ONLY",
+          w, page * maxDataPerPage, maxDataPerPage
+        );
+
+        // выполняем запрос и передаем результат в result
+        result.AddRange(client.GetEntities<Entry>());
+      }
+
+      return result;
     }
 
     /// <summary>

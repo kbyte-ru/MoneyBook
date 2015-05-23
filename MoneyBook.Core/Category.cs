@@ -93,7 +93,7 @@ namespace MoneyBook.Core
     /// <summary>
     /// Тип категории.
     /// </summary>
-    [Column("category_type", SqlDbType.Int)]
+    [Column("category_type", SqlDbType.TinyInt)]
     public CategoryType CategoryType { get; set; }
 
     /// <summary>

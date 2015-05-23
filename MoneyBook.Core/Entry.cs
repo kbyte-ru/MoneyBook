@@ -63,7 +63,7 @@ namespace MoneyBook.Core
     /// Дата записи. По этому полю осуществляется фильтрация записей по датам.
     /// </summary>
     [Column("date_entry", SqlDbType.DateTime, Default = DefaultValues.Now)]
-    public DateTime Date { get; set; }
+    public DateTime DateEntry { get; set; }
 
     /// <summary>
     /// Дата и время последнего обновления записи.
@@ -76,6 +76,12 @@ namespace MoneyBook.Core
     /// </summary>
     [Column("date_created", SqlDbType.DateTime, Default = DefaultValues.Now)]
     public DateTime DateCreated { get; set; }
+
+    /// <summary>
+    /// Тип записи.
+    /// </summary>
+    [Column("entry_type", SqlDbType.TinyInt)]
+    public CategoryType EntryType { get; set; }
 
   }
 
