@@ -42,7 +42,7 @@ namespace MoneyBook.Core
     public string ShortName { get; set; }
 
     /// <summary>
-    /// Приоритет TODO: понять, как и зачем
+    /// Приоритет вывода в порядке возрастания. Ноль - сверху.
     /// </summary>
     [Column("priority", SqlDbType.Int)]
     public int Priority { get; set; }

@@ -46,6 +46,23 @@ namespace MoneyBook.Core
     /// </summary>
     private string Password = "";
 
+    private List<AccountType> _AccountTypes = null;
+
+    /// <summary>
+    /// Список типов счетов пользователя.
+    /// </summary>
+    public List<AccountType> AccountTypes
+    {
+      get
+      {
+        if (_AccountTypes == null)
+        {
+          _AccountTypes = this.GetAccountTypes();
+        }
+        return _AccountTypes;
+      }
+    }
+
     private List<Account> _Accounts = null;
 
     /// <summary>
@@ -196,7 +213,7 @@ namespace MoneyBook.Core
         client.SaveEntities<IUserObject>(entities);
       }
 
-      this.ReloadMe(entities.First().GetType());
+      this.ReloadData(entities.First().GetType());
     }
 
     /// <summary>
@@ -215,7 +232,7 @@ namespace MoneyBook.Core
         client.SaveEntity<IUserObject>(entity);
       }
 
-      this.ReloadMe(entity.GetType());
+      this.ReloadData(entity.GetType());
     }
 
     /// <summary>
@@ -241,7 +258,7 @@ namespace MoneyBook.Core
         result = client.DeleteEntities<IUserObject>(entities);
       }
 
-      this.ReloadMe(entities.First().GetType());
+      this.ReloadData(entities.First().GetType());
 
       return result;
     }
@@ -263,7 +280,7 @@ namespace MoneyBook.Core
         result = client.DeleteEntity<IUserObject>(entity);
       }
 
-      this.ReloadMe(entity.GetType());
+      this.ReloadData(entity.GetType());
 
       return result;
     }
@@ -372,27 +389,44 @@ namespace MoneyBook.Core
     /// Перезагружает из базы данные в текущий экземпляр класса.
     /// </summary>
     /// <param name="t">Тип данных, который следует перезагрузить. Значение <b>null</b> - все данные.</param>
-    private void ReloadMe(Type t)
+    private void ReloadData(Type t)
     {
       if (t == null)
       {
-        _Categories = this.GetCategories();
-        _Accounts = this.GetAccounts();
         _Currencies = this.GetCurrencies();
+        _AccountTypes = this.GetAccountTypes();
+        _Accounts = this.GetAccounts();
+        _Categories = this.GetCategories();
         return;
       }
 
-      if (t == typeof(Category))
+      if (t == typeof(Currency))
       {
-        _Categories = this.GetCategories();
+        _Currencies = this.GetCurrencies();
+      }
+      else if (t == typeof(AccountType))
+      {
+        _AccountTypes = this.GetAccountTypes();
       }
       else if (t == typeof(Account))
       {
         _Accounts = this.GetAccounts();
       }
-      else if (t == typeof(Currency))
+      else if (t == typeof(Category))
       {
-        _Currencies = this.GetCurrencies();
+        _Categories = this.GetCategories();
+      }
+    }
+
+    /// <summary>
+    /// Возвращает список типов счетов.
+    /// </summary>
+    private List<AccountType> GetAccountTypes()
+    {
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [account_types] ORDER BY [account_type_name], [id_account_types]";
+        return client.GetEntities<AccountType>();
       }
     }
 
@@ -427,7 +461,7 @@ namespace MoneyBook.Core
     {
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        client.CommandText = "SELECT * FROM [currencies] ORDER BY [priority]";
+        client.CommandText = "SELECT * FROM [currencies] ORDER BY [priority] ASC";
         return client.GetEntities<Currency>();
       }
     }
