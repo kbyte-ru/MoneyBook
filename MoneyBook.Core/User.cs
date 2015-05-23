@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 namespace MoneyBook.Core
 {
 
+  [Serializable]
   public class User : IDisposable
   {
 
@@ -161,7 +162,7 @@ namespace MoneyBook.Core
     }
 
     /// <summary>
-    /// Меняет пароль.
+    /// Устанавливает пароль на файл профиля пользователя.
     /// </summary>
     /// <param name="newPassword">Пароль, который следует установить.</param>
     public void SetPassword(string newPassword)
@@ -185,10 +186,17 @@ namespace MoneyBook.Core
         throw new ArgumentNullException("entities");
       }
 
+      if (entities.Count <= 0)
+      {
+        return;
+      }
+
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
         client.SaveEntities<IUserObject>(entities);
       }
+
+      this.ReloadMe(entities.First().GetType());
     }
 
     /// <summary>
@@ -206,6 +214,8 @@ namespace MoneyBook.Core
       {
         client.SaveEntity<IUserObject>(entity);
       }
+
+      this.ReloadMe(entity.GetType());
     }
 
     /// <summary>
@@ -219,10 +229,21 @@ namespace MoneyBook.Core
         throw new ArgumentNullException("entities");
       }
 
+      if (entities.Count <= 0)
+      {
+        return 0;
+      }
+
+      int result = 0;
+
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        return client.DeleteEntities<IUserObject>(entities);
+        result = client.DeleteEntities<IUserObject>(entities);
       }
+
+      this.ReloadMe(entities.First().GetType());
+
+      return result;
     }
 
     /// <summary>
@@ -236,10 +257,15 @@ namespace MoneyBook.Core
         throw new ArgumentNullException("entity");
       }
 
+      int result = 0;
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        return client.DeleteEntity<IUserObject>(entity);
+        result = client.DeleteEntity<IUserObject>(entity);
       }
+
+      this.ReloadMe(entity.GetType());
+
+      return result;
     }
 
     /// <summary>
@@ -339,6 +365,34 @@ namespace MoneyBook.Core
           return null;
         }
         return result.ToBitmap();
+      }
+    }
+
+    /// <summary>
+    /// Перезагружает из базы данные в текущий экземпляр класса.
+    /// </summary>
+    /// <param name="t">Тип данных, который следует перезагрузить. Значение <b>null</b> - все данные.</param>
+    private void ReloadMe(Type t)
+    {
+      if (t == null)
+      {
+        _Categories = this.GetCategories();
+        _Accounts = this.GetAccounts();
+        _Currencies = this.GetCurrencies();
+        return;
+      }
+
+      if (t == typeof(Category))
+      {
+        _Categories = this.GetCategories();
+      }
+      else if (t == typeof(Account))
+      {
+        _Accounts = this.GetAccounts();
+      }
+      else if (t == typeof(Currency))
+      {
+        _Currencies = this.GetCurrencies();
       }
     }
 
@@ -542,7 +596,7 @@ namespace MoneyBook.Core
       {
         foreach (var file in Directory.GetFiles(path, String.Format("*{0}", User.DatabaseFileExtension)))
         {
-          result.Add(file);
+          result.Add(Path.GetFileNameWithoutExtension(file));
         }
       }
 

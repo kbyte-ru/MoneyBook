@@ -234,7 +234,7 @@ namespace MoneyBook.Core.Data
     {
       var item = (T)Activator.CreateInstance(typeof(T));
 
-      var properties = typeof(T).GetProperties();
+      var properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
       foreach (PropertyInfo p in properties)
       {
         ColumnAttribute catr = this.GetColumnAttribute(p);
@@ -332,7 +332,7 @@ namespace MoneyBook.Core.Data
       }
 
       // извлекаем свойства
-      var properties = t.GetProperties();
+      var properties = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
       // ищем ключ
       PropertyInfo primaryKey = null;
       ColumnAttribute pka = null;
@@ -517,7 +517,7 @@ namespace MoneyBook.Core.Data
       }
 
       // извлекаем свойства
-      var properties = t.GetProperties();
+      var properties = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
       // ищем ключ
       PropertyInfo primaryKey = null;
       ColumnAttribute pka = null;

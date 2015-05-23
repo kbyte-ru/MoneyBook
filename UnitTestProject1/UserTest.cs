@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyBook.Core;
@@ -20,7 +21,7 @@ namespace UnitTestProject1
       account.Name = "Проверочный счет";
 
       u.Save(account);
-
+      
       Assert.AreEqual(account.Id, 1);
 
       var deleted = u.Delete(account);
@@ -28,6 +29,18 @@ namespace UnitTestProject1
 
       deleted = u.Delete(account);
       Assert.AreEqual(deleted, 0);
+
+      var category = new Category();
+      category.Name = "Проверка";
+      category.ForeColor = Color.Red;
+      category.BackColor = Color.Yellow;
+      category.FontStyle = FontStyle.Bold | FontStyle.Italic;
+
+      u.Save(category);
+
+      Assert.AreEqual(u.Categories[0].ForeColor.ToArgb(), Color.Red.ToArgb());
+      Assert.AreEqual(u.Categories[0].BackColor.ToArgb(), Color.Yellow.ToArgb());
+      Assert.AreEqual(u.Categories[0].FontStyle, FontStyle.Bold | FontStyle.Italic);
     }
 
     [TestMethod]

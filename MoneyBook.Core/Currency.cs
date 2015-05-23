@@ -12,6 +12,7 @@ namespace MoneyBook.Core
   /// <summary>
   /// Представляет информацию о валюте.
   /// </summary>
+  [Serializable]
   [Table("currencies")]
   public class Currency : IUserObject
   {

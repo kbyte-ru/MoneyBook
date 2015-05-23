@@ -12,6 +12,7 @@ namespace MoneyBook.Core
   /// <summary>
   /// Предствляет техническую информацию о файле профиля пользователя.
   /// </summary>
+  [Serializable]
   public class Info
   {
 

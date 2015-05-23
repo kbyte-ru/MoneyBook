@@ -12,6 +12,7 @@ namespace MoneyBook.Core
   /// <summary>
   /// Представляет счет.
   /// </summary>
+  [Serializable]
   [Table("accounts")]
   public class Account: IUserObject
   {

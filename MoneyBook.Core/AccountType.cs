@@ -12,6 +12,7 @@ namespace MoneyBook.Core
   /// <summary>
   /// Представляет тип счета.
   /// </summary>
+  [Serializable]
   [Table("account_types")]
   public class AccountType : IUserObject
   {

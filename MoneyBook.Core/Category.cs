@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using MoneyBook.Core.Data;
@@ -12,6 +13,7 @@ namespace MoneyBook.Core
   /// <summary>
   /// Представляет категорию статьи расходов/доходов.
   /// </summary>
+  [Serializable]
   [Table("categories")]
   public class Category : IUserObject
   {
@@ -40,27 +42,53 @@ namespace MoneyBook.Core
     [Column("category_name", SqlDbType.NVarChar, Size = 100)]
     public string Name { get; set; }
 
-    // TODO: https://github.com/alekseynemiro/MoneyBook/issues/10
-
     /// <summary>
     /// Цвета шрифта.
     /// </summary>
     [Column("fore_color", SqlDbType.Int)]
-    public int ForeColor { get; set; }
-    
+    internal int ForeColorArgb { get; set; }
+
+    /// <summary>
+    /// Цвет шрифта.
+    /// </summary>
+    public Color ForeColor
+    {
+      get
+      {
+        return Color.FromArgb(this.ForeColorArgb);
+      }
+      set
+      {
+        this.ForeColorArgb = value.ToArgb();
+      }
+    }
+
     /// <summary>
     /// Цвет фона.
     /// </summary>
     [Column("back_color", SqlDbType.Int)]
-    public int BackColor { get; set; }
+    internal int BackColorArgb { get; set; }
 
-    // --
+    /// <summary>
+    /// Цвет фона.
+    /// </summary>
+    public Color BackColor
+    {
+      get
+      {
+        return Color.FromArgb(this.BackColorArgb);
+      }
+      set
+      {
+        this.BackColorArgb = value.ToArgb();
+      }
+    }
 
     /// <summary>
     /// Стиль шрифта.
     /// </summary>
     [Column("font_style", SqlDbType.Int)]
-    public int FontStyle { get; set; }
+    public FontStyle FontStyle { get; set; }
 
     /// <summary>
     /// Общее число записей в категории.
