@@ -386,35 +386,13 @@ namespace MoneyBook.Core
     }
 
     /// <summary>
-    /// Перезагружает из базы данные в текущий экземпляр класса.
+    /// Возвращает список всех иконок пользователя.
     /// </summary>
-    /// <param name="t">Тип данных, который следует перезагрузить. Значение <b>null</b> - все данные.</param>
-    private void ReloadData(Type t)
+    public List<Icon> GetIcons()
     {
-      if (t == null)
+      using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        _Currencies = this.GetCurrencies();
-        _AccountTypes = this.GetAccountTypes();
-        _Accounts = this.GetAccounts();
-        _Categories = this.GetCategories();
-        return;
-      }
-
-      if (t == typeof(Currency))
-      {
-        _Currencies = this.GetCurrencies();
-      }
-      else if (t == typeof(AccountType))
-      {
-        _AccountTypes = this.GetAccountTypes();
-      }
-      else if (t == typeof(Account))
-      {
-        _Accounts = this.GetAccounts();
-      }
-      else if (t == typeof(Category))
-      {
-        _Categories = this.GetCategories();
+        return client.GetEntities<Icon>("SELECT * FROM [icons]");
       }
     }
 
@@ -463,6 +441,39 @@ namespace MoneyBook.Core
       {
         client.CommandText = "SELECT * FROM [currencies] ORDER BY [priority] ASC";
         return client.GetEntities<Currency>();
+      }
+    }
+
+    /// <summary>
+    /// Перезагружает из базы данные в текущий экземпляр класса.
+    /// </summary>
+    /// <param name="t">Тип данных, который следует перезагрузить. Значение <b>null</b> - все данные.</param>
+    private void ReloadData(Type t)
+    {
+      if (t == null)
+      {
+        _Currencies = this.GetCurrencies();
+        _AccountTypes = this.GetAccountTypes();
+        _Accounts = this.GetAccounts();
+        _Categories = this.GetCategories();
+        return;
+      }
+
+      if (t == typeof(Currency))
+      {
+        _Currencies = this.GetCurrencies();
+      }
+      else if (t == typeof(AccountType))
+      {
+        _AccountTypes = this.GetAccountTypes();
+      }
+      else if (t == typeof(Account))
+      {
+        _Accounts = this.GetAccounts();
+      }
+      else if (t == typeof(Category))
+      {
+        _Categories = this.GetCategories();
       }
     }
 
