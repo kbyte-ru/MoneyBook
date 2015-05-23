@@ -71,11 +71,6 @@
     <Compile Include="Icon.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="MoneyBookUtility.cs" />
-    <Compile Include="Resources\DefaultData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DefaultData.resx</DependentUpon>
-    </Compile>
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,10 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DbInit.sql" />
-    <EmbeddedResource Include="Resources\DefaultData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DefaultData.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
