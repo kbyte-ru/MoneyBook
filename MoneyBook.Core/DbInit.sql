@@ -70,8 +70,8 @@ GO
 ALTER TABLE [icons] ADD CONSTRAINT [PK_icons] PRIMARY KEY ([id_icons]);
 GO
 CREATE TABLE [info] (
-  [key] nvarchar(50) NOT NULL, 
-	[value] nvarchar(100) NOT NULL
+  [id_info] int NOT NULL, 
+	[value] nvarchar(20) NOT NULL
 );
 GO
-ALTER TABLE [info] ADD CONSTRAINT [PK_info] PRIMARY KEY ([key]);
+ALTER TABLE [info] ADD CONSTRAINT [PK_info] PRIMARY KEY ([id_info]);

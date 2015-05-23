@@ -17,26 +17,106 @@ namespace MoneyBook.Core
 
     #region ..константы..
 
-    // TODO: Рожать
+    // 0-99 - информация об инициализации и последнем использовании файла
+
+    /// <summary>
+    /// Платформа, на который был создан файл: desktop, mobile, web.
+    /// </summary>
+    public const int InitialPlatform = 0;
+
+    /// <summary>
+    /// Название операционной системы, в которой был создан файл.
+    /// </summary>
+    public const int InitialSystemName = 1;
+
+    /// <summary>
+    /// Версия операционной системы, в которой был создан файл.
+    /// </summary>
+    public const int InitialSystemVersion = 2;
+
+    /// <summary>
+    /// Версия .NET Framework.
+    /// </summary>
+    public const int InitialNetVersion = 3;
     
     /// <summary>
     /// Название программы, в которой был создан файл профиля пользователя.
     /// </summary>
-    public const string ProgramName = "program name";
+    public const int InitialProgramName = 4;
 
     /// <summary>
     /// Версия программы, в которой был создан файл профиля пользователя.
     /// </summary>
-    public const string ProgramVersion = "program version";
+    public const int InitialProgramVersion = 5;
 
     /// <summary>
     /// Версия ядра, которое использовалось для создания профиля пользователя.
     /// </summary>
-    public const string CoreVersion = "core version";
+    public const int InitialCoreVersion = 6;
 
-    public const string InitialCulture = "initial culture";
+    /// <summary>
+    /// Код культуры, в которой был создан файл.
+    /// </summary>
+    public const int InitialCulture = 7;
 
-    public const string LastCulture = "last culture";
+    /// <summary>
+    /// Пользователь, которым был создан файл.
+    /// </summary>
+    public const int InitialUser = 8;
+
+    /// <summary>
+    /// Разрешение экрана.
+    /// </summary>
+    public const int InitialScreenResolution = 9;
+
+    /// <summary>
+    /// Дата и время инициализации.
+    /// </summary>
+    public const int InitialDateTime = 10;
+
+    /// <summary>
+    /// Часовой пояс <see cref="InitialDateTime"/>.
+    /// </summary>
+    public const int InitialTimeZone = 11;
+
+    // TODO:
+
+    public const int LastPlatform = 50;
+    public const int LastProgramName = 51;
+    public const int LastProgramVersion = 52;
+    public const int LastCoreVersion = 53;
+    public const int LastCulture = 54;
+    public const int LastDateTime = 60;
+    public const int LastTimeZone = 61;
+
+    // 100-199 - статистика
+
+    /// <summary>
+    /// Суммарное число сессий.
+    /// </summary>
+    public const int TotalSessions = 100;
+
+    /// <summary>
+    /// Число сессий в desktop-приложениях.
+    /// </summary>
+    public const int DesktopSessions = 101;
+
+    /// <summary>
+    /// Число сессий на мобильных платформах.
+    /// </summary>
+    public const int MobileSessions = 102;
+
+    /// <summary>
+    /// Число сессий в web-приложениях.
+    /// </summary>
+    public const int WebSessions = 103;
+
+    /// <summary>
+    /// Суммарное время работы с файлом (секунд).
+    /// </summary>
+    public const int TotalTime = 110;
+
+    // 1000-9999 - пользовательские параметры
 
     #endregion
     #region ..свойства..
@@ -49,22 +129,22 @@ namespace MoneyBook.Core
     /// <summary>
     /// Коллекция записей.
     /// </summary>
-    private NameValueCollection Items = null;
+    private Dictionary<int, string> Items = null;
 
     /// <summary>
     /// Возвращает значение указанного параметра.
     /// </summary>
-    /// <param name="key">Имя параметра, значение которого следует получить.</param>
-    public string this[string key]
+    /// <param name="id">Идентификатор параметра, значение которого следует получить.</param>
+    public string this[int id]
     {
       get
       {
-        if (this.Items[key] == null)
+        if (!this.Items.ContainsKey(id))
         {
           // нет в памяти данных для этого ключа, получаем из базы
-          this.Items[key] = this.GetValue(key);
+          this.Items.Add(id, this.GetValue(id));
         }
-        return this.Items[key];
+        return this.Items[id];
       }
     }
 
@@ -73,7 +153,7 @@ namespace MoneyBook.Core
 
     public Info(User u)
     {
-      this.Items = new NameValueCollection();
+      this.Items = new Dictionary<int, string>();
       this.CurrentUser = u;
     }
 
@@ -84,14 +164,14 @@ namespace MoneyBook.Core
     /// Получает из базы и возвращает значение по указанному ключу.
     /// </summary>
     /// <param name="key">Ключ, значение для которого следует получить.</param>
-    private string GetValue(string key)
+    private string GetValue(int id)
     {
       using (var client = new SqlDbCeClient(this.CurrentUser.ConnectionString))
       {
-        client.CommandText = "SELECT TOP 1 [value] FROM [info] WHERE [key] = @key";
-        client.Parameters.Add("@key", SqlDbType.VarChar, 50).Value = key;
+        client.CommandText = "SELECT [value] FROM [info] WHERE [id_info] = @id";
+        client.Parameters.Add("@id", SqlDbType.Int).Value = id;
         object result = client.ExecuteScalar();
-        if (result == DBNull.Value) { return ""; }
+        if (result == DBNull.Value) { return null; }
         return Convert.ToString(result);
       }
     }
