@@ -56,6 +56,30 @@ namespace UnitTestProject1
         Assert.AreEqual(u.Info[InfoId.TotalSessions], "2");
       }
     }
+    
+    [TestMethod]
+    public void IconTest()
+    {
+      User.Kill(App.CurrentPath, "icons");
+
+      var u = User.Create(ApplicationType.Mobile, App.CurrentPath, "icons");
+
+      var ico = u.AddIcon(Properties.Resources.add_16);
+      Assert.AreEqual(ico.Id, 1);
+
+      var ico2 = u.AddIcon(Properties.Resources.add_16);
+      Assert.AreEqual(ico2.Id, 1);
+
+      var ico3 = u.AddIcon(Properties.Resources.calendar);
+      Assert.AreEqual(ico3.Id, 2);
+
+      // целостность данных в базе
+      var bmp = System.Drawing.Bitmap.FromStream(new MemoryStream(ico3.Data));
+      Assert.AreEqual(bmp.Width, 16);
+
+      var bmp2 = u.GetIcon(1);
+      Assert.AreEqual(bmp2.Width, 16);
+    }
 
   }
 

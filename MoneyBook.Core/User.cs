@@ -219,6 +219,106 @@ namespace MoneyBook.Core
     }
 
     /// <summary>
+    /// Добавляет иконку в профиль текущего пользователя.
+    /// </summary>
+    /// <param name="image">Экземпляр изображения файла иконки.</param>
+    /// <returns>Возвращает экземпляр записи добавленной иконки.</returns>
+    public Icon AddIcon(System.Drawing.Bitmap image)
+    {
+      if (image == null)
+      {
+        throw new ArgumentNullException("image");
+      }
+
+      var m = new MemoryStream();
+      image.Save(m, System.Drawing.Imaging.ImageFormat.Png);
+
+      return this.AddIcon(m.ToArray());
+    }
+
+    /// <summary>
+    /// Добавляет иконку в профиль текущего пользователя.
+    /// </summary>
+    /// <param name="stream">Поток содержащий файл иконки.</param>
+    /// <returns>Возвращает экземпляр записи добавленной иконки.</returns>
+    public Icon AddIcon(Stream stream)
+    {
+      if (stream == null)
+      {
+        throw new ArgumentNullException("stream");
+      }
+
+      if (stream.Position != 0) { stream.Position = 0; }
+      byte[] data = new byte[Convert.ToInt32(stream.Length)];
+      stream.Read(data, 0, data.Length);
+
+      return this.AddIcon(data);
+    }
+
+    /// <summary>
+    /// Добавляет иконку в профиль текущего пользователя.
+    /// </summary>
+    /// <param name="data">Содержимое файла иконки.</param>
+    /// <returns>Возвращает экземпляр записи добавленной иконки.</returns>
+    public Icon AddIcon(byte[] data)
+    {
+      if (data == null)
+      {
+        throw new ArgumentNullException("data");
+      }
+
+      // получаем хеш-сумму
+      var hash = MoneyBookUtility.GetMD5Hash(data);
+
+      Icon result = null;
+
+      // проверяем существование иконки
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [icons] WHERE [hash] = @hash";
+        client.Parameters.Add("@hash", System.Data.SqlDbType.UniqueIdentifier).Value = hash;
+        result = client.GetEntity<Icon>();
+        if (result == null)
+        {
+          // нет такой иконки, добавляем
+          result = new Icon
+          {
+            Data = data,
+            Hash = hash,
+            DateCreated = DateTime.Now
+          };
+
+          client.SaveEntity<Icon>(result);
+        }
+      }
+
+      return result;
+    }
+
+    /// <summary>
+    /// Извлекает из профиля текущего пользователя иконку по идентификатору.
+    /// </summary>
+    /// <param name="id">Идентификатор иконку, которую необходимо извлечь из базы.</param>
+    /// <returns>
+    /// <para>Возвращает экземпляр <see cref="System.Drawing.Bitmap"/>, представляющий извлеченное изображение иконки.</para>
+    /// <para>Если запись не будет найдена в базе данных, возвращает значение <b>null</b>.</para>
+    /// </returns>
+    public System.Drawing.Bitmap GetIcon(int id)
+    {
+      using (var client = new SqlDbCeClient(this.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [icons] WHERE [id_icons] = @id_icons";
+        client.Parameters.Add("@id_icons", System.Data.SqlDbType.Int).Value = id;
+        var result = client.GetEntity<Icon>();
+        if (result == null)
+        {
+          return null;
+        }
+        return result.ToBitmap();
+      }
+    }
+
+    /// <summary>
     /// Возвращает список счетов.
     /// </summary>
     private List<Account> GetAccounts()

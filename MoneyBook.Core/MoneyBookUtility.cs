@@ -74,6 +74,12 @@ namespace MoneyBook.Core
     /// <param name="value">Поток, для которого следует расчитать хеш-сумму.</param>
     public static Guid GetMD5Hash(Stream value)
     {
+      if (value == null)
+      {
+        throw new NullReferenceException();
+      }
+      if (value.Position != 0) { value.Position = 0; }
+
       return new Guid(new MD5CryptoServiceProvider().ComputeHash(value));
     }
 

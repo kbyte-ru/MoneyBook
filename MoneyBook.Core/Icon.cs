@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -47,6 +48,14 @@ namespace MoneyBook.Core
     public Stream ToStream()
     {
       return new MemoryStream(this.Data);
+    }
+
+    /// <summary>
+    /// Возвращает экземпляр <see cref="System.Drawing.Bitmap"/> представляющий изображение иконки, находящемся в текущем экземпляре класса.
+    /// </summary>
+    public Bitmap ToBitmap()
+    {
+      return new Bitmap(new MemoryStream(this.Data));
     }
 
   }
