@@ -242,7 +242,7 @@ namespace MoneyBook.Core
     /// <param name="path">Путь к каталогу, в который следует создать профиль пользователя.</param>
     /// <param name="username">Имя пользователя.</param>
     /// <param name="password">Пароль к файлу базы.</param>
-    public static User Create(string path, string username, string password)
+    public static User Create(string path, string username, string password, List<Currency> currencies = null) /*, List<AccountType> accountTypes = null, List<Account> accounts = null, List<Category> categories = null*/
     {
       if (String.IsNullOrEmpty(path))
       {
@@ -287,54 +287,35 @@ namespace MoneyBook.Core
           client.ExecuteNonQuery(query);
         }
 
-        // наполненяем базу данными по умолчанию
+        // TODO: информация о базе
+        
+        /*
+        // наполненяем базу данными, если указаны
+
         // список валют
-        var currencies = new List<Currency>();
-        foreach (var line in Resources.DefaultData.Currencies.Split('\n'))
+        if (currencies != null)
         {
-          var item = line.Trim('\r', ' ').Split('|');
-          currencies.Add
-          (
-            new Currency
-            {
-              Code = item[0],
-              LongName = item[1],
-              ShortName = item[2],
-              IconId = Convert.ToInt32(item[3])
-            }
-          );
+          client.SaveEntities<Currency>(currencies);
         }
-        client.SaveEntities<Currency>(currencies);
 
         // типы счетов
-        var accountTypes = new List<AccountType>();
-        foreach (var line in Resources.DefaultData.AccountTypes.Split('\n'))
+        if (accountTypes != null)
         {
-          var item = line.Trim('\r', ' ').Split('|');
-          accountTypes.Add
-          (
-            new AccountType
-            {
-              Name = item[0],
-              IconId = Convert.ToInt32(item[1])
-            }
-          );
+          client.SaveEntities<AccountType>(accountTypes);
         }
-        client.SaveEntities<AccountType>(accountTypes);
 
-        // счет по умолчанию
-        var defaultAccount = Resources.DefaultData.DefaultAccount.Trim('\r', ' ').Split('|');
-        var account = new Account
+        // счета
+        if (accounts != null)
         {
-          CurrencyCode = defaultAccount[0],
-          Name = defaultAccount[1],
-          AccountTypeId = Convert.ToInt32(defaultAccount[2]),
-          IconId = Convert.ToInt32(defaultAccount[3])
-        };
-        client.SaveEntity<Account>(account);
+          client.SaveEntities<Account>(accounts);
+        }
 
         // категории
-
+        if (categories != null)
+        {
+          client.SaveEntities<Category>(categories);
+        }
+        */
       }
 
       return new User(path, username, password);
