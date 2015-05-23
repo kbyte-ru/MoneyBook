@@ -14,11 +14,16 @@ namespace MoneyBook.Core
   {
 
     #region ..свойства..
-
+    
     /// <summary>
     /// Строка соединения с базой данных текущего экземпляра пользователя.
     /// </summary>
     internal string ConnectionString = "";
+
+    /// <summary>
+    /// Дата и время начала сессии.
+    /// </summary>
+    private DateTime SessionDate;
 
     private List<Account> _Accounts = null;
 
@@ -79,7 +84,13 @@ namespace MoneyBook.Core
     #endregion
     #region ..конструктор и деструктор..
 
-    public User(string path, string username, string password)
+    /// <summary>
+    /// Инициализрует новый экземпляр пользователя.
+    /// </summary>
+    /// <param name="path">Путь, по которому следует искать файл профиля пользователя.</param>
+    /// <param name="username">Имя пользователя.</param>
+    /// <param name="password">Пароль для доступа к файлу профиля.</param>
+    public User(string path, string username, string password = null)
     {
       // проверка существования файла базы
       string filePath = Path.Combine(path, String.Format("{0}.mbk", username));
@@ -87,20 +98,25 @@ namespace MoneyBook.Core
       {
         throw new Exception("Пользователь не найден.");
       }
+      // фиксируем время начала текущей сессии
+      this.SessionDate = DateTime.Now;
       // строка соединения
       this.ConnectionString = String.Format("Data Source={0}; password={1}", filePath, password);
       // информация о базе
       this.Info = new Info(this);
+      // счетчик запусков
+      int totalSession = 0;
+      int.TryParse(this.Info[InfoId.TotalSessions], out totalSession);
+      this.Info.Set(InfoId.TotalSessions, totalSession + 1);
     }
     
     public void Dispose()
     {
-      // обновление информации
-      // TODO:
-      // Счетчик запусков (или перенести на инициализацию)
-      // Время работы
-      // Текущая культура
-      // ...
+      // обновление информации:
+      // продолжительность сессии
+      long totalTime = 0;
+      long.TryParse(this.Info[InfoId.TotalTime], out totalTime);
+      this.Info.Set(InfoId.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds));
     }
 
     #endregion
@@ -242,7 +258,8 @@ namespace MoneyBook.Core
     /// <param name="path">Путь к каталогу, в который следует создать профиль пользователя.</param>
     /// <param name="username">Имя пользователя.</param>
     /// <param name="password">Пароль к файлу базы.</param>
-    public static User Create(string path, string username, string password, List<Currency> currencies = null) /*, List<AccountType> accountTypes = null, List<Account> accounts = null, List<Category> categories = null*/
+    /// <param name="applicationType">Тип приложения, под которым создается профиль.</param>
+    public static User Create(ApplicationType applicationType, string path, string username, string password = null) /*, List<Currency> currencies = null, List<AccountType> accountTypes = null, List<Account> accounts = null, List<Category> categories = null*/
     {
       if (String.IsNullOrEmpty(path))
       {
@@ -272,11 +289,13 @@ namespace MoneyBook.Core
         throw new Exception("Пользователь с таким именем уже существует.");
       }
 
+      User newUser = null;
+
       // 2. Создаем новую базу данных
       string connectionString = String.Format("Data Source={0}; password={1}", filePath, password);
       SqlDbCeClient.CreateDatabase(connectionString);
 
-      // 3. Подключяемся к базе
+      // 3. Подключаемся к базе
       using (var client = new SqlDbCeClient(connectionString))
       {
         // создаем необходимые таблицы
@@ -287,38 +306,44 @@ namespace MoneyBook.Core
           client.ExecuteNonQuery(query);
         }
 
-        // TODO: информация о базе
-        
-        /*
-        // наполненяем базу данными, если указаны
-
-        // список валют
-        if (currencies != null)
-        {
-          client.SaveEntities<Currency>(currencies);
-        }
-
-        // типы счетов
-        if (accountTypes != null)
-        {
-          client.SaveEntities<AccountType>(accountTypes);
-        }
-
-        // счета
-        if (accounts != null)
-        {
-          client.SaveEntities<Account>(accounts);
-        }
-
-        // категории
-        if (categories != null)
-        {
-          client.SaveEntities<Category>(categories);
-        }
-        */
+        newUser = new User(path, username, password);
       }
 
-      return new User(path, username, password);
+      // добавляем информация об источнике происхождения базы
+      newUser.Info.Set(InfoId.InitialAppType, applicationType.ToString());
+      newUser.Info.Set(InfoId.InitialSystemID, Environment.OSVersion.Platform.ToString());
+      newUser.Info.Set(InfoId.InitialSystemVersion, Environment.OSVersion.Version);
+      newUser.Info.Set(InfoId.InitialNetVersion, Environment.Version);
+
+      var program = Assembly.GetEntryAssembly();
+      if (program != null)
+      {
+        var programName = program.GetName();
+        newUser.Info.Set(InfoId.InitialProgramName, programName.Name);
+        newUser.Info.Set(InfoId.InitialProgramVersion, programName.Version);
+      }
+
+      var me = Assembly.GetExecutingAssembly().GetName();
+      newUser.Info.Set(InfoId.InitialCoreName, me.Name);
+      newUser.Info.Set(InfoId.InitialCoreVersion, me.Version);
+
+      try
+      {
+        newUser.Info.Set(InfoId.InitialMachineName, Environment.MachineName);
+        newUser.Info.Set(InfoId.InitialUserName, Environment.UserName);
+      }
+      catch { }
+
+      newUser.Info.Set(InfoId.InitialCulture, System.Globalization.CultureInfo.CurrentCulture.Name);
+      newUser.Info.Set(InfoId.InitialDateTime, DateTime.Now.Ticks);
+      newUser.Info.Set(InfoId.InitialTimeZone, TimeZoneInfo.Local.BaseUtcOffset.Ticks);
+
+      // считаем создание пользователя за сессию
+      newUser.Info.Set(InfoId.TotalSessions, 1);
+      // --
+
+      // возвращаем созданного пользователя
+      return newUser;
     }
 
     /// <summary>

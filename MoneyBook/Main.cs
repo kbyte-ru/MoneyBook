@@ -24,7 +24,7 @@ namespace MoneyBook
     private void button1_Click(object sender, EventArgs e)
     {
       // test
-      User.Create(Application.StartupPath, "test", "");
+      User.Create(ApplicationType.Desktop, Application.StartupPath, "test", "");
     }
   }
 }

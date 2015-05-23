@@ -71,7 +71,7 @@ ALTER TABLE [icons] ADD CONSTRAINT [PK_icons] PRIMARY KEY ([id_icons]);
 GO
 CREATE TABLE [info] (
   [id_info] int NOT NULL, 
-	[value] nvarchar(20) NOT NULL
+	[value] nvarchar(30) NOT NULL
 );
 GO
 ALTER TABLE [info] ADD CONSTRAINT [PK_info] PRIMARY KEY ([id_info]);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -65,6 +66,24 @@ namespace MoneyBook.Core
         return decimal.Parse(Regex.Replace(value.ToString().Trim(), @",|\.", System.Globalization.NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator), System.Globalization.NumberStyles.Any, System.Threading.Thread.CurrentThread.CurrentCulture);
       }
       return Convert.ChangeType(value, conversionType);
+    }
+
+    /// <summary>
+    /// Возвращает <see cref="System.Guid"/>, представляющий результат расчета хеш-суммы указанного потока.
+    /// </summary>
+    /// <param name="value">Поток, для которого следует расчитать хеш-сумму.</param>
+    public static Guid GetMD5Hash(Stream value)
+    {
+      return new Guid(new MD5CryptoServiceProvider().ComputeHash(value));
+    }
+
+    /// <summary>
+    /// Возвращает <see cref="System.Guid"/>, представляющий результат расчета хеш-суммы указанного массива байт.
+    /// </summary>
+    /// <param name="value">Массив байт, для которого следует расчитать хеш-сумму.</param>
+    public static Guid GetMD5Hash(byte[] value)
+    {
+      return new Guid(new MD5CryptoServiceProvider().ComputeHash(value));
     }
 
   }
