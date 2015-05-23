@@ -14,7 +14,12 @@ namespace MoneyBook.Core
   {
 
     #region ..свойства..
-    
+
+    /// <summary>
+    /// Расширение файлов БД, включая точку.
+    /// </summary>
+    private const string DatabaseFileExtension = ".mbk";
+
     /// <summary>
     /// Строка соединения с базой данных текущего экземпляра пользователя.
     /// </summary>
@@ -93,7 +98,7 @@ namespace MoneyBook.Core
     public User(string path, string username, string password = null)
     {
       // проверка существования файла базы
-      string filePath = Path.Combine(path, String.Format("{0}.mbk", username));
+      string filePath = Path.Combine(path, String.Format("{0}{1}", username, User.DatabaseFileExtension));
       if (!File.Exists(filePath))
       {
         throw new Exception("Пользователь не найден.");
@@ -277,7 +282,7 @@ namespace MoneyBook.Core
       }
 
       // 1. Проверяем путь
-      string filePath = Path.Combine(path, String.Format("{0}.mbk", username));
+      string filePath = Path.Combine(path, String.Format("{0}{1}", username, User.DatabaseFileExtension));
       // проверяем существование каталога
       if (!Directory.Exists(path))
       {
@@ -366,7 +371,7 @@ namespace MoneyBook.Core
         throw new ArgumentNullException("username");
       }
 
-      string filePath = Path.Combine(path, String.Format("{0}.mbk", username));
+      string filePath = Path.Combine(path, String.Format("{0}{1}", username, User.DatabaseFileExtension));
 
       if (File.Exists(filePath))
       {
@@ -392,8 +397,32 @@ namespace MoneyBook.Core
       {
         throw new ArgumentNullException("username");
       }
+      
+      return File.Exists(Path.Combine(path, String.Format("{0}{1}", username, User.DatabaseFileExtension)));
+    }
 
-      return File.Exists(Path.Combine(path, String.Format("{0}.mbk", username)));
+    /// <summary>
+    /// Возвращает список имен профилей пользователей, найденных по указанному пути.
+    /// </summary>
+    /// <param name="path">Путь, по которому следует искать файлы профилей пользователей.</param>
+    public static List<string> GetUsers(string path)
+    {
+      if (String.IsNullOrEmpty(path))
+      {
+        throw new ArgumentNullException("path");
+      }
+
+      var result = new List<string>();
+
+      if (Directory.Exists(path))
+      {
+        foreach (var file in Directory.GetFiles(path, String.Format("*{0}", User.DatabaseFileExtension)))
+        {
+          result.Add(file);
+        }
+      }
+
+      return result;
     }
 
     #endregion
