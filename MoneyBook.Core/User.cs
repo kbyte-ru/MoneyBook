@@ -554,7 +554,7 @@ namespace MoneyBook.Core
       var me = Assembly.GetExecutingAssembly().GetName();
       newUser.Info.Set(InfoId.InitialCoreName, me.Name);
       newUser.Info.Set(InfoId.InitialCoreVersion, me.Version);
-
+      
       try
       {
         newUser.Info.Set(InfoId.InitialMachineName, Environment.MachineName);

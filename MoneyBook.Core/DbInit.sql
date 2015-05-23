@@ -25,6 +25,7 @@ CREATE TABLE [categories] (
   [id_categories] int IDENTITY (1,1) NOT NULL, 
 	[id_icons] int DEFAULT(0) NOT NULL, 
 	[parent_id] int DEFAULT (0) NOT NULL, 
+	[category_type] tinyint DEFAULT (0) NOT NULL, 
 	[category_name] nvarchar(100) NOT NULL, 
 	[fore_color] int NOT NULL, 
 	[back_color] int NOT NULL, 
@@ -50,10 +51,12 @@ CREATE TABLE [entries] (
   [id_entries] int IDENTITY (1,1) NOT NULL, 
 	[id_categories] int NOT NULL, 
 	[id_accounts] int NOT NULL, 
+	[id_icons] int DEFAULT(0) NOT NULL, 
 	[entry_type] tinyint NOT NULL, 
 	[title] nvarchar(100) NOT NULL, 
-	[description] ntext NOT NULL, 
+	[description] nvarchar(4000) NOT NULL, 
 	[amount] money NOT NULL, 
+	[date_entry] datetime NOT NULL,
 	[date_updated] datetime NULL, 
 	[date_created] datetime NOT NULL
 );
@@ -70,8 +73,10 @@ GO
 ALTER TABLE [icons] ADD CONSTRAINT [PK_icons] PRIMARY KEY ([id_icons]);
 GO
 CREATE TABLE [info] (
-  [id_info] int NOT NULL, 
+  [id_info] smallint NOT NULL, 
 	[value] nvarchar(30) NOT NULL
 );
 GO
 ALTER TABLE [info] ADD CONSTRAINT [PK_info] PRIMARY KEY ([id_info]);
+GO
+INSERT INTO [info] ([id_info], [value]) VALUES (8, '1.0'); -- сейчас номер схемы бд всегда 1.0

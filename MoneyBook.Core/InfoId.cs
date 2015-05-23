@@ -9,6 +9,7 @@ namespace MoneyBook.Core
   /// <summary>
   /// Представляет идентификатор элемента информации.
   /// </summary>
+  /// <remarks><para>Значение от -2^15 (-32 768) до 2^15-1 (32 767).</para></remarks>
   public struct InfoId
   {
 
@@ -19,108 +20,113 @@ namespace MoneyBook.Core
     /// <summary>
     /// Тип приложения, для которого был создан файл: desktop, mobile или web.
     /// </summary>
-    public const int InitialAppType = 0;
+    public const short InitialAppType = 0;
 
     /// <summary>
     /// Идентификатор операционной системы, в которой был создан файл.
     /// </summary>
-    public const int InitialSystemID = 1;
+    public const short InitialSystemID = 1;
 
     /// <summary>
     /// Версия операционной системы, в которой был создан файл.
     /// </summary>
-    public const int InitialSystemVersion = 2;
+    public const short InitialSystemVersion = 2;
 
     /// <summary>
     /// Версия .NET Framework.
     /// </summary>
-    public const int InitialNetVersion = 3;
+    public const short InitialNetVersion = 3;
 
     /// <summary>
     /// Название программы, в которой был создан файл профиля пользователя.
     /// </summary>
-    public const int InitialProgramName = 4;
+    public const short InitialProgramName = 4;
 
     /// <summary>
     /// Версия программы, в которой был создан файл профиля пользователя.
     /// </summary>
-    public const int InitialProgramVersion = 5;
+    public const short InitialProgramVersion = 5;
 
     /// <summary>
     /// Имя ядра, которое использовалось для создания профиля пользователя.
     /// </summary>
-    public const int InitialCoreName = 6;
+    public const short InitialCoreName = 6;
 
     /// <summary>
     /// Версия ядра, которое использовалось для создания профиля пользователя.
     /// </summary>
-    public const int InitialCoreVersion = 7;
+    public const short InitialCoreVersion = 7;
+
+    /// <summary>
+    /// Номер версии структуры базы данных. На сегодняшний день: 1.0
+    /// </summary>
+    public const short ProfileVersion = 8;
 
     /// <summary>
     /// Дата и время инициализации.
     /// </summary>
-    public const int InitialDateTime = 10;
+    public const short InitialDateTime = 10;
 
     /// <summary>
     /// Часовой пояс <see cref="InitialDateTime"/>.
     /// </summary>
-    public const int InitialTimeZone = 11;
+    public const short InitialTimeZone = 11;
 
     /// <summary>
     /// Код культуры, в которой был создан файл.
     /// </summary>
-    public const int InitialCulture = 12;
+    public const short InitialCulture = 12;
 
     /// <summary>
     /// Разрешение экрана.
     /// </summary>
-    public const int InitialScreenResolution = 20;
+    public const short InitialScreenResolution = 20;
 
     /// <summary>
     /// Имя машины, на которой был создан файл.
     /// </summary>
-    public const int InitialMachineName = 30;
+    public const short InitialMachineName = 30;
 
     /// <summary>
     /// Имя пользователь, который создал файл.
     /// </summary>
-    public const int InitialUserName = 31;
+    public const short InitialUserName = 31;
 
     /// <summary>
     /// Доменнное имя веб-сайта, на котором был создан файл профиля.
     /// </summary>
-    public const int InitialDomainName = 32;
+    public const short InitialDomainName = 32;
 
     /// <summary>
     /// IP-адрес пользователя.
     /// </summary>
-    public const int InitialUserHostAddress = 33;
+    public const short InitialUserHostAddress = 33;
 
     /// <summary>
     /// DNS-имя удаленного клиента.
     /// </summary>
-    public const int InitialUserHostName = 34;
+    public const short InitialUserHostName = 34;
 
     /// <summary>
     /// IP-адрес сервера.
     /// </summary>
-    public const int InitialServerHostAddress = 35;
+    public const short InitialServerHostAddress = 35;
 
     /// <summary>
     /// Имя узла локального компьютера.
     /// </summary>
-    public const int InitialServerHostName = 36;
+    public const short InitialServerHostName = 36;
 
     // TODO:
 
     /*
-    public const int LastPlatform = 50;
-    public const int LastProgramName = 51;
-    public const int LastProgramVersion = 52;
-    public const int LastCoreVersion = 53;
-    public const int LastCulture = 54;
-    public const int LastDateTime = 60;
-    public const int LastTimeZone = 61;
+    public const short LastPlatform = 50;
+    public const short LastProgramName = 51;
+    public const short LastProgramVersion = 52;
+    public const short LastCoreVersion = 53;
+    public const short LastCulture = 54;
+    public const short LastDateTime = 60;
+    public const short LastTimeZone = 61;
     */
 
     // 100-199 - статистика
@@ -128,39 +134,39 @@ namespace MoneyBook.Core
     /// <summary>
     /// Суммарное число сессий.
     /// </summary>
-    public const int TotalSessions = 100;
+    public const short TotalSessions = 100;
 
     /// <summary>
     /// Число сессий в desktop-приложениях.
     /// </summary>
-    public const int DesktopSessions = 101;
+    public const short DesktopSessions = 101;
 
     /// <summary>
     /// Число сессий на мобильных платформах.
     /// </summary>
-    public const int MobileSessions = 102;
+    public const short MobileSessions = 102;
 
     /// <summary>
     /// Число сессий в web-приложениях.
     /// </summary>
-    public const int WebSessions = 103;
+    public const short WebSessions = 103;
 
     /// <summary>
     /// Суммарное время работы с файлом (секунд).
     /// </summary>
-    public const int TotalTime = 110;
+    public const short TotalTime = 110;
 
     // 1000-9999 - пользовательские параметры
 
     #endregion
     #region ..свойства..
 
-    private int _Value;
+    private short _Value;
 
     /// <summary>
     /// Значение.
     /// </summary>
-    public int Value
+    public short Value
     {
       get
       {
@@ -179,7 +185,7 @@ namespace MoneyBook.Core
     /// Инициализирует новый экземпляр <see cref="InfoId"/> с указанным значением.
     /// </summary>
     /// <param name="value">Значение.</param>
-    internal InfoId(int value)
+    internal InfoId(short value)
     {
       _Value = value;
     }
@@ -229,12 +235,12 @@ namespace MoneyBook.Core
     #endregion
     #region ..операторы..
 
-    public static implicit operator int(InfoId value)
+    public static implicit operator short(InfoId value)
     {
       return value.Value;
     }
 
-    public static implicit operator InfoId(int value)
+    public static implicit operator InfoId(short value)
     {
       return new InfoId(value);
     }
@@ -248,20 +254,20 @@ namespace MoneyBook.Core
       return x.Equals(y.Value);
     }
 
-    public static bool operator !=(InfoId x, int y)
+    public static bool operator !=(InfoId x, short y)
     {
       return !x.Equals(new InfoId(y));
     }
-    public static bool operator ==(InfoId x, int y)
+    public static bool operator ==(InfoId x, short y)
     {
       return x.Equals(new InfoId(y));
     }
 
-    public static bool operator !=(int x, InfoId y)
+    public static bool operator !=(short x, InfoId y)
     {
       return !new InfoId(x).Equals(y.Value);
     }
-    public static bool operator ==(int x, InfoId y)
+    public static bool operator ==(short x, InfoId y)
     {
       return new InfoId(x).Equals(y.Value);
     }

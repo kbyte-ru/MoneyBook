@@ -91,6 +91,12 @@ namespace MoneyBook.Core
     public FontStyle FontStyle { get; set; }
 
     /// <summary>
+    /// Тип категории.
+    /// </summary>
+    [Column("category_type", SqlDbType.Int)]
+    public CategoryType CategoryType { get; set; }
+
+    /// <summary>
     /// Общее число записей в категории.
     /// </summary>
     [Column("total_entries", SqlDbType.Int)]

@@ -70,7 +70,7 @@ namespace MoneyBook.Core
       using (var client = new SqlDbCeClient(this.CurrentUser.ConnectionString))
       {
         client.CommandText = "SELECT [value] FROM [info] WHERE [id_info] = @id";
-        client.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(id);
+        client.Parameters.Add("@id", SqlDbType.SmallInt).Value = Convert.ToInt16(id);
         object result = client.ExecuteScalar();
         if (result == DBNull.Value) { return null; }
         return Convert.ToString(result);
@@ -133,7 +133,7 @@ namespace MoneyBook.Core
       using (var client = new SqlDbCeClient(this.CurrentUser.ConnectionString))
       {
         client.CommandText = "SELECT COUNT([id_info]) FROM [info] WHERE [id_info] = @id";
-        client.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(id);
+        client.Parameters.Add("@id", SqlDbType.SmallInt).Value = Convert.ToInt16(id);
         client.Parameters.Add("@value", SqlDbType.NVarChar, 30).Value = value;
         if (Convert.ToInt32(client.ExecuteScalar()) == 0)
         {
