@@ -483,24 +483,6 @@ namespace MoneyBook.Core
     /// <summary>
     /// Добавляет иконку в профиль текущего пользователя.
     /// </summary>
-    /// <param name="image">Экземпляр изображения файла иконки.</param>
-    /// <returns>Возвращает экземпляр записи добавленной иконки.</returns>
-    public Icon AddIcon(System.Drawing.Bitmap image)
-    {
-      if (image == null)
-      {
-        throw new ArgumentNullException("image");
-      }
-
-      var m = new MemoryStream();
-      image.Save(m, System.Drawing.Imaging.ImageFormat.Png);
-
-      return this.AddIcon(m.ToArray());
-    }
-
-    /// <summary>
-    /// Добавляет иконку в профиль текущего пользователя.
-    /// </summary>
     /// <param name="stream">Поток содержащий файл иконки.</param>
     /// <returns>Возвращает экземпляр записи добавленной иконки.</returns>
     public Icon AddIcon(Stream stream)
@@ -510,11 +492,7 @@ namespace MoneyBook.Core
         throw new ArgumentNullException("stream");
       }
 
-      if (stream.Position != 0) { stream.Position = 0; }
-      byte[] data = new byte[Convert.ToInt32(stream.Length)];
-      stream.Read(data, 0, data.Length);
-
-      return this.AddIcon(data);
+      return this.AddIcon(System.Drawing.Bitmap.FromStream(stream));
     }
 
     /// <summary>
@@ -528,6 +506,38 @@ namespace MoneyBook.Core
       {
         throw new ArgumentNullException("data");
       }
+
+      return this.AddIcon(System.Drawing.Bitmap.FromStream(new MemoryStream(data)));
+    }
+
+    /// <summary>
+    /// Добавляет иконку в профиль текущего пользователя (основной метод).
+    /// </summary>
+    /// <param name="image">Экземпляр изображения файла иконки.</param>
+    /// <returns>Возвращает экземпляр записи добавленной иконки.</returns>
+    public Icon AddIcon(System.Drawing.Image image)
+    {
+      if (image == null)
+      {
+        throw new ArgumentNullException("image");
+      }
+
+      var m = new MemoryStream();
+
+      // проверяем размер
+      if (image.Width > 16 || image.Height > 16)
+      {
+        // слишком большой, уменьшаем
+        var thumb = image.GetThumbnailImage(16, 16, null, IntPtr.Zero);
+        thumb.Save(m, System.Drawing.Imaging.ImageFormat.Png);
+      }
+      else
+      {
+        // пойдет, сохраняем как есть
+        image.Save(m, System.Drawing.Imaging.ImageFormat.Png);
+      }
+
+      var data = m.ToArray();
 
       // получаем хеш-сумму
       var hash = MoneyBookUtility.GetMD5Hash(data);

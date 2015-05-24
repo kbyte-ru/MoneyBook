@@ -95,6 +95,11 @@ namespace UnitTestProject1
 
       var bmp2 = u.GetIcon(1);
       Assert.AreEqual(bmp2.Width, 16);
+
+      // большая картинка
+      var ico4 = u.AddIcon(Properties.Resources.smile);
+      var bmp4 = System.Drawing.Bitmap.FromStream(new MemoryStream(ico4.Data));
+      Assert.AreEqual(bmp4.Width, 16);
     }
 
     [TestMethod]
