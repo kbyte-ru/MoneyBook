@@ -24,7 +24,7 @@ namespace MoneyBook.Core.Data
   /// </summary>
   /// <remarks>
   /// <para>Это упрощенная версия класса для полноценного SQL Server из проекта Nemiro.Data v2.0</para>
-  public partial class SqlDbCeClient : IDisposable
+  internal partial class SqlDbCeClient : IDisposable
   {
 
     /// <summary>

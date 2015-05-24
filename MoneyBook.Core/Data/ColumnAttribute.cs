@@ -30,7 +30,7 @@ namespace MoneyBook.Core.Data
   /// Атрибут указывает, что свойство реализует поле таблицы.
   /// </summary>
   [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-  public class ColumnAttribute : Attribute
+  internal class ColumnAttribute : Attribute
   {
 
     #region ..свойства..

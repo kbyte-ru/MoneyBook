@@ -30,7 +30,7 @@ namespace MoneyBook.Core.Data
   /// <remarks>
   /// <para>Этот класс используется для внутренних нужд библиотеки, но возможно он будет полезен и для решения каких-нибудь ваших задач.</para>
   /// </remarks>
-  public static class SqlType
+  internal static class SqlType
   {
 
     private static SqlDbType[] _StringTypeList = { SqlDbType.NVarChar, SqlDbType.VarChar, SqlDbType.Text, SqlDbType.NText, SqlDbType.Char, SqlDbType.NChar };
