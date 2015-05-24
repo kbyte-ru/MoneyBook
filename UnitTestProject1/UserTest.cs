@@ -162,7 +162,7 @@ namespace UnitTestProject1
       u.Save(account);
 
       var cat = new Category();
-      cat.Name = "Главная доходов";
+      cat.Name = "Главная статья доходов";
       cat.CategoryType = EntryType.Income;
       cat.FontStyle = FontStyle.Bold;
       u.Save(cat);
@@ -232,7 +232,63 @@ namespace UnitTestProject1
       list2 = u.GetMoneyItems(dateFrom: DateTime.Now.AddDays(-2), dateTo: DateTime.Now.AddDays(2));
       Assert.IsTrue(System.DateTime.Now.Date.Subtract(list2[2].DateEntry.Date).TotalSeconds == 0);
     }
-  
+
+    [TestMethod]
+    public void MonitoringTest()
+    {
+      User.Kill(App.CurrentPath, "monitoring");
+
+      var u = User.Create(ApplicationType.Mobile, App.CurrentPath, "monitoring");
+
+      Assert.IsTrue(u.Currencies.Count == 0);
+
+      var currency = new Currency();
+      currency.LongName = "Деньга";
+      currency.Code = "MNY";
+      u.Save(currency);
+
+      // изменение по ссылке
+      u.Currencies[0].LongName = "Другая деньга";
+      Assert.IsTrue(currency.LongName == "Другая деньга");
+
+      // новых записей не должно быть создано
+      u.Save(currency);
+      Assert.IsTrue(u.Currencies.Count == 1);
+
+      // новый экземпляр должен заменить данные существующего
+      var currency2 = new Currency();
+      currency2.LongName = "Вообще другая деньга";
+      currency2.Code = "MNY";
+      u.Save(currency2);
+
+      Assert.IsTrue(u.Currencies.Count == 1);
+      Assert.IsTrue(u.Currencies[0].LongName == "Вообще другая деньга");
+
+      // первая ссылка должна отвалиться
+      Assert.AreNotEqual(currency.LongName, currency2.LongName);
+
+      // удаляем
+      u.Delete(currency2);
+      Assert.IsTrue(u.Currencies.Count == 0);
+
+      // добавляем вновь
+      u.Save(currency2);
+      Assert.IsTrue(u.Currencies.Count == 1);
+
+      // удаляем по другому экземпляру
+      u.Delete(currency);
+      Assert.IsTrue(u.Currencies.Count == 0);
+
+      // добавляем
+      u.Save(currency);
+      Assert.IsTrue(u.Currencies.Count == 1);
+
+      // проверяем, что удаляется не все подряд
+      var currency3 = new Currency { Code = "ANY" };
+      u.Delete(currency3);
+      Assert.IsTrue(u.Currencies.Count == 1);
+    }
+
   }
 
 }

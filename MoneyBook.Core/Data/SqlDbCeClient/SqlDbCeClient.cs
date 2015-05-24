@@ -232,89 +232,96 @@ namespace MoneyBook.Core.Data
     /// </summary>
     private T CreateEntityInstance<T>(DataRow row) where T : IEntity
     {
-      var item = (T)Activator.CreateInstance(typeof(T));
+      var entity = (T)Activator.CreateInstance(typeof(T));
 
       if (row == null)
       {
-        if (item.GetType().IsSubclassOf(typeof(Entity)))
+        if (entity.GetType().IsSubclassOf(typeof(Entity)))
         {
-          item.GetType().GetProperty("Status").SetValue(item, EntityStatus.NotFound, null);
+          entity.GetType().GetProperty("Status").SetValue(entity, EntityStatus.NotFound, null);
         }
-        return item;
+        return entity;
       }
 
       var properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
       foreach (PropertyInfo p in properties)
       {
-        ColumnAttribute catr = this.GetColumnAttribute(p);
-        if (catr != null)
-        { // найдено соответсвие свойства и поля бд
-          if (this.ContainsColumn(row, catr.ColumnName) && row[catr.ColumnName] != DBNull.Value)
-          { // есть значение, передаем его в свойство
-            if (p.PropertyType == typeof(Int16))
+        ColumnAttribute column = this.GetColumnAttribute(p);
+        if (column == null) { continue; }
+
+        // найдено соответсвие свойства и поля бд
+        // передаем ссылку на целевой экземпляр класса
+        column.SetOwner(entity, p);
+
+        // проверяем наличие поля в результатах выборки и наличие в нем значения
+        if (this.ContainsColumn(row, column.ColumnName) && row[column.ColumnName] != DBNull.Value)
+        {
+          // есть значение, передаем его в свойство
+          if (p.PropertyType == typeof(Int16))
+          {
+            p.SetValue(entity, Convert.ToInt16(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType == typeof(Int32))
+          {
+            p.SetValue(entity, Convert.ToInt32(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType == typeof(Int64))
+          {
+            p.SetValue(entity, Convert.ToInt64(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType == typeof(UInt16))
+          {
+            p.SetValue(entity, Convert.ToUInt16(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType == typeof(UInt32))
+          {
+            p.SetValue(entity, Convert.ToUInt32(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType == typeof(UInt64))
+          {
+            p.SetValue(entity, Convert.ToUInt64(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType == typeof(decimal))
+          {
+            p.SetValue(entity, Convert.ToDecimal(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType == typeof(double))
+          {
+            p.SetValue(entity, Convert.ToDouble(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType == typeof(float))
+          {
+            p.SetValue(entity, Convert.ToSingle(row[column.ColumnName]), null);
+          }
+          else if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+          {
+            object v = row[column.ColumnName];
+            var t = p.PropertyType.GetGenericArguments().FirstOrDefault();
+            if (t != null && (t == typeof(Enum) || t.BaseType == typeof(Enum)))
             {
-              p.SetValue(item, Convert.ToInt16(row[catr.ColumnName]), null);
+              v = Enum.Parse(t, Convert.ToString(row[column.ColumnName]), true);
             }
-            else if (p.PropertyType == typeof(Int32))
-            {
-              p.SetValue(item, Convert.ToInt32(row[catr.ColumnName]), null);
-            }
-            else if (p.PropertyType == typeof(Int64))
-            {
-              p.SetValue(item, Convert.ToInt64(row[catr.ColumnName]), null);
-            }
-            else if (p.PropertyType == typeof(UInt16))
-            {
-              p.SetValue(item, Convert.ToUInt16(row[catr.ColumnName]), null);
-            }
-            else if (p.PropertyType == typeof(UInt32))
-            {
-              p.SetValue(item, Convert.ToUInt32(row[catr.ColumnName]), null);
-            }
-            else if (p.PropertyType == typeof(UInt64))
-            {
-              p.SetValue(item, Convert.ToUInt64(row[catr.ColumnName]), null);
-            }
-            else if (p.PropertyType == typeof(decimal))
-            {
-              p.SetValue(item, Convert.ToDecimal(row[catr.ColumnName]), null);
-            }
-            else if (p.PropertyType == typeof(double))
-            {
-              p.SetValue(item, Convert.ToDouble(row[catr.ColumnName]), null);
-            }
-            else if (p.PropertyType == typeof(float))
-            {
-              p.SetValue(item, Convert.ToSingle(row[catr.ColumnName]), null);
-            }
-            else if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
-              object v = row[catr.ColumnName];
-              var t = p.PropertyType.GetGenericArguments().FirstOrDefault();
-              if (t != null && (t == typeof(Enum) || t.BaseType == typeof(Enum)))
-              {
-                v = Enum.Parse(t, Convert.ToString(row[catr.ColumnName]), true);
-              }
-              p.SetValue(item, v, null);
-            }
-            else
-            { // другой тип данных
-              p.SetValue(item, row[catr.ColumnName], null);
-            }
+            p.SetValue(entity, v, null);
           }
           else
-          { // аннулируем значение
-            p.SetValue(item, null, null);
+          {
+            // другой тип данных
+            p.SetValue(entity, row[column.ColumnName], null);
           }
+        }
+        else
+        {
+          // аннулируем значение
+          p.SetValue(entity, null, null);
         }
       }
 
-      if (item.GetType().IsSubclassOf(typeof(Entity)))
+      if (entity.GetType().IsSubclassOf(typeof(Entity)))
       {
-        item.GetType().GetProperty("Status").SetValue(item, EntityStatus.Loaded, null);
+        entity.GetType().GetProperty("Status").SetValue(entity, EntityStatus.Loaded, null);
       }
 
-      return item;
+      return entity;
     }
 
     /// <summary>
@@ -335,10 +342,10 @@ namespace MoneyBook.Core.Data
 
       // имя таблицы 
       string tableName = "";
-      var tattr = (TableAttribute)t.GetCustomAttributes(typeof(TableAttribute), false).FirstOrDefault();
-      if (tattr != null)
+      var table = (TableAttribute)t.GetCustomAttributes(typeof(TableAttribute), false).FirstOrDefault();
+      if (table != null)
       {
-        tableName = tattr.TableName;
+        tableName = table.TableName;
       }
       else
       {
@@ -348,18 +355,11 @@ namespace MoneyBook.Core.Data
       // извлекаем свойства
       var properties = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
       // ищем ключ
-      PropertyInfo primaryKey = null;
-      ColumnAttribute pka = null;
-      foreach (PropertyInfo p in properties)
+      var primaryKey = properties.FirstOrDefault(p => p.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).Length > 0);
+      var primaryKeyColumn = (ColumnAttribute)primaryKey.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault();
+      if (primaryKeyColumn != null)
       {
-        var catr = this.GetColumnAttribute(p);
-        if (catr != null && catr.IsPrimaryKey)
-        {
-          // нашли, запоминаем
-          primaryKey = p;
-          pka = catr;
-          break;
-        }
+        primaryKeyColumn.SetOwner(entity, primaryKey);
       }
 
       // формируем универсальный запрос сохранения данных
@@ -371,37 +371,37 @@ namespace MoneyBook.Core.Data
       // перебираем все свойства
       foreach (PropertyInfo p in properties)
       {
-        var catr = this.GetColumnAttribute(p);
-        if (catr == null) { continue; }
+        var column = this.GetColumnAttribute(p);
+        if (column == null) { continue; }
         // устанавливаем родителя
-        catr.SetOwner(entity);
+        column.SetOwner(entity, p);
         // берем значение свойства
-        object value = catr.GetValidParameterValue(p);
+        object value = column.GetValidParameterValue(p);
         // проверяем
-        if (primaryKey == null && catr.IsUnique)
+        if (primaryKey == null && column.IsUnique)
         { // нет ключевого поля, формируем строку параметров для проверки данных по уникальным полям
           // запрос проверки
           if (!String.IsNullOrEmpty(queryWhere)) queryWhere += " AND ";
-          queryWhere += String.Format("{0} = @{1}", this.EscapeSqlObject(catr.ColumnName), catr.ColumnName);
+          queryWhere += String.Format("{0} = @{1}", this.EscapeSqlObject(column.ColumnName), column.ColumnName);
           // запрос добавления
           if (!String.IsNullOrEmpty(queryInsertNames)) queryInsertNames += ", ";
           if (!String.IsNullOrEmpty(queryInsertValues)) queryInsertValues += ", ";
-          queryInsertNames += this.EscapeSqlObject(catr.ColumnName);
-          queryInsertValues += String.Format("@{0}", catr.ColumnName);
+          queryInsertNames += this.EscapeSqlObject(column.ColumnName);
+          queryInsertValues += String.Format("@{0}", column.ColumnName);
         }
         else if (primaryKey != null && primaryKey.Name == p.Name)
         { // есть ключевое поле и это оно
           // запрос проверки
-          queryWhere += String.Format("{0} = @{1}", this.EscapeSqlObject(catr.ColumnName), catr.ColumnName);
+          queryWhere += String.Format("{0} = @{1}", this.EscapeSqlObject(column.ColumnName), column.ColumnName);
           // запрос добавления
-          if (!catr.IsIdentity)
+          if (!column.IsIdentity)
           { // ключевое поле не является счетчиком, проверяем тип
-            if (SqlType.IsGuidType(catr.SqlDbType))
+            if (SqlType.IsGuidType(column.SqlDbType))
             { // это PrimaryKey, он имеет тип Guid
               // он может быть указан, либо не указан
               if (!String.IsNullOrEmpty(queryInsertNames)) queryInsertNames += ", ";
               if (!String.IsNullOrEmpty(queryInsertValues)) queryInsertValues += ", ";
-              queryInsertNames += this.EscapeSqlObject(catr.ColumnName);
+              queryInsertNames += this.EscapeSqlObject(column.ColumnName);
               
               value = newId;
 
@@ -414,14 +414,14 @@ namespace MoneyBook.Core.Data
               { // указанное значение
               }*/
 
-              queryInsertValues += String.Format("@{0}", catr.ColumnName);
+              queryInsertValues += String.Format("@{0}", column.ColumnName);
             }
             else
             { // другой тип данных, пользователь сам указывает ключ
               if (!String.IsNullOrEmpty(queryInsertNames)) queryInsertNames += ", ";
               if (!String.IsNullOrEmpty(queryInsertValues)) queryInsertValues += ", ";
-              queryInsertNames += this.EscapeSqlObject(catr.ColumnName);
-              queryInsertValues += String.Format("@{0}", catr.ColumnName);
+              queryInsertNames += this.EscapeSqlObject(column.ColumnName);
+              queryInsertValues += String.Format("@{0}", column.ColumnName);
             }
           }
         }
@@ -430,15 +430,15 @@ namespace MoneyBook.Core.Data
           // запрос добавления
           if (!String.IsNullOrEmpty(queryInsertNames)) queryInsertNames += ", ";
           if (!String.IsNullOrEmpty(queryInsertValues)) queryInsertValues += ", ";
-          queryInsertNames += this.EscapeSqlObject(catr.ColumnName);
-          queryInsertValues += String.Format("@{0}", catr.ColumnName);
+          queryInsertNames += this.EscapeSqlObject(column.ColumnName);
+          queryInsertValues += String.Format("@{0}", column.ColumnName);
           // запрос обновления
           if (!String.IsNullOrEmpty(queryUpdateValues)) queryUpdateValues += ", ";
-          queryUpdateValues += String.Format("{0} = @{1}", this.EscapeSqlObject(catr.ColumnName), catr.ColumnName);
+          queryUpdateValues += String.Format("{0} = @{1}", this.EscapeSqlObject(column.ColumnName), column.ColumnName);
         }
 
         // добавляем параметр в коллекцию
-        this.Parameters.Add(catr.GetSqlParameter()).Value = value;
+        this.Parameters.Add(column.GetSqlParameter()).Value = value;
       }
 
       if (String.IsNullOrEmpty(queryWhere))
@@ -448,9 +448,9 @@ namespace MoneyBook.Core.Data
 
       // проверка существования записи
       string firstColumnName = "";
-      if (pka != null)
+      if (primaryKeyColumn != null)
       {
-        firstColumnName = pka.ColumnName;
+        firstColumnName = primaryKeyColumn.ColumnName;
       }
       else
       {
@@ -484,13 +484,13 @@ namespace MoneyBook.Core.Data
         this.ExecuteNonQuery();
 
         // получаем ключ и передаем в экземпляр сохраняемого класса
-        if (pka != null && SqlType.IsNumericType(pka.SqlDbType) && pka.IsIdentity)
+        if (primaryKeyColumn != null && SqlType.IsNumericType(primaryKeyColumn.SqlDbType) && primaryKeyColumn.IsIdentity)
         { // основной ключ является числовым счетчиком
           this.CommandText = "SELECT @@IDENTITY";
           this.Parameters.Clear();
           primaryKey.SetValue(entity, MoneyBookUtility.ChangeType(this.ExecuteScalar(), primaryKey.PropertyType), null);
         }
-        else if (pka != null && SqlType.IsGuidType(pka.SqlDbType) && !isExists)
+        else if (primaryKeyColumn != null && SqlType.IsGuidType(primaryKeyColumn.SqlDbType) && !isExists)
         { // guid
           primaryKey.SetValue(entity, MoneyBookUtility.ChangeType(newId, primaryKey.PropertyType), null);
         }
@@ -530,10 +530,10 @@ namespace MoneyBook.Core.Data
 
       // имя таблицы 
       string tableName = "";
-      var tattr = (TableAttribute)t.GetCustomAttributes(typeof(TableAttribute), false).FirstOrDefault();
-      if (tattr != null)
+      var table = (TableAttribute)t.GetCustomAttributes(typeof(TableAttribute), false).FirstOrDefault();
+      if (table != null)
       {
-        tableName = tattr.TableName;
+        tableName = table.TableName;
       }
       else
       {
@@ -543,23 +543,12 @@ namespace MoneyBook.Core.Data
       // извлекаем свойства
       var properties = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
       // ищем ключ
-      PropertyInfo primaryKey = null;
-      ColumnAttribute pka = null;
-      foreach (PropertyInfo p in properties)
-      {
-        var catr = this.GetColumnAttribute(p);
-        if (catr != null && catr.IsPrimaryKey)
-        {
-          // нашли, запоминаем
-          primaryKey = p;
-          pka = catr;
-          break;
-        }
-      }
+      var primaryKey = properties.FirstOrDefault(p => p.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).Length > 0);
+      var primaryKeyColumn = (ColumnAttribute)primaryKey.GetCustomAttributes(typeof(ColumnAttribute), true).FirstOrDefault();
 
       int result = 0;
 
-      if (pka == null)
+      if (primaryKeyColumn == null)
       { 
         //нет ключевого поля, удаляем по уникальным
         this.SetSqlParametersFromUniqueProperties(entity, this);
@@ -580,8 +569,9 @@ namespace MoneyBook.Core.Data
       else
       { 
         // есть ключевое поле
-        this.CommandText = String.Format("DELETE FROM {0} WHERE {1} = @{2}", this.EscapeSqlObject(tableName), this.EscapeSqlObject(pka.ColumnName), pka.ColumnName);
-        this.Parameters.Add(pka.GetSqlParameter()).Value = primaryKey.GetValue(entity, null);
+        primaryKeyColumn.SetOwner(entity, primaryKey);
+        this.CommandText = String.Format("DELETE FROM {0} WHERE {1} = @{2}", this.EscapeSqlObject(tableName), this.EscapeSqlObject(primaryKeyColumn.ColumnName), primaryKeyColumn.ColumnName);
+        this.Parameters.Add(primaryKeyColumn.GetSqlParameter()).Value = primaryKey.GetValue(entity, null);
         
         result = Convert.ToInt32(this.ExecuteNonQuery());
       }
@@ -611,7 +601,7 @@ namespace MoneyBook.Core.Data
     /// Устанавливает клиенту параметры SQL на основе свойств класса с флагом Unique.
     /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    private void SetSqlParametersFromUniqueProperties(object parent, SqlDbCeClient client)
+    private void SetSqlParametersFromUniqueProperties(IEntity parent, SqlDbCeClient client)
     {
       if (parent == null || client == null) return;
       client.CommandText = "";
@@ -619,12 +609,14 @@ namespace MoneyBook.Core.Data
       var properties = parent.GetType().GetProperties();
       foreach (PropertyInfo p in properties)
       {
-        ColumnAttribute catr = this.GetColumnAttribute(p);
-        if (catr != null && catr.IsUnique)
+        ColumnAttribute column = this.GetColumnAttribute(p);
+        if (column == null) { continue; }
+        column.SetOwner(parent, p);
+        if (column.IsUnique)
         {
           if (!String.IsNullOrEmpty(client.CommandText)) client.CommandText += " AND ";
-          client.CommandText += String.Format("{0} = @{1}", this.EscapeSqlObject(catr.ColumnName), catr.ColumnName);
-          client.Parameters.Add(catr.GetSqlParameter()).Value = p.GetValue(parent, null);
+          client.CommandText += String.Format("{0} = @{1}", this.EscapeSqlObject(column.ColumnName), column.ColumnName);
+          client.Parameters.Add(column.GetSqlParameter()).Value = p.GetValue(parent, null);
         }
       }
     }

@@ -22,7 +22,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Уникальный идентификатор иконки.
     /// </summary>
-    [Column("id_icons", SqlDbType.Int, ColumnFlags.PrimaryKey | ColumnFlags.Identity)]
+    [PrimaryKey]
+    [Column("id_icons", SqlDbType.Int)]
     public int Id { get; set; }
 
     /// <summary>

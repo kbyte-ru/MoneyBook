@@ -20,7 +20,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Уникальный идентификатор счета.
     /// </summary>
-    [Column("id_accounts",  SqlDbType.Int, ColumnFlags.PrimaryKey | ColumnFlags.Identity)]
+    [PrimaryKey]
+    [Column("id_accounts",  SqlDbType.Int)]
     public int Id { get; set; }
 
     /// <summary>
@@ -68,7 +69,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Дата и время последней операции по данному счету.
     /// </summary>
-    [Column("last_operation", SqlDbType.DateTime, Flags = ColumnFlags.AllowNull)]
+    [AllowNull]
+    [Column("last_operation", SqlDbType.DateTime)]
     public DateTime? LastOperation { get; set; }
 
     /// <summary>

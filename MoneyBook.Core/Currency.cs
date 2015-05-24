@@ -20,7 +20,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Уникальный буквенный код валюты. В соответствии со стандартами ISO 4217.
     /// </summary>
-    [Column("id_currencies", SqlDbType.NVarChar, ColumnFlags.PrimaryKey, Size = 3)]
+    [PrimaryKey(false)]
+    [Column("id_currencies", SqlDbType.NVarChar, Size = 3)]
     public string Code { get; set; }
 
     /// <summary>

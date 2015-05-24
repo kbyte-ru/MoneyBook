@@ -20,7 +20,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Уникальный идентификатор записи.
     /// </summary>
-    [Column("id_items", SqlDbType.Int, ColumnFlags.PrimaryKey | ColumnFlags.Identity)]
+    [PrimaryKey]
+    [Column("id_items", SqlDbType.Int)]
     public int Id { get; set; }
 
     /// <summary>
@@ -68,7 +69,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Дата и время последнего обновления записи.
     /// </summary>
-    [Column("date_updated", SqlDbType.DateTime, ColumnFlags.AllowNull)]
+    [AllowNull]
+    [Column("date_updated", SqlDbType.DateTime)]
     public DateTime? DateUpdated { get; set; }
 
     /// <summary>

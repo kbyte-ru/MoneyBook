@@ -21,7 +21,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Уникальный идентификатор категории.
     /// </summary>
-    [Column("id_categories", SqlDbType.Int, ColumnFlags.PrimaryKey | ColumnFlags.Identity)]
+    [PrimaryKey]
+    [Column("id_categories", SqlDbType.Int)]
     public int Id { get; set; }
 
     /// <summary>
@@ -105,7 +106,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Дата и время последней операции в данной категории.
     /// </summary>
-    [Column("last_operation", SqlDbType.DateTime, Flags = ColumnFlags.AllowNull)]
+    [AllowNull]
+    [Column("last_operation", SqlDbType.DateTime)]
     public DateTime? LastOperation { get; set; }
 
     /// <summary>

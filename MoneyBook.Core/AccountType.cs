@@ -20,7 +20,8 @@ namespace MoneyBook.Core
     /// <summary>
     /// Уникальный идентификатор типа счета.
     /// </summary>
-    [Column("id_account_types", SqlDbType.Int, ColumnFlags.PrimaryKey | ColumnFlags.Identity)]
+    [PrimaryKey]
+    [Column("id_account_types", SqlDbType.Int)]
     public int Id { get; set; }
 
     /// <summary>

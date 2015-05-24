@@ -65,11 +65,6 @@ namespace MoneyBook.Core.Data
     public string DisplayName { get; set; }
 
     /// <summary>
-    /// Дополнительные опции поля, определяющие его поведение. Битовая маска <see cref="ColumnFlags"/>.
-    /// </summary>
-    public ColumnFlags Flags { get; set; }
-
-    /// <summary>
     /// Определяет наибольший размер поля (в байтах). Ноль - без ограничений (по умолчанию).
     /// </summary>
     public int Size { get; set; }
@@ -79,47 +74,55 @@ namespace MoneyBook.Core.Data
     /// </summary>
     public object Default { get; set; }
 
+    private bool? _IsPrimaryKey = null;
+
     /// <summary>
-    /// Возвращает <c>True</c>, если <see cref="Flags"/> содержит <see cref="ColumnFlags.PrimaryKey"/>.
+    /// Возвращает <c>True</c>, если <see cref="OwnerClass"/> содержит <see cref="PrimaryKeyAttribute"/>.
     /// </summary>
     internal protected bool IsPrimaryKey
     {
       get
       {
-        return this.Flags.HasFlag(ColumnFlags.PrimaryKey);
+        return _IsPrimaryKey.Value;
       }
     }
 
+    private bool? _IsUnique = null;
+
     /// <summary>
-    /// Возвращает <c>True</c>, если <see cref="Flags"/> содержит <see cref="ColumnFlags.Unique"/>.
+    /// Возвращает <c>True</c>, если <see cref="OwnerClass"/> содержит <see cref="UniqueValueAttribute"/>.
     /// </summary>
     internal protected bool IsUnique
     {
       get
       {
-        return this.Flags.HasFlag(ColumnFlags.Unique);
+        return _IsUnique.Value;
       }
     }
 
+    private bool? _IsIdentity = null;
+
     /// <summary>
-    /// Возвращает <c>True</c>, если <see cref="Flags"/> содержит <see cref="ColumnFlags.Identity"/>.
+    /// Возвращает <c>True</c>, если <see cref="OwnerClass"/> содержит <see cref="PrimaryKeyAttribute"/> с флагом <see cref="PrimaryKeyAttribute.Identity"/> в значении <c>True</c>.
     /// </summary>
     internal protected bool IsIdentity
     {
       get
       {
-        return this.Flags.HasFlag(ColumnFlags.Identity); 
+        return _IsIdentity.Value;
       }
     }
 
+    private bool? _AllowNull = null;
+
     /// <summary>
-    /// Возвращает <c>True</c>, если <see cref="Flags"/> содержит <see cref="ColumnFlags.AllowNull"/>.
+    /// Возвращает <c>True</c>, если <see cref="OwnerClass"/> содержит <see cref="AllowNullAttribute"/>.
     /// </summary>
     internal protected bool AllowNull
     {
       get
       {
-        return this.Flags.HasFlag(ColumnFlags.AllowNull);
+        return _AllowNull.Value;
       }
     }
 
@@ -147,7 +150,11 @@ namespace MoneyBook.Core.Data
       }
     }
 
-    private Type _OwnerClassType = null;
+
+    /// <summary>
+    /// Ссылка на класс.
+    /// </summary>
+    protected object OwnerClass { get; set; }
 
     /// <summary>
     /// Тип класса-владельца.
@@ -156,21 +163,14 @@ namespace MoneyBook.Core.Data
     {
       get
       {
-        return _OwnerClassType;
+        return OwnerClass.GetType();
       }
     }
 
-    private object _OwnerClass = null;
     /// <summary>
-    /// Ссылка на класс-владельца.
+    /// Ссылка на свойство.
     /// </summary>
-    protected object OwnerClass
-    {
-      get
-      {
-        return _OwnerClass;
-      }
-    }
+    protected PropertyInfo OwnerProperty { get; set; }
 
     #endregion
     #region ..конструктор..
@@ -181,40 +181,24 @@ namespace MoneyBook.Core.Data
     /// </summary>
     /// <param name="columnName">Имя поля таблицы базы данных SQL Server.</param>
     /// <param name="dataType">Тип данных SQL Server, содержащихся в поле.</param>
-    public ColumnAttribute(string columnName, SqlDbType dataType) : this(columnName, (object)dataType, 0, 0, null) { }
-    /// <summary>
-    /// Инициализирует новый экземпляр класса <see cref="ColumnAttribute"/> с указанием имени поля, типа данных SQL Server и флагов интерпретации.
-    /// </summary>
-    /// <param name="columnName">Имя поля таблицы базы данных SQL Server.</param>
-    /// <param name="dataType">Тип данных SQL Server, содержащихся в поле.</param>
-    /// <param name="flags">Дополнительные опции поля, определяющие его поведение. Битовая маска <see cref="Nemiro.Data.ColumnAttributeFlags"/>.</param>
-    public ColumnAttribute(string columnName, SqlDbType dataType, ColumnFlags flags) : this(columnName, (object)dataType, flags, 0, null) { }
+    public ColumnAttribute(string columnName, SqlDbType dataType) : this(columnName, (object)dataType, 0, null) { }
 
     // Универсальный
     /// <summary>
     /// Инициализирует новый экземпляр класса <see cref="ColumnAttribute"/> с указанием имени поля и типа данных.
     /// </summary>
-    public ColumnAttribute(string columnName, object dataType) : this(columnName, dataType, 0, 0, null) { }
-    /// <summary>
-    /// Инициализирует новый экземпляр класса <see cref="ColumnAttribute"/> с указанием имени поля, типа данных и флагов интерпретации.
-    /// </summary>
-    /// <param name="columnName">Имя поля таблицы базы данных.</param>
-    /// <param name="dataType">Тип данных поля в базе.</param>
-    /// <param name="flags">Дополнительные опции поля, определяющие его поведение. Битовая маска <see cref="Nemiro.Data.ColumnAttributeFlags"/>.</param>
-    public ColumnAttribute(string columnName, object dataType, ColumnFlags flags) : this(columnName, dataType, flags, 0, null) { }
+    public ColumnAttribute(string columnName, object dataType) : this(columnName, dataType, 0, null) { }
     /// <summary>
     /// Инициализирует новый экземпляр класса <see cref="ColumnAttribute"/> с указанными параметрами.
     /// </summary>
     /// <param name="columnName">Имя поля таблицы базы данных.</param>
     /// <param name="dataType">Тип данных поля в базе.</param>
-    /// <param name="flags">Дополнительные опции поля, определяющие его поведение. Битовая маска <see cref="Nemiro.Data.ColumnAttributeFlags"/>.</param>
     /// <param name="default">Значение по умолчанию.</param>
     /// <param name="size">Определяет наибольший размер поля (в байтах). Ноль - без ограничений (по умолчанию).</param>
-    public ColumnAttribute(string columnName, object dataType, ColumnFlags flags, int size, object @default)
+    public ColumnAttribute(string columnName, object dataType, int size, object @default)
     {
       _ColumnName = columnName;
       _DataType = dataType;
-      this.Flags = flags;
       this.Size = size;
       this.Default = @default;
     }
@@ -337,18 +321,25 @@ namespace MoneyBook.Core.Data
     /// <summary>
     /// Устанавливает родителя.
     /// </summary>
+    /// <param name="class">Ссылка на класс, к которому относится свойство, к которому относится текущий атрибут.</param>
+    /// <param name="property">Ссылка на свойство.</param>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    internal protected void SetOwner(object value)
+    internal protected void SetOwner(IEntity @class, PropertyInfo property)
     {
-      Type last = value.GetType();
-      Type current = value.GetType();
-      while (current != null)
+      this.OwnerClass = @class;
+      this.OwnerProperty = property;
+      _IsUnique = this.OwnerProperty.GetCustomAttributes(typeof(UniqueValueAttribute), true).Length > 0;
+      _AllowNull = this.OwnerProperty.GetCustomAttributes(typeof(AllowNullAttribute), true).Length > 0;
+      var p = (PrimaryKeyAttribute)this.OwnerProperty.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).FirstOrDefault();
+      if (p != null)
       {
-        current = current.BaseType;
-        if (current != null && current != typeof(object)) last = current;
+        _IsPrimaryKey = true;
+        _IsIdentity = p.Identity;
       }
-      _OwnerClassType = last;
-      _OwnerClass = value;
+      else
+      {
+        _IsPrimaryKey = _IsIdentity = false;
+      }
     }
 
     #endregion

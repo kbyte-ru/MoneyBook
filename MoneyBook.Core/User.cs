@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Data;
 using System.Reflection;
 using System.Text;
-using MoneyBook.Core.Data;
 using System.Text.RegularExpressions;
-using System.Data;
 using System.Collections;
+using System.Collections.Generic;
+using MoneyBook.Core.Data;
+using MoneyBook.Core.Extensions;
 
 namespace MoneyBook.Core
 {
@@ -22,6 +23,11 @@ namespace MoneyBook.Core
     /// Расширение файлов БД, включая точку.
     /// </summary>
     private const string DatabaseFileExtension = ".mbk";
+
+    /// <summary>
+    /// Признак того, что ресурсы были освобождены.
+    /// </summary>
+    private bool IsDisposed = false;
 
     /// <summary>
     /// Перечень свойств, в которых следует отслеживать изменения.
@@ -173,11 +179,23 @@ namespace MoneyBook.Core
     
     public void Dispose()
     {
-      // обновление информации:
-      // продолжительность сессии
-      long totalTime = 0;
-      long.TryParse(this.Info[InfoId.TotalTime], out totalTime);
-      this.Info.Set(InfoId.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds));
+      this.Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+      if (this.IsDisposed) { return; }
+
+      if (disposing)
+      {
+        // обновление информации
+        long totalTime = 0;
+        long.TryParse(this.Info[InfoId.TotalTime], out totalTime);
+        this.Info.Set(InfoId.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds));
+      }
+
+      this.IsDisposed = true;
     }
 
     #endregion
@@ -370,23 +388,28 @@ namespace MoneyBook.Core
       }
       else if (entity.Status == EntityStatus.Updated)
       {
-        // TODO: Думать:
         // если запись была сохранена, то следует проверить, 
         // было ли это сделано по ссылке или же через новый экземпляр
         // если через новый экземпляр, то необходимо найти аналогичный объект в памяти и обновить его
-        /*foreach (var p in this.MonitoringPropeties)
+        foreach (var p in this.MonitoringPropeties)
         {
           if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(List<>) && p.PropertyType.GetGenericArguments().First() == t)
           {
             // нашли нужный тип, перебираем значения
             var list = (IList)p.GetValue(this, null);
-            foreach (var item in list)
+            for (int i = 0; i < list.Count; i++)
             {
-
+              if (((UserMoneyObject)list[i]).PrimaryKeyEquals(entity))
+              {
+                // нашли нужный элемент
+                // entity.CopyTo(list[i]); // копируем данные в него
+                list[i] = entity; // меняем
+                break;
+              }
             }
             break;
           }
-        }*/
+        }
       }
     }
 
@@ -440,9 +463,16 @@ namespace MoneyBook.Core
       {
         if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(List<>) && p.PropertyType.GetGenericArguments().First() == t)
         {
-          // TODO: Учесть удаление путем создания новых экземпляров.
           var list = (IList)p.GetValue(this, null);
-          list.Remove(entity);
+          for (int i = 0; i < list.Count; i++)
+          {
+            if (((UserMoneyObject)list[i]).PrimaryKeyEquals(entity))
+            {
+              // нашли нужный элемент, удаляем
+              list.RemoveAt(i);
+              break;
+            }
+          }
           break;
         }
       }
