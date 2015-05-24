@@ -7,19 +7,22 @@ namespace MoneyBook.Core
 {
 
   /// <summary>
-  /// Перечень типов категорий.
+  /// Перечень типов записей.
   /// </summary>
-  public enum CategoryType : byte
+  public enum EntryType : byte
   {
+    /// <summary>
+    /// Непонятно.
+    /// </summary>
     None = 0,
     /// <summary>
-    /// Доходы.
+    /// Доход.
     /// </summary>
-    Incomes = 1,
+    Income = 1,
     /// <summary>
-    /// Расходы.
+    /// Расход.
     /// </summary>
-    Expenses = 2
+    Expense = 2
   }
 
 }

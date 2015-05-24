@@ -81,7 +81,7 @@ namespace MoneyBook.Core
     /// Тип записи.
     /// </summary>
     [Column("entry_type", SqlDbType.TinyInt)]
-    public CategoryType EntryType { get; set; }
+    public EntryType EntryType { get; set; }
 
   }
 

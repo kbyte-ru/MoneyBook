@@ -162,7 +162,7 @@ namespace UnitTestProject1
 
       var cat = new Category();
       cat.Name = "Главная доходов";
-      cat.CategoryType = CategoryType.Incomes;
+      cat.CategoryType = EntryType.Income;
       cat.FontStyle = FontStyle.Bold;
       u.Save(cat);
 
@@ -174,7 +174,7 @@ namespace UnitTestProject1
         var entry = new Entry();
         entry.AccountId = account.Id;
         entry.Amount = rnd.Next(1000, Int32.MaxValue);
-        entry.EntryType = CategoryType.Incomes;
+        entry.EntryType = EntryType.Income;
         entry.CategoryId = cat.Id;
         entry.DateEntry = date;
         entry.DateCreated = date;
@@ -204,7 +204,7 @@ namespace UnitTestProject1
         var entry = new Entry();
         entry.AccountId = account.Id;
         entry.Amount = rnd.Next(1000, Int32.MaxValue);
-        entry.EntryType = CategoryType.Incomes;
+        entry.EntryType = EntryType.Income;
         entry.CategoryId = cat.Id;
         entry.DateEntry = DateTime.Now.AddDays(i);
         entry.Description = "Вот такой вот доход!";

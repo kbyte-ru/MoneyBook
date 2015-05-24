@@ -94,7 +94,7 @@ namespace MoneyBook.Core
     /// Тип категории.
     /// </summary>
     [Column("category_type", SqlDbType.TinyInt)]
-    public CategoryType CategoryType { get; set; }
+    public EntryType CategoryType { get; set; }
 
     /// <summary>
     /// Общее число записей в категории.

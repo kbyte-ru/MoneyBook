@@ -175,11 +175,11 @@ namespace MoneyBook.Core
     /// <param name="amountTo">Сумма до.</param>
     /// <param name="search">Строка поиска.</param>
     /// <param name="page">Номер страницы, для которой следует получить записи. Начиная с 1.</param>
-    /// <param name="maxDataPerPage">Максимальное число записей на одной странице. По умолчанию - 1 000.</param>
-    public Entries GetEntries(int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = 1000)
+    /// <param name="maxDataPerPage">Максимальное число записей на одной странице. Минус один (по умолчанию) - все записи, без разбивки на страницы.</param>
+    /// <param name="type">Типы записей, которые селдует получить. По умолчанию - записи любого типа.</param>
+    public Entries GetEntries(EntryType type = EntryType.None, int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = -1)
     {
       if (page <= 0) { page = 1; }
-      if (maxDataPerPage <= 0) { maxDataPerPage = 1000; }
       page--;
 
       Entries result = new Entries();
@@ -190,6 +190,13 @@ namespace MoneyBook.Core
       {
         // формируем условия выборки
         string w = "";
+
+        if (type != EntryType.None)
+        {
+          if (!String.IsNullOrEmpty(w)) { w += " AND "; }
+          w += "entry_type = @entry_type";
+          client.Parameters.Add("@entry_type", SqlDbType.TinyInt).Value = (byte)type;
+        }
 
         if (accountId > 0)
         {
@@ -260,12 +267,12 @@ namespace MoneyBook.Core
         }
 
         // получаем записи для текущей страницы
-        client.CommandText = String.Format
-        (
-          "SELECT * FROM [entries] {0} ORDER BY [date_entry] DESC, [id_entries] DESC " + 
-          "OFFSET {1} ROWS FETCH NEXT {2} ROWS ONLY",
-          w, page * maxDataPerPage, maxDataPerPage
-        );
+        client.CommandText = String.Format("SELECT * FROM [entries] {0} ORDER BY [date_entry] DESC, [id_entries] DESC ", w);
+
+        if (maxDataPerPage > 0)
+        {
+          client.CommandText += String.Format("OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY;", page * maxDataPerPage, maxDataPerPage);
+        }
 
         // выполняем запрос и передаем результат в result
         result.AddRange(client.GetEntities<Entry>());

@@ -53,7 +53,7 @@
     <Compile Include="Data\Enums\DefaultValues.cs" />
     <Compile Include="Data\Enums\ConnectionMode.cs" />
     <Compile Include="Enums\ApplicationType.cs" />
-    <Compile Include="Enums\CategoryType.cs" />
+    <Compile Include="Enums\EntryType.cs" />
     <Compile Include="InfoId.cs" />
     <Compile Include="IUserObject.cs" />
     <Compile Include="Data\SqlDbCeClient\ExecuteNonQuery.cs" />
