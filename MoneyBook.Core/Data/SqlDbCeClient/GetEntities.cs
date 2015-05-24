@@ -33,7 +33,7 @@ namespace MoneyBook.Core.Data
     /// Выполняет запрос и возвращает список сущностей указанного типа.
     /// </summary>
     /// <typeparam name="T">Тип, список значений которого следует вернуть.</typeparam>
-    public List<T> GetEntities<T>()
+    public List<T> GetEntities<T>() where T : IEntity
     {
       return this.GetEntities<T>(_Cmd);
     }
@@ -43,7 +43,7 @@ namespace MoneyBook.Core.Data
     /// </summary>
     /// <param name="sql">Запрос SQL, который необходимо выполнить. Будьте очень осторожны при динамическом формировании запроса, особенно при передаче в запрос строковых типов данных.</param>
     /// <typeparam name="T">Тип, список значений которого следует вернуть.</typeparam>
-    public List<T> GetEntities<T>(string sql)
+    public List<T> GetEntities<T>(string sql) where T : IEntity
     {
       return this.GetEntities<T>(new SqlCeCommand(sql));
     }
@@ -52,7 +52,7 @@ namespace MoneyBook.Core.Data
     /// Выполняет запрос и возвращает список сущностей указанного типа.
     /// </summary>
     /// <typeparam name="T">Тип, список значений которого следует вернуть.</typeparam>
-    public List<T> GetEntities<T>(SqlCeCommand cmd)
+    public List<T> GetEntities<T>(SqlCeCommand cmd) where T : IEntity
     {
       DateTime timePoint = DateTime.Now;
 

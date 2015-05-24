@@ -32,7 +32,7 @@ namespace MoneyBook.Core.Data
     /// </summary>
     /// <param name="entities">Список экземпляров сущностей, которые следует удалить из базы.</param>
     /// <typeparam name="T">Тип сущности.</typeparam>
-    public int DeleteEntities<T>(List<T> entities)
+    public int DeleteEntities(List<IEntity> entities)
     {
       if (entities == null)
       {
@@ -45,13 +45,23 @@ namespace MoneyBook.Core.Data
       // выполняем сохранение каждой записи
       foreach (var item in entities)
       {
-        result += this.DeleteEntityFromDatabase<T>(item);
+        result += this.DeleteEntityFromDatabase(item);
       }
 
       // время
       _LastQueryTime = DateTime.Now.Subtract(timePoint);
 
       return result;
+    }
+
+    /// <summary>
+    /// Выполняет удаление указанной сущности из базы данных.
+    /// </summary>
+    /// <param name="entity">Экземпляр сущности, которую следует удалить из базы данных.</param>
+    /// <typeparam name="T">Тип сущности.</typeparam>
+    public int DeleteEntities(IEntity entity)
+    {
+      return this.DeleteEntityFromDatabase(entity);
     }
 
   }

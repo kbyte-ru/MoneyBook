@@ -5,6 +5,7 @@ using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyBook.Core;
 using System.Linq;
+using MoneyBook.Core.Data;
 
 namespace UnitTestProject1
 {
@@ -22,7 +23,7 @@ namespace UnitTestProject1
       var account = new Account();
       account.Name = "Проверочный счет";
 
-      u.Save(account);
+      u.Save((UserMoneyObject)account);
       
       Assert.AreEqual(account.Id, 1);
 
@@ -166,12 +167,12 @@ namespace UnitTestProject1
       cat.FontStyle = FontStyle.Bold;
       u.Save(cat);
 
-      var entries = new List<IUserObject>();
+      var entries = new List<UserMoneyObject>();
       var rnd = new Random(DateTime.Now.Millisecond);
       var date = DateTime.Now;
       for (int i = 1; i <= 100; i++)
       {
-        var entry = new Entry();
+        var entry = new MoneyItem();
         entry.AccountId = account.Id;
         entry.Amount = rnd.Next(1000, Int32.MaxValue);
         entry.EntryType = EntryType.Income;
@@ -187,21 +188,21 @@ namespace UnitTestProject1
 
       for (int i = 1; i < 10; i++)
       {
-        var list = u.GetEntries(page: i, maxDataPerPage: 10);
+        var list = u.GetMoneyItems(page: i, maxDataPerPage: 10);
         Assert.AreEqual(list[0].Id, 100 - ((i - 1) * 10));
         Assert.AreEqual(list[0].Title, String.Format("Запись #{0}", 100 - ((i - 1) * 10)));
       }
 
-      var list2 = u.GetEntries(search: "Запись #50");
+      var list2 = u.GetMoneyItems(search: "Запись #50");
       Assert.IsTrue(list2.Count == 1);
 
       u.Delete(entries);
 
       // выборка по датам
-      entries = new List<IUserObject>();
+      entries = new List<UserMoneyObject>();
       for (int i = -5; i <= 5; i++)
       {
-        var entry = new Entry();
+        var entry = new MoneyItem();
         entry.AccountId = account.Id;
         entry.Amount = rnd.Next(1000, Int32.MaxValue);
         entry.EntryType = EntryType.Income;
@@ -214,21 +215,21 @@ namespace UnitTestProject1
       u.Save(entries);
 
       // выше от текущей даты
-      list2 = u.GetEntries(dateFrom: DateTime.Now);
+      list2 = u.GetMoneyItems(dateFrom: DateTime.Now);
       for (int i = 0; i <= 5; i++)
       {
         Assert.IsTrue(System.DateTime.Now.AddDays(i).Date.Subtract(list2[5 - i].DateEntry.Date).TotalSeconds == 0);
       }
 
       // до текущей даты
-      list2 = u.GetEntries(dateTo: DateTime.Now);
+      list2 = u.GetMoneyItems(dateTo: DateTime.Now);
       for (int i = 0; i <= 5; i++)
       {
         Assert.IsTrue(System.DateTime.Now.AddDays(-i).Date.Subtract(list2[i].DateEntry.Date).TotalSeconds == 0);
       }
 
       // между двух дат
-      list2 = u.GetEntries(dateFrom: DateTime.Now.AddDays(-2), dateTo: DateTime.Now.AddDays(2));
+      list2 = u.GetMoneyItems(dateFrom: DateTime.Now.AddDays(-2), dateTo: DateTime.Now.AddDays(2));
       Assert.IsTrue(System.DateTime.Now.Date.Subtract(list2[2].DateEntry.Date).TotalSeconds == 0);
     }
   

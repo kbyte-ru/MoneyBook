@@ -7,6 +7,7 @@ using System.Text;
 using MoneyBook.Core.Data;
 using System.Text.RegularExpressions;
 using System.Data;
+using System.Collections;
 
 namespace MoneyBook.Core
 {
@@ -21,6 +22,11 @@ namespace MoneyBook.Core
     /// Расширение файлов БД, включая точку.
     /// </summary>
     private const string DatabaseFileExtension = ".mbk";
+
+    /// <summary>
+    /// Перечень свойств, в которых следует отслеживать изменения.
+    /// </summary>
+    private IEnumerable<PropertyInfo> MonitoringPropeties = null;
 
     /// <summary>
     /// Строка соединения с базой данных текущего экземпляра пользователя.
@@ -52,6 +58,7 @@ namespace MoneyBook.Core
     /// <summary>
     /// Список типов счетов пользователя.
     /// </summary>
+    [ChangesMonitor]
     public List<AccountType> AccountTypes
     {
       get
@@ -69,6 +76,7 @@ namespace MoneyBook.Core
     /// <summary>
     /// Список счетов пользователя.
     /// </summary>
+    [ChangesMonitor]
     public List<Account> Accounts
     {
       get
@@ -86,6 +94,7 @@ namespace MoneyBook.Core
     /// <summary>
     /// Список категорий.
     /// </summary>
+    [ChangesMonitor]
     public List<Category> Categories
     {
       get
@@ -103,6 +112,7 @@ namespace MoneyBook.Core
     /// <summary>
     /// Список валют.
     /// </summary>
+    [ChangesMonitor]
     public List<Currency> Currencies
     {
       get
@@ -137,15 +147,24 @@ namespace MoneyBook.Core
       {
         throw new Exception("Пользователь не найден.");
       }
+
+      // получаем свойства, в которых следует отслеживать изменения
+      this.MonitoringPropeties = this.GetType().GetProperties().Where(p => p.GetCustomAttributes(typeof(ChangesMonitorAttribute), false).Length > 0);
+
+      // базовая информация о пользователе
       this.BasePath = path;
       this.UserName = username;
       this.Password = password;
+
       // фиксируем время начала текущей сессии
       this.SessionDate = DateTime.Now;
+
       // строка соединения
       this.ConnectionString = String.Format("Data Source={0}; password={1}", filePath, password);
+
       // информация о базе
       this.Info = new Info(this);
+
       // счетчик запусков
       int totalSession = 0;
       int.TryParse(this.Info[InfoId.TotalSessions], out totalSession);
@@ -165,7 +184,7 @@ namespace MoneyBook.Core
     #region ..методы..
 
     /// <summary>
-    /// Возвращает список записей.
+    /// Возвращает список записей расходов/доходов пользователя.
     /// </summary>
     /// <param name="accountId">Идентификатор счета. По умолчанию, ноль - любой счет.</param>
     /// <param name="categoryId">Идентификатор категории. По умолчанию, ноль - все категории.</param>
@@ -177,12 +196,12 @@ namespace MoneyBook.Core
     /// <param name="page">Номер страницы, для которой следует получить записи. Начиная с 1.</param>
     /// <param name="maxDataPerPage">Максимальное число записей на одной странице. Минус один (по умолчанию) - все записи, без разбивки на страницы.</param>
     /// <param name="type">Типы записей, которые селдует получить. По умолчанию - записи любого типа.</param>
-    public Entries GetEntries(EntryType type = EntryType.None, int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = -1)
+    public MoneyItems GetMoneyItems(EntryType type = EntryType.None, int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = -1)
     {
       if (page <= 0) { page = 1; }
       page--;
 
-      Entries result = new Entries();
+      MoneyItems result = new MoneyItems();
       result.CurrentPage = page;
       result.MaxDataPerPage = maxDataPerPage;
       
@@ -258,7 +277,7 @@ namespace MoneyBook.Core
         }
 
         // определяем число записей
-        client.CommandText = "SELECT COUNT([id_entries]) FROM [entries]" + w;
+        client.CommandText = "SELECT COUNT([id_items]) FROM [items]" + w;
         result.TotalRecords = Convert.ToInt32(client.ExecuteScalar());
 
         if (result.TotalRecords <= 0)
@@ -267,7 +286,7 @@ namespace MoneyBook.Core
         }
 
         // получаем записи для текущей страницы
-        client.CommandText = String.Format("SELECT * FROM [entries] {0} ORDER BY [date_entry] DESC, [id_entries] DESC ", w);
+        client.CommandText = String.Format("SELECT * FROM [items] {0} ORDER BY [date_entry] DESC, [id_items] DESC ", w);
 
         if (maxDataPerPage > 0)
         {
@@ -275,7 +294,7 @@ namespace MoneyBook.Core
         }
 
         // выполняем запрос и передаем результат в result
-        result.AddRange(client.GetEntities<Entry>());
+        result.AddRange(client.GetEntities<MoneyItem>());
       }
 
       return result;
@@ -299,7 +318,7 @@ namespace MoneyBook.Core
     /// Сохраняет указанные объекты (счет, категория, запись) в базе данных.
     /// </summary>
     /// <param name="entities">Список объектов, которые необходимо сохранить.</param>
-    public void Save(List<IUserObject> entities)
+    public void Save(List<UserMoneyObject> entities)
     {
       if (entities == null)
       {
@@ -311,19 +330,17 @@ namespace MoneyBook.Core
         return;
       }
 
-      using (var client = new SqlDbCeClient(this.ConnectionString))
+      foreach (var entity in entities)
       {
-        client.SaveEntities<IUserObject>(entities);
+        this.Save(entity);
       }
-
-      this.ReloadData(entities.First().GetType());
     }
 
     /// <summary>
     /// Сохраняет указанный объект (счет, категория, запись) в базе данных.
     /// </summary>
     /// <param name="entity">Объект, который необходимо сохранить.</param>
-    public void Save(IUserObject entity)
+    public void Save(UserMoneyObject entity)
     {
       if (entity == null)
       {
@@ -332,17 +349,52 @@ namespace MoneyBook.Core
 
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        client.SaveEntity<IUserObject>(entity);
+        client.SaveEntities<UserMoneyObject>(entity);
       }
 
-      this.ReloadData(entity.GetType());
+      var t = entity.GetType();
+
+      // если была создана новая запись
+      if (entity.Status == EntityStatus.Created)
+      {
+        // добавляем запись в текущий экземпляр, если есть куда
+        foreach (var p in this.MonitoringPropeties)
+        {
+          if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(List<>) && p.PropertyType.GetGenericArguments().First() == t)
+          {
+            var list = (IList)p.GetValue(this, null);
+            list.Add(entity);
+            break;
+          }
+        }
+      }
+      else if (entity.Status == EntityStatus.Updated)
+      {
+        // TODO: Думать:
+        // если запись была сохранена, то следует проверить, 
+        // было ли это сделано по ссылке или же через новый экземпляр
+        // если через новый экземпляр, то необходимо найти аналогичный объект в памяти и обновить его
+        /*foreach (var p in this.MonitoringPropeties)
+        {
+          if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(List<>) && p.PropertyType.GetGenericArguments().First() == t)
+          {
+            // нашли нужный тип, перебираем значения
+            var list = (IList)p.GetValue(this, null);
+            foreach (var item in list)
+            {
+
+            }
+            break;
+          }
+        }*/
+      }
     }
 
     /// <summary>
     /// Удаляет указанные объекты (счет, категория, запись) из базы данных.
     /// </summary>
     /// <param name="entities">Список объектов, которые необходимо удалить.</param>
-    public int Delete(List<IUserObject> entities)
+    public int Delete(List<UserMoneyObject> entities)
     {
       if (entities == null)
       {
@@ -356,12 +408,10 @@ namespace MoneyBook.Core
 
       int result = 0;
 
-      using (var client = new SqlDbCeClient(this.ConnectionString))
+      foreach (var entity in entities)
       {
-        result = client.DeleteEntities<IUserObject>(entities);
+        result += this.Delete(entity);
       }
-
-      this.ReloadData(entities.First().GetType());
 
       return result;
     }
@@ -370,7 +420,7 @@ namespace MoneyBook.Core
     /// Удаляет указанный объект (счет, категория, запись) из базы данных.
     /// </summary>
     /// <param name="entity">Объект, который необходимо удалить.</param>
-    public int Delete(IUserObject entity)
+    public int Delete(UserMoneyObject entity)
     {
       if (entity == null)
       {
@@ -380,10 +430,22 @@ namespace MoneyBook.Core
       int result = 0;
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        result = client.DeleteEntity<IUserObject>(entity);
+        result = client.DeleteEntities(entity);
       }
 
-      this.ReloadData(entity.GetType());
+      var t = entity.GetType();
+
+      // удаляем запись из текущего экземпляра класса, если нужно
+      foreach (var p in this.MonitoringPropeties)
+      {
+        if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(List<>) && p.PropertyType.GetGenericArguments().First() == t)
+        {
+          // TODO: Учесть удаление путем создания новых экземпляров.
+          var list = (IList)p.GetValue(this, null);
+          list.Remove(entity);
+          break;
+        }
+      }
 
       return result;
     }
@@ -458,7 +520,7 @@ namespace MoneyBook.Core
             DateCreated = DateTime.Now
           };
 
-          client.SaveEntity<Icon>(result);
+          client.SaveEntities<Icon>(result);
         }
       }
 
@@ -551,6 +613,7 @@ namespace MoneyBook.Core
     /// Перезагружает из базы данные в текущий экземпляр класса.
     /// </summary>
     /// <param name="t">Тип данных, который следует перезагрузить. Значение <b>null</b> - все данные.</param>
+    [Obsolete("Быть или не быть...", true)]
     private void ReloadData(Type t)
     {
       if (t == null)

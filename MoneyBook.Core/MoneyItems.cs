@@ -10,7 +10,7 @@ namespace MoneyBook.Core
   /// Представляет коллекцию записей расходов/доходов.
   /// </summary>
   [Serializable]
-  public class Entries : List<Entry>
+  public class MoneyItems : List<MoneyItem>
   {
 
     /// <summary>

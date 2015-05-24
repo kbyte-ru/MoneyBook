@@ -13,14 +13,14 @@ namespace MoneyBook.Core
   /// Представляет запись о расходах/доходах.
   /// </summary>
   [Serializable]
-  [Table("entries")]
-  public class Entry : IUserObject
+  [Table("items")]
+  public class MoneyItem : UserMoneyObject
   {
 
     /// <summary>
     /// Уникальный идентификатор записи.
     /// </summary>
-    [Column("id_entries", SqlDbType.Int, ColumnFlags.PrimaryKey | ColumnFlags.Identity)]
+    [Column("id_items", SqlDbType.Int, ColumnFlags.PrimaryKey | ColumnFlags.Identity)]
     public int Id { get; set; }
 
     /// <summary>

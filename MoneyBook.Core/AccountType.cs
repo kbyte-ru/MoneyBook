@@ -14,7 +14,7 @@ namespace MoneyBook.Core
   /// </summary>
   [Serializable]
   [Table("account_types")]
-  public class AccountType : IUserObject
+  public class AccountType : UserMoneyObject
   {
 
     /// <summary>

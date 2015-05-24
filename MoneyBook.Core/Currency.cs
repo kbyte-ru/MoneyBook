@@ -14,7 +14,7 @@ namespace MoneyBook.Core
   /// </summary>
   [Serializable]
   [Table("currencies")]
-  public class Currency : IUserObject
+  public class Currency : UserMoneyObject
   {
 
     /// <summary>

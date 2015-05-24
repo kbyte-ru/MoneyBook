@@ -47,8 +47,8 @@ CREATE TABLE [currencies] (
 GO
 ALTER TABLE [currencies] ADD CONSTRAINT [PK_currencies] PRIMARY KEY ([id_currencies]);
 GO
-CREATE TABLE [entries] (
-  [id_entries] int IDENTITY (1,1) NOT NULL, 
+CREATE TABLE [items] (
+  [id_items] int IDENTITY (1,1) NOT NULL, 
 	[id_categories] int NOT NULL, 
 	[id_accounts] int NOT NULL, 
 	[id_icons] int DEFAULT(0) NOT NULL, 
@@ -61,7 +61,7 @@ CREATE TABLE [entries] (
 	[date_created] datetime NOT NULL
 );
 GO
-ALTER TABLE [entries] ADD CONSTRAINT [PK_entries] PRIMARY KEY ([id_entries]);
+ALTER TABLE [items] ADD CONSTRAINT [PK_items] PRIMARY KEY ([id_items]);
 GO
 CREATE TABLE [icons] (
   [id_icons] int IDENTITY (1,1) NOT NULL, 

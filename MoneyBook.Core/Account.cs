@@ -14,7 +14,7 @@ namespace MoneyBook.Core
   /// </summary>
   [Serializable]
   [Table("accounts")]
-  public class Account: IUserObject
+  public class Account: UserMoneyObject
   {
 
     /// <summary>
@@ -84,7 +84,7 @@ namespace MoneyBook.Core
     {
       return String.Format("{0} (id: {1})", this.Name, this.Id);
     }
-
+   
   }
 
 }

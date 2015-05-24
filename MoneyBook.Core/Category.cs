@@ -15,7 +15,7 @@ namespace MoneyBook.Core
   /// </summary>
   [Serializable]
   [Table("categories")]
-  public class Category : IUserObject
+  public class Category : UserMoneyObject
   {
 
     /// <summary>

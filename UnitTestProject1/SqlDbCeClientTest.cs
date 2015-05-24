@@ -54,9 +54,10 @@ namespace UnitTestProject1
         a.Name = "проверка";
         for (int i = 1; i <= 10; i++)
         {
-          client.SaveEntity<Account>(a);
-          Console.WriteLine("Id: {0}", a.Id);
+          client.SaveEntities<Account>(a);
+          Console.WriteLine("Id: {0} => {1}", a.Id, a.Status);
           Assert.AreEqual(a.Id, i);
+          Assert.IsTrue(a.Status == EntityStatus.Created);
           a.Id = 0;
         }
         
@@ -65,11 +66,13 @@ namespace UnitTestProject1
         Assert.IsTrue(aaa.Count == 10);
 
         var a2 = client.GetEntity<Account>("SELECT * FROM accounts WHERE id_accounts = 3");
+        Assert.IsTrue(a2.Status == EntityStatus.Loaded);
         a2.Name = "Тест123";
         a2.LastOperation = DateTime.Now;
-        client.SaveEntity<Account>(a2);
+        client.SaveEntities<Account>(a2);
         Assert.AreEqual(a2.Name, "Тест123");
         Assert.AreEqual(a2.Id, 3);
+        Assert.IsTrue(a2.Status == EntityStatus.Updated);
 
         a2 = client.GetEntity<Account>("SELECT * FROM accounts WHERE id_accounts = 3");
         Assert.AreEqual(a2.Name, "Тест123");
@@ -78,6 +81,9 @@ namespace UnitTestProject1
         a2 = client.GetEntity<Account>("SELECT * FROM accounts WHERE id_accounts = 4");
         Assert.AreNotEqual(a2.Name, "Тест123");
         Assert.AreNotEqual(a2.Id, 3);
+
+        a2 = client.GetEntity<Account>("SELECT * FROM accounts WHERE id_accounts = 123");
+        Assert.IsTrue(a2 == null);
       }
     }
 

@@ -16,7 +16,7 @@ namespace MoneyBook.Core
   /// </summary>
   [Serializable]
   [Table("icons")]
-  public class Icon : IUserObject
+  public class Icon : UserMoneyObject
   {
 
     /// <summary>

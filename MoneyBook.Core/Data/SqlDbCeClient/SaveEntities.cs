@@ -32,7 +32,7 @@ namespace MoneyBook.Core.Data
     /// </summary>
     /// <param name="entities">Список экземпляров сущностей, которые следует сохранить в базу.</param>
     /// <typeparam name="T">Тип сущности.</typeparam>
-    public List<T> SaveEntities<T>(List<T> entities)
+    public List<T> SaveEntities<T>(List<T> entities) where T : IEntity
     {
       if (entities == null)
       {
@@ -53,6 +53,15 @@ namespace MoneyBook.Core.Data
       return entities;
     }
 
+    /// <summary>
+    /// Выполняет запись указанной сущности в базу данных.
+    /// </summary>
+    /// <param name="entity">Экземпляр сущности, которую следует сохранить в базу.</param>
+    /// <typeparam name="T">Тип сущности.</typeparam>
+    public T SaveEntities<T>(T entity) where T : IEntity
+    {
+      return this.SaveEntityInstanceToDatabase<T>(entity);
+    }
 
   }
 

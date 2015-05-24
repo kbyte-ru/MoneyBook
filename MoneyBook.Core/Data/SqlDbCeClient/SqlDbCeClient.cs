@@ -230,9 +230,18 @@ namespace MoneyBook.Core.Data
     /// <summary>
     /// Создает экземпляр сущности указанного типа и наполняет указанными данными.
     /// </summary>
-    private T CreateEntityInstance<T>(DataRow row)
+    private T CreateEntityInstance<T>(DataRow row) where T : IEntity
     {
       var item = (T)Activator.CreateInstance(typeof(T));
+
+      if (row == null)
+      {
+        if (item.GetType().IsSubclassOf(typeof(Entity)))
+        {
+          item.GetType().GetProperty("Status").SetValue(item, EntityStatus.NotFound, null);
+        }
+        return item;
+      }
 
       var properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
       foreach (PropertyInfo p in properties)
@@ -300,6 +309,11 @@ namespace MoneyBook.Core.Data
         }
       }
 
+      if (item.GetType().IsSubclassOf(typeof(Entity)))
+      {
+        item.GetType().GetProperty("Status").SetValue(item, EntityStatus.Loaded, null);
+      }
+
       return item;
     }
 
@@ -308,7 +322,7 @@ namespace MoneyBook.Core.Data
     /// </summary>
     /// <typeparam name="T">Тип сущности.</typeparam>
     /// <param name="entity">Экземпляр сущности.</param>
-    private T SaveEntityInstanceToDatabase<T>(T entity)
+    private T SaveEntityInstanceToDatabase<T>(T entity) where T : IEntity
     {
       if (entity == null)
       {
@@ -452,6 +466,11 @@ namespace MoneyBook.Core.Data
         // есть запись, выполняем обновление
         this.CommandText = String.Format("UPDATE {0} SET {1} WHERE {2}", this.EscapeSqlObject(tableName), queryUpdateValues, queryWhere);
         this.ExecuteNonQuery();
+
+        if (t.IsSubclassOf(typeof(Entity)))
+        {
+          t.GetProperty("Status").SetValue(entity, EntityStatus.Updated, null);
+        }
       }
       else
       {
@@ -483,6 +502,11 @@ namespace MoneyBook.Core.Data
         {
           this.Disconnect();
         }
+
+        if (t.IsSubclassOf(typeof(Entity)))
+        {
+          t.GetProperty("Status").SetValue(entity, EntityStatus.Created, null);
+        }
       }
 
       return entity;
@@ -493,7 +517,7 @@ namespace MoneyBook.Core.Data
     /// </summary>
     /// <typeparam name="T">Тип сущности.</typeparam>
     /// <param name="entity">Экземпляр сущности.</param>
-    private int DeleteEntityFromDatabase<T>(T entity)
+    private int DeleteEntityFromDatabase(IEntity entity)
     {
       if (entity == null)
       {
@@ -533,6 +557,8 @@ namespace MoneyBook.Core.Data
         }
       }
 
+      int result = 0;
+
       if (pka == null)
       { 
         //нет ключевого поля, удаляем по уникальным
@@ -542,7 +568,8 @@ namespace MoneyBook.Core.Data
         if (this.Parameters.Count > 0)
         {
           this.CommandText = String.Format("DELETE FROM {0} WHERE " + this.CommandText, this.EscapeSqlObject(tableName));
-          return Convert.ToInt32(this.ExecuteNonQuery());
+
+          result = Convert.ToInt32(this.ExecuteNonQuery());
         }
         else
         { 
@@ -555,9 +582,16 @@ namespace MoneyBook.Core.Data
         // есть ключевое поле
         this.CommandText = String.Format("DELETE FROM {0} WHERE {1} = @{2}", this.EscapeSqlObject(tableName), this.EscapeSqlObject(pka.ColumnName), pka.ColumnName);
         this.Parameters.Add(pka.GetSqlParameter()).Value = primaryKey.GetValue(entity, null);
-
-        return Convert.ToInt32(this.ExecuteNonQuery());
+        
+        result = Convert.ToInt32(this.ExecuteNonQuery());
       }
+
+      if (entity.GetType().IsSubclassOf(typeof(Entity)))
+      {
+        ((Entity)entity).Status = EntityStatus.Deleted;
+      }
+
+      return result;
     }
 
     /// <summary>
