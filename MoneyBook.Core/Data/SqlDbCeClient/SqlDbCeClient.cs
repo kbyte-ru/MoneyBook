@@ -31,6 +31,20 @@ namespace MoneyBook.Core.Data
   internal partial class SqlDbCeClient : IDisposable
   {
 
+    #region ..события..
+
+    /// <summary>
+    /// Возникает при изменении процесса выполнения запроса.
+    /// </summary>
+    public event EventHandler QueryProcessing;
+
+    protected virtual void OnQueryProcessing(QueryProcessingEventArgs e)
+    {
+      if (this.QueryProcessing == null) { return; }
+      this.QueryProcessing(this, e);
+    }
+
+    #endregion
     #region ..свойства..
 
     private SqlCeConnection _Conn = null;
@@ -196,6 +210,8 @@ namespace MoneyBook.Core.Data
     /// <seealso cref="Disconnect"/>
     public void Connect()
     {
+      this.OnQueryProcessing(new QueryProcessingEventArgs(QueryProcessingState.Connecting));
+
       if (_Conn == null)
       {
         _Conn = new SqlCeConnection(this.ConnectionString);
@@ -204,6 +220,8 @@ namespace MoneyBook.Core.Data
       {
         _Conn.Open();
       }
+      
+      this.OnQueryProcessing(new QueryProcessingEventArgs(QueryProcessingState.Connected));
     }
 
     /// <summary>
@@ -220,10 +238,11 @@ namespace MoneyBook.Core.Data
     /// <seealso cref="Connect"/>
     public void Disconnect()
     {
-      if (_Conn == null) return;
-      if (_Conn.State == ConnectionState.Open || _Conn.State == ConnectionState.Connecting || _Conn.State == ConnectionState.Executing || _Conn.State == ConnectionState.Fetching)
+      if (_Conn != null && (_Conn.State == ConnectionState.Open || _Conn.State == ConnectionState.Connecting || _Conn.State == ConnectionState.Executing || _Conn.State == ConnectionState.Fetching))
       {
         _Conn.Close();
+
+        this.OnQueryProcessing(new QueryProcessingEventArgs(QueryProcessingState.Disconnected));
       }
     }
 
@@ -656,6 +675,7 @@ namespace MoneyBook.Core.Data
       {
         throw new ArgumentNullException("cmd");  
       }
+
       // проверка и нормализация текста запроса
       if (!String.IsNullOrEmpty(cmd.CommandText))
       {
@@ -700,13 +720,18 @@ namespace MoneyBook.Core.Data
 
       try
       {
+        this.OnQueryProcessing(new QueryProcessingEventArgs(QueryProcessingState.Executing));
+
         cmd.Connection = _Conn;
         var DA = new SqlCeDataAdapter(cmd);
         DA.Fill(DS);
+
+        this.OnQueryProcessing(new QueryProcessingEventArgs(QueryProcessingState.Executed));
       }
       catch (Exception ex)
       {
         ex2 = ex;
+        this.OnQueryProcessing(new QueryProcessingEventArgs(ex));
       }
       finally
       {

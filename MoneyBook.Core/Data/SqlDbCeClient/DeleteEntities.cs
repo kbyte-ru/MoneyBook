@@ -42,10 +42,16 @@ namespace MoneyBook.Core.Data
       int result = 0;
       DateTime timePoint = DateTime.Now;
 
+      var processingArgs = new QueryProcessingEventArgs(QueryProcessingState.ItemProcessed, entities.Count);
+
       // выполняем сохранение каждой записи
-      foreach (var item in entities)
+      for (int i = 0; i < entities.Count; i++)
       {
-        result += this.DeleteEntityFromDatabase(item);
+        result += this.DeleteEntityFromDatabase(entities[i]);
+        // вызываем событие изменения процесса выполнения запроса
+        processingArgs.ItemPosition = i + 1;
+        processingArgs.Item = entities[i];
+        this.OnQueryProcessing(processingArgs);
       }
 
       // время

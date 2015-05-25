@@ -64,11 +64,18 @@ namespace MoneyBook.Core.Data
       // формируем результат
       var result = new List<T>();
 
+      var processingArgs = new QueryProcessingEventArgs(QueryProcessingState.ItemProcessed, data.Tables.Count);
+      
       if (data.Tables.Count > 0)
       {
-        foreach (DataRow row in data.Tables[0].Rows)
+        for (int i = 0; i < data.Tables[0].Rows.Count; i++)
         {
-          result.Add(this.CreateEntityInstance<T>(row));
+          var entity = this.CreateEntityInstance<T>(data.Tables[0].Rows[i]);
+          result.Add(entity);
+          // вызываем событие изменения процесса выполнения запроса
+          processingArgs.ItemPosition = i + 1;
+          processingArgs.Item = entity;
+          this.OnQueryProcessing(processingArgs);
         }
       }
 

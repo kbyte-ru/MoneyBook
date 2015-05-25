@@ -214,7 +214,7 @@ namespace MoneyBook.Core
     /// <param name="page">Номер страницы, для которой следует получить записи. Начиная с 1.</param>
     /// <param name="maxDataPerPage">Максимальное число записей на одной странице. Минус один (по умолчанию) - все записи, без разбивки на страницы.</param>
     /// <param name="type">Типы записей, которые селдует получить. По умолчанию - записи любого типа.</param>
-    public MoneyItems GetMoneyItems(EntryType type = EntryType.None, int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = -1)
+    public MoneyItems GetMoneyItems(EntryType type = EntryType.None, int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = -1) // MoneyLoadProgressCallback callback = null
     {
       if (page <= 0) { page = 1; }
       page--;
@@ -297,6 +297,11 @@ namespace MoneyBook.Core
         // определяем число записей
         client.CommandText = "SELECT COUNT([id_items]) FROM [items]" + w;
         result.TotalRecords = Convert.ToInt32(client.ExecuteScalar());
+
+        /*if (callback != null)
+        {
+          callback(this, new MoneyLoadEventArgs());
+        }*/
 
         if (result.TotalRecords <= 0)
         {

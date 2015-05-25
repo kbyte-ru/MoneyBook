@@ -168,12 +168,17 @@ namespace MoneyBook.Core.Data
 
       try
       {
+        this.OnQueryProcessing(new QueryProcessingEventArgs(QueryProcessingState.Executing));
+
         cmd.Connection = _Conn;
         result = cmd.ExecuteNonQuery();
+
+        this.OnQueryProcessing(new QueryProcessingEventArgs(QueryProcessingState.Executed));
       }
       catch (Exception ex)
       {
         ex2 = ex;
+        this.OnQueryProcessing(new QueryProcessingEventArgs(ex));
       }
       finally
       {

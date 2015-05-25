@@ -41,10 +41,16 @@ namespace MoneyBook.Core.Data
 
       DateTime timePoint = DateTime.Now;
 
+      var processingArgs = new QueryProcessingEventArgs(QueryProcessingState.ItemProcessed, entities.Count);
+
       // выполняем сохранение каждой записи
-      foreach (var item in entities)
+      for (int i = 0; i < entities.Count; i++)
       {
-        this.SaveEntityInstanceToDatabase<T>(item);
+        this.SaveEntityInstanceToDatabase<T>(entities[i]);
+        // вызываем событие изменения процесса выполнения запроса
+        processingArgs.ItemPosition = i + 1;
+        processingArgs.Item = entities[i];
+        this.OnQueryProcessing(processingArgs);
       }
 
       // время
