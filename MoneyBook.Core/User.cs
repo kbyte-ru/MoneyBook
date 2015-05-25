@@ -331,12 +331,12 @@ namespace MoneyBook.Core
       // обновляем строку соединения
       this.ConnectionString = String.Format("Data Source={0}; password={1}", filePath, newPassword);
     }
-
+    
     /// <summary>
     /// Сохраняет указанные объекты (счет, категория, запись) в базе данных.
     /// </summary>
     /// <param name="entities">Список объектов, которые необходимо сохранить.</param>
-    public void Save(List<UserMoneyObject> entities)
+    public void Save<T>(List<T> entities) where T : UserMoneyObject
     {
       if (entities == null)
       {
@@ -358,7 +358,7 @@ namespace MoneyBook.Core
     /// Сохраняет указанный объект (счет, категория, запись) в базе данных.
     /// </summary>
     /// <param name="entity">Объект, который необходимо сохранить.</param>
-    public void Save(UserMoneyObject entity)
+    public void Save<T>(T entity) where T : UserMoneyObject
     {
       if (entity == null)
       {
@@ -417,7 +417,7 @@ namespace MoneyBook.Core
     /// Удаляет указанные объекты (счет, категория, запись) из базы данных.
     /// </summary>
     /// <param name="entities">Список объектов, которые необходимо удалить.</param>
-    public int Delete(List<UserMoneyObject> entities)
+    public int Delete<T>(List<T> entities) where T : UserMoneyObject
     {
       if (entities == null)
       {
@@ -443,7 +443,7 @@ namespace MoneyBook.Core
     /// Удаляет указанный объект (счет, категория, запись) из базы данных.
     /// </summary>
     /// <param name="entity">Объект, который необходимо удалить.</param>
-    public int Delete(UserMoneyObject entity)
+    public int Delete<T>(T entity) where T : UserMoneyObject
     {
       if (entity == null)
       {

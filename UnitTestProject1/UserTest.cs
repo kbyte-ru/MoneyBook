@@ -23,7 +23,7 @@ namespace UnitTestProject1
       var account = new Account();
       account.Name = "Проверочный счет";
 
-      u.Save((UserMoneyObject)account);
+      u.Save(account);
       
       Assert.AreEqual(account.Id, 1);
 
@@ -172,24 +172,24 @@ namespace UnitTestProject1
       cat.FontStyle = FontStyle.Bold;
       u.Save(cat);
 
-      var entries = new List<UserMoneyObject>();
+      var items = new List<MoneyItem>();
       var rnd = new Random(DateTime.Now.Millisecond);
       var date = DateTime.Now;
       for (int i = 1; i <= 100; i++)
       {
-        var entry = new MoneyItem();
-        entry.AccountId = account.Id;
-        entry.Amount = rnd.Next(1000, Int32.MaxValue);
-        entry.EntryType = EntryType.Income;
-        entry.CategoryId = cat.Id;
-        entry.DateEntry = date;
-        entry.DateCreated = date;
-        entry.Description = "Вот такой вот доход!";
-        entry.Title = String.Format("Запись #{0}", i);
-        entries.Add(entry);
+        var item = new MoneyItem();
+        item.AccountId = account.Id;
+        item.Amount = rnd.Next(1000, Int32.MaxValue);
+        item.EntryType = EntryType.Income;
+        item.CategoryId = cat.Id;
+        item.DateEntry = date;
+        item.DateCreated = date;
+        item.Description = "Вот такой вот доход!";
+        item.Title = String.Format("Запись #{0}", i);
+        items.Add(item);
       }
 
-      u.Save(entries);
+      u.Save(items);
 
       for (int i = 1; i < 10; i++)
       {
@@ -201,10 +201,10 @@ namespace UnitTestProject1
       var list2 = u.GetMoneyItems(search: "Запись #50");
       Assert.IsTrue(list2.Count == 1);
 
-      u.Delete(entries);
+      u.Delete(items);
 
       // выборка по датам
-      entries = new List<UserMoneyObject>();
+      items = new List<MoneyItem>();
       for (int i = -5; i <= 5; i++)
       {
         var entry = new MoneyItem();
@@ -215,9 +215,9 @@ namespace UnitTestProject1
         entry.DateEntry = DateTime.Now.AddDays(i);
         entry.Description = "Вот такой вот доход!";
         entry.Title = String.Format("Запись #{0}", i);
-        entries.Add(entry);
+        items.Add(entry);
       }
-      u.Save(entries);
+      u.Save(items);
 
       // выше от текущей даты
       list2 = u.GetMoneyItems(dateFrom: DateTime.Now);
