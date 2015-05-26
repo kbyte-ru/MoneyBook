@@ -1,4 +1,4 @@
-﻿namespace MoneyBook
+﻿namespace MoneyBook.WinApp
 {
   partial class Main
   {
