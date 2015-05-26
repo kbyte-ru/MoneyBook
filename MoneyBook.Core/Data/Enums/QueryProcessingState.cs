@@ -11,6 +11,9 @@ namespace MoneyBook.Core.Data
   /// </summary>
   public enum QueryProcessingState
   {
+    /// <summary>
+    /// Обработка еще не проводилась.
+    /// </summary>
     Empty,
     /// <summary>
     /// Подключение к базе.
@@ -20,8 +23,6 @@ namespace MoneyBook.Core.Data
     /// Соединение с базой данных установлено.
     /// </summary>
     Connected,
-    //QueryValidation,
-    //QueryValidated,
     /// <summary>
     /// Запрос обрабатывается.
     /// </summary>
@@ -31,9 +32,9 @@ namespace MoneyBook.Core.Data
     /// </summary>
     Executed,
     /// <summary>
-    /// Обработан отдельный элемент.
+    /// Обработка отдельного элемента.
     /// </summary>
-    ItemProcessed,
+    ItemProcessing,
     //Disconnection,
     /// <summary>
     /// Соединение с базой закрыто.

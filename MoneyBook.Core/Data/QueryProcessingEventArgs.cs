@@ -6,7 +6,7 @@ using System.Text;
 namespace MoneyBook.Core.Data
 {
 
-  internal class QueryProcessingEventArgs : EventArgs
+  public class QueryProcessingEventArgs : EventArgs
   {
 
     /// <summary>
@@ -51,7 +51,7 @@ namespace MoneyBook.Core.Data
 
     internal QueryProcessingEventArgs(QueryProcessingState status, int totalItems)
     {
-      this.Status = QueryProcessingState.ItemProcessed;
+      this.Status = QueryProcessingState.ItemProcessing;
       this.TotalItems = totalItems;
     }
 

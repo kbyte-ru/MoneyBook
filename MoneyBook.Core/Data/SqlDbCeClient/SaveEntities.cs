@@ -24,7 +24,7 @@ namespace MoneyBook.Core.Data
   /// </summary>
   /// <remarks>
   /// <para>Это упрощенная версия класса для полноценного SQL Server из проекта Nemiro.Data v2.0</para>
-  internal partial class SqlDbCeClient : IDisposable
+  public partial class SqlDbCeClient : IDisposable
   {
 
     /// <summary>
@@ -41,16 +41,17 @@ namespace MoneyBook.Core.Data
 
       DateTime timePoint = DateTime.Now;
 
-      var processingArgs = new QueryProcessingEventArgs(QueryProcessingState.ItemProcessed, entities.Count);
+      var processingArgs = new QueryProcessingEventArgs(QueryProcessingState.ItemProcessing, entities.Count);
 
       // выполняем сохранение каждой записи
       for (int i = 0; i < entities.Count; i++)
       {
-        this.SaveEntityInstanceToDatabase<T>(entities[i]);
         // вызываем событие изменения процесса выполнения запроса
         processingArgs.ItemPosition = i + 1;
         processingArgs.Item = entities[i];
         this.OnQueryProcessing(processingArgs);
+        // сохраняем объект
+        this.SaveEntityInstanceToDatabase<T>(entities[i]);
       }
 
       // время

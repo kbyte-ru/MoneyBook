@@ -23,7 +23,7 @@ namespace MoneyBook.Core.Data.Enums
   /// <summary>
   /// Список динамических значений по умолчанию, для передачи в базу.
   /// </summary>
-  internal enum DefaultValues
+  public enum DefaultValues
   {
     /// <summary>
     /// Текущее дата и время.

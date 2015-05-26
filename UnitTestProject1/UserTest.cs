@@ -144,7 +144,7 @@ namespace UnitTestProject1
     }
 
     [TestMethod]
-    public void EntriesTest()
+    public void ItemsTest()
     {
       User.Kill(App.CurrentPath, "entries");
 

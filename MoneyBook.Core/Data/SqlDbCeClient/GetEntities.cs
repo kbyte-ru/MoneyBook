@@ -26,7 +26,7 @@ namespace MoneyBook.Core.Data
   /// </summary>
   /// <remarks>
   /// <para>Это упрощенная версия класса для полноценного SQL Server из проекта Nemiro.Data v2.0</para>
-  internal partial class SqlDbCeClient : IDisposable
+  public partial class SqlDbCeClient : IDisposable
   {
     
     /// <summary>
@@ -64,7 +64,7 @@ namespace MoneyBook.Core.Data
       // формируем результат
       var result = new List<T>();
 
-      var processingArgs = new QueryProcessingEventArgs(QueryProcessingState.ItemProcessed, data.Tables.Count);
+      var processingArgs = new QueryProcessingEventArgs(QueryProcessingState.ItemProcessing, data.Tables.Count);
       
       if (data.Tables.Count > 0)
       {

@@ -23,7 +23,7 @@ namespace MoneyBook.Core.Data.Enums
   /// <summary>
   /// Режим подключения к базе данных.
   /// </summary>
-  internal enum ConnectionMode
+  public enum ConnectionMode
   {
     /// <summary>
     /// Автоматически открывать и закрывать соединение с базой (рекомендуется). Используется по умолчанию.

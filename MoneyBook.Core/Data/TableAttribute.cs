@@ -30,7 +30,7 @@ namespace MoneyBook.Core.Data
   /// Атрибут указывает, что класс реализует таблицу базы данных.
   /// </summary>
   [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-  internal class TableAttribute : Attribute
+  public class TableAttribute : Attribute
   {
 
     private string _TableName = String.Empty;

@@ -17,7 +17,15 @@ namespace MoneyBook.Core
   public class MoneyLoadEventArgs : EventArgs
   {
 
-    //public int TotalRecords
+    /// <summary>
+    /// Всего элементов.
+    /// </summary>
+    public int TotalItems { get; internal set; }
+
+    /// <summary>
+    /// Позизия обработанного элемента.
+    /// </summary>
+    public int ItemPosition { get; internal set; }
 
   }
 
