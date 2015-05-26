@@ -214,7 +214,7 @@ namespace MoneyBook.Core
     /// <param name="page">Номер страницы, для которой следует получить записи. Начиная с 1.</param>
     /// <param name="maxDataPerPage">Максимальное число записей на одной странице. Минус один (по умолчанию) - все записи, без разбивки на страницы.</param>
     /// <param name="type">Типы записей, которые селдует получить. По умолчанию - записи любого типа.</param>
-    public MoneyItems GetMoneyItems(EntryType type = EntryType.None, int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = -1, MoneyLoadProgressCallback callback = null)
+    public MoneyItems GetMoneyItems(EntryType type = EntryType.None, int accountId = 0, int categoryId = 0, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? amountFrom = null, decimal? amountTo = null, string search = null, int page = 1, int maxDataPerPage = -1)//MoneyLoadProgressCallback callback = null
     {
       if (page <= 0) { page = 1; }
       page--;
@@ -225,7 +225,7 @@ namespace MoneyBook.Core
       
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
-        if (callback != null)
+        /*if (callback != null)
         {
           var margs = new MoneyLoadEventArgs();
           client.QueryProcessing += (sender, e) =>
@@ -235,7 +235,7 @@ namespace MoneyBook.Core
             margs.ItemPosition = args.ItemPosition;
             callback(this, margs);
           };
-        }
+        }*/
 
         // формируем условия выборки
         string w = "";

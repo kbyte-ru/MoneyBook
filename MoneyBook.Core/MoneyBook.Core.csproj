@@ -60,7 +60,6 @@
     <Compile Include="Data\Enums\QueryProcessingState.cs" />
     <Compile Include="Data\IEntity.cs" />
     <Compile Include="Data\QueryProcessingEventArgs.cs" />
-    <Compile Include="MoneyLoadProgressCallback.cs" />
     <Compile Include="Enums\ApplicationType.cs" />
     <Compile Include="Enums\EntryType.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
