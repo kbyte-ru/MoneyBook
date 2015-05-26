@@ -75,6 +75,7 @@
     <Compile Include="Data\SqlDbCeClient\SaveEntities.cs" />
     <Compile Include="Data\SqlType.cs" />
     <Compile Include="Data\TableAttribute.cs" />
+    <Compile Include="InfoItem.cs" />
     <Compile Include="MoneyItems.cs" />
     <Compile Include="MoneyItem.cs" />
     <Compile Include="Data\SqlDbCeClient\SqlDbCeClient.cs" />

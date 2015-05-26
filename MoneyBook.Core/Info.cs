@@ -158,6 +158,19 @@ namespace MoneyBook.Core
       }
     }
 
+    /// <summary>
+    /// Возвращает все записи.
+    /// </summary>
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public List<InfoItem> GetAllInfo()
+    {
+      using (var client = new SqlDbCeClient(this.CurrentUser.ConnectionString))
+      {
+        client.CommandText = "SELECT * FROM [info]";
+        return client.GetEntities<InfoItem>();
+      }
+    }
+
     #endregion
 
   }
