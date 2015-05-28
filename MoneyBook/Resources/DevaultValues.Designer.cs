@@ -144,14 +144,13 @@ namespace MoneyBook.WinApp.Resources {
         ///Услуги связи|#000000|#caeeff|item_еxpense
         ///Транспортные расходы|#000000|#ccffcc|item_еxpense
         ///Продукты питания|#000000|#f1d6c0|item_еxpense
-        ///Покупки|#000000|#fce7cf|item_еxpense
+        ///Компьютер и комлектующие|#000000|#fce7cf|item_еxpense
+        ///ТВ-, видео-, аудио- техника|#000000|#fce7cf|item_еxpense
+        ///Бытовые приборы, кухонная техника|#000000|#ffffff|item_еxpense
+        ///Мебель|#000000|#ffffff|item_еxpense
         ///Недвижимость|#000000|#e8e8e8|item_еxpense
         ///Коммунальные платежи|#000000|#e4cbcb|item_еxpense
-        ///Образование|#000000|#c4ffff|item_еxpense
-        ///Красота и здоровье|#000000|#ffe1f0|item_еxpense
-        ///Долги/Кредиты|#000000|#ecd9ff|item_еxpense
-        ///Развлечения|#000000|#ffcc99|item_еxpense
-        ///Благотворительн [остаток строки не уместился]&quot;;.
+        ///Образование|#000 [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string Expenses {
             get {
