@@ -19,6 +19,13 @@ namespace MoneyBook.WinApp
 
     private void Main_Load(object sender, EventArgs e)
     {
+      var table = new DataTable();
+      table.Columns.Add("123");
+      table.Columns.Add("test");
+      table.Columns.Add("test-test");
+      table.Rows.Add("123", "123", "123");
+      table.Rows.Add("123", "123", "123");
+      DataGridView1.DataSource = table;
     }
 
     private void button1_Click(object sender, EventArgs e)
