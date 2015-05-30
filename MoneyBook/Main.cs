@@ -61,7 +61,7 @@ namespace MoneyBook.WinApp
       cat.CategoryType = EntryType.Income;
       cat.FontStyle = FontStyle.Bold;
       Program.CurrentUser.Save(cat);
-
+      
       var cat2 = new Category();
       cat2.Name = "Откаты";
       cat2.CategoryType = EntryType.Income;
@@ -77,6 +77,11 @@ namespace MoneyBook.WinApp
       cat2.ParentId = cat.Id;
       Program.CurrentUser.Save(cat2);
 
+      cat = new Category();
+      cat.Name = "Поземный ход";
+      cat.CategoryType = EntryType.Income;
+      Program.CurrentUser.Save(cat);
+
       cat2 = new Category();
       cat2.Name = "Зубокаты";
       cat2.CategoryType = EntryType.Income;
@@ -89,6 +94,11 @@ namespace MoneyBook.WinApp
       cat2.CategoryType = EntryType.Income;
       cat2.ParentId = cat.Id;
       Program.CurrentUser.Save(cat2);
+
+      cat = new Category();
+      cat.Name = "Оранжевый бегемот";
+      cat.CategoryType = EntryType.Income;
+      Program.CurrentUser.Save(cat);
 
       cat2 = new Category();
       cat2.Name = "Цукаты";

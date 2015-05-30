@@ -78,10 +78,10 @@
       this.Accounts = new System.Windows.Forms.ToolStripComboBox();
       this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-      this.MoneyItems = new System.Windows.Forms.ToolStripComboBox();
+      this.Categories = new System.Windows.Forms.ToolStripComboBox();
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
-      this.Categories = new System.Windows.Forms.ToolStripComboBox();
+      this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
       this.StatusStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
       this.ToolStrip3.SuspendLayout();
@@ -473,10 +473,10 @@
             this.Accounts,
             this.ToolStripSeparator2,
             this.ToolStripLabel2,
-            this.MoneyItems,
+            this.Categories,
             this.ToolStripSeparator3,
             this.ToolStripLabel13,
-            this.Categories});
+            this.Subcategories});
       this.ToolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
       this.ToolStrip1.Location = new System.Drawing.Point(0, 0);
       this.ToolStrip1.Name = "ToolStrip1";
@@ -510,13 +510,14 @@
       this.ToolStripLabel2.Size = new System.Drawing.Size(46, 22);
       this.ToolStripLabel2.Text = "Статья:";
       // 
-      // MoneyItems
+      // Categories
       // 
-      this.MoneyItems.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.MoneyItems.Items.AddRange(new object[] {
+      this.Categories.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.Categories.Items.AddRange(new object[] {
             "<Все>"});
-      this.MoneyItems.Name = "MoneyItems";
-      this.MoneyItems.Size = new System.Drawing.Size(150, 25);
+      this.Categories.Name = "Categories";
+      this.Categories.Size = new System.Drawing.Size(150, 25);
+      this.Categories.SelectedIndexChanged += new System.EventHandler(this.Categories_SelectedIndexChanged);
       // 
       // ToolStripSeparator3
       // 
@@ -529,13 +530,13 @@
       this.ToolStripLabel13.Size = new System.Drawing.Size(66, 22);
       this.ToolStripLabel13.Text = "Категория:";
       // 
-      // Categories
+      // Subcategories
       // 
-      this.Categories.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-      this.Categories.Items.AddRange(new object[] {
+      this.Subcategories.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.Subcategories.Items.AddRange(new object[] {
             "<Все>"});
-      this.Categories.Name = "Categories";
-      this.Categories.Size = new System.Drawing.Size(150, 25);
+      this.Subcategories.Name = "Subcategories";
+      this.Subcategories.Size = new System.Drawing.Size(150, 25);
       // 
       // MoneyHistory
       // 
@@ -578,10 +579,10 @@
     internal System.Windows.Forms.ToolStripComboBox Accounts;
     internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator2;
     internal System.Windows.Forms.ToolStripLabel ToolStripLabel2;
-    internal System.Windows.Forms.ToolStripComboBox MoneyItems;
+    internal System.Windows.Forms.ToolStripComboBox Categories;
     internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator3;
     internal System.Windows.Forms.ToolStripLabel ToolStripLabel13;
-    internal System.Windows.Forms.ToolStripComboBox Categories;
+    internal System.Windows.Forms.ToolStripComboBox Subcategories;
     internal MToolStrip ToolStrip1;
     private MToolStrip ToolStrip2;
     private System.Windows.Forms.ToolStripLabel toolStripLabel3;

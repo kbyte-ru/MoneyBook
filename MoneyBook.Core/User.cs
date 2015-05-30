@@ -257,7 +257,7 @@ namespace MoneyBook.Core
         if (categoryId > 0)
         {
           if (!String.IsNullOrEmpty(w)) { w += " AND "; }
-          w += "id_categories = @id_categories";
+          w += "(id_categories = @id_categories OR id_categories IN (SELECT id_categories FROM categories WHERE parent_id = @id_categories))";
           client.Parameters.Add("@id_categories", SqlDbType.Int).Value = categoryId;
         }
        

@@ -74,11 +74,11 @@ namespace MoneyBook.WinApp
       this.Accounts.ComboBox.ValueMember = "Id";
       this.Accounts.ComboBox.DisplayMember = "Name";
 
-      this.MoneyItems.ComboBox.ValueMember = "Id";
-      this.MoneyItems.ComboBox.DisplayMember = "Name";
-
       this.Categories.ComboBox.ValueMember = "Id";
       this.Categories.ComboBox.DisplayMember = "Name";
+
+      this.Subcategories.ComboBox.ValueMember = "Id";
+      this.Subcategories.ComboBox.DisplayMember = "Name";
 
       this.TotalAmountByCurrencies = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
     }
@@ -157,32 +157,24 @@ namespace MoneyBook.WinApp
     {
       var selectedAccountId = 0;
       var selectedMoneyItemId = 0;
-      var selectedCategoryId = 0;
 
       if (this.Accounts.SelectedItem != null)
       {
         selectedAccountId = ((Account)this.Accounts.SelectedItem).Id;
       }
 
-      if (this.MoneyItems.SelectedItem != null)
-      {
-        selectedMoneyItemId = ((Category)this.MoneyItems.SelectedItem).Id;
-      }
-
       if (this.Categories.SelectedItem != null)
       {
-        selectedCategoryId = ((Category)this.Categories.SelectedItem).Id;
+        selectedMoneyItemId = ((Category)this.Categories.SelectedItem).Id;
       }
 
       this.Accounts.Items.Clear();
-      this.MoneyItems.Items.Clear();
       this.Categories.Items.Clear();
 
       this.Accounts.Items.Add(new Account { Id = 0, Name = "<Все>" });
-      this.MoneyItems.Items.Add(new Category { Id = 0, Name = "<Все>" });
       this.Categories.Items.Add(new Category { Id = 0, Name = "<Все>" });
 
-      this.Accounts.SelectedIndex = this.MoneyItems.SelectedIndex = this.Categories.SelectedIndex = 0;
+      this.Accounts.SelectedIndex = this.Categories.SelectedIndex = 0;
 
       var u = this.User;
 
@@ -200,23 +192,16 @@ namespace MoneyBook.WinApp
 
       foreach (var item in u.Categories.Values.Where(c => c.ParentId == 0 && c.CategoryType == this.ItemsType))
       {
-        this.MoneyItems.Items.Add(item);
-
-        if (selectedMoneyItemId == item.Id)
-        {
-          this.MoneyItems.SelectedIndex = this.MoneyItems.Items.Count - 1;
-        }
-      }
-
-      foreach (var item in u.Categories.Values.Where(c => c.ParentId > 0 && c.CategoryType == this.ItemsType))
-      {
         this.Categories.Items.Add(item);
 
-        if (selectedCategoryId == item.Id)
+        if (selectedMoneyItemId == item.Id)
         {
           this.Categories.SelectedIndex = this.Categories.Items.Count - 1;
         }
       }
+
+      // список подкатегорий
+      Categories_SelectedIndexChanged(this.Categories, null);
     }
 
     /// <summary>
@@ -231,11 +216,18 @@ namespace MoneyBook.WinApp
 
       if (this.ItemsType == EntryType.None || u == null) { return; }
 
+      int categoryId = ((Category)this.Subcategories.SelectedItem).Id;
+
+      if (categoryId <= 0)
+      {
+        categoryId = ((Category)this.Categories.SelectedItem).Id;
+      }
+
       var items = u.GetMoneyItems
       (
         type: this.ItemsType,
         accountId: ((Account)this.Accounts.SelectedItem).Id,
-        categoryId: ((Category)this.Categories.SelectedItem).Id,
+        categoryId: categoryId,
         dateFrom: this.DateFrom.Value,
         dateTo: this.DateTo.Value,
         amountFrom: Convert.ToDecimal(this.AmountFrom.Text, null),
@@ -329,6 +321,47 @@ namespace MoneyBook.WinApp
       }
 
       this.UpdateLabels();
+    }
+
+    private void Categories_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      var selectedCategoryId = 0;
+
+      if (this.Subcategories.SelectedItem != null)
+      {
+        selectedCategoryId = ((Category)this.Subcategories.SelectedItem).Id;
+      }
+
+      this.Subcategories.Items.Clear();
+      this.Subcategories.Items.Add(new Category { Id = 0, Name = "<Все>" });
+      this.Subcategories.SelectedIndex = 0;
+
+      var u = this.User;
+
+      if (u == null) { return; }
+
+      IEnumerable<Category> list = null;
+      var categoryId = ((Category)this.Categories.SelectedItem).Id;
+      if (categoryId > 0)
+      {
+        // если выбрана статья, то показываем только подкатегории этой статьи
+        list = u.Categories.Values.Where(c => c.ParentId == categoryId && c.CategoryType == this.ItemsType);
+      }
+      else
+      {
+        // в противном случае, все подкатегории
+        list = u.Categories.Values.Where(c => c.ParentId > 0 && c.CategoryType == this.ItemsType);
+      }
+
+      foreach (var item in list)
+      {
+        this.Subcategories.Items.Add(item);
+
+        if (selectedCategoryId == item.Id)
+        {
+          this.Subcategories.SelectedIndex = this.Subcategories.Items.Count - 1;
+        }
+      }
     }
     
   }
