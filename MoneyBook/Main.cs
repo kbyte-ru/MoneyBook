@@ -27,8 +27,8 @@ namespace MoneyBook.WinApp
     {
       this.Test();
 
-      this.Expenses.Reload();
-      this.Incomes.Reload();
+      this.Expenses.User = Program.CurrentUser;
+      this.Incomes.User = Program.CurrentUser;
     }
 
     private void Test()

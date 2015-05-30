@@ -171,6 +171,7 @@
       this.DataGridView1.Location = new System.Drawing.Point(0, 75);
       this.DataGridView1.MultiSelect = false;
       this.DataGridView1.Name = "DataGridView1";
+      this.DataGridView1.ReadOnly = true;
       this.DataGridView1.RowHeadersWidth = 12;
       this.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       this.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -272,7 +273,7 @@
       // 
       // btnAdd
       // 
-      this.btnAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus2;
+      this.btnAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
       this.btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.btnAdd.Name = "btnAdd";
       this.btnAdd.Size = new System.Drawing.Size(79, 22);
