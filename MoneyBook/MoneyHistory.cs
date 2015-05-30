@@ -309,7 +309,7 @@ namespace MoneyBook.WinApp
         row.Cells.Add(new DataGridViewTextBoxCell { Value = item.Amount });
         row.Cells.Add(new DataGridViewTextBoxCell { Value = u.Currencies[account.CurrencyCode].ShortName });
 
-        row.Tag = item.Id; // TODO: или весь элемент
+        row.Tag = item;
 
         // стили
         row.DefaultCellStyle.BackColor = category.BackColor;
