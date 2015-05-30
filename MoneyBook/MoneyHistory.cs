@@ -59,6 +59,11 @@ namespace MoneyBook.WinApp
       }
     }
 
+    /// <summary>
+    /// Общая сумма в текущем списке.
+    /// </summary>
+    protected Dictionary<string, decimal> TotalAmountByCurrencies { get; set; }
+
     public MoneyHistory()
     {
       InitializeComponent();
@@ -74,6 +79,8 @@ namespace MoneyBook.WinApp
 
       this.Categories.ComboBox.ValueMember = "Id";
       this.Categories.ComboBox.DisplayMember = "Name";
+
+      this.TotalAmountByCurrencies = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
     }
 
     private void MoneyHistory_Load(object sender, EventArgs e)
@@ -103,9 +110,49 @@ namespace MoneyBook.WinApp
 
     private void btnFilter_Click(object sender, EventArgs e)
     {
-
+      this.ReloadItems();
     }
 
+    /// <summary>
+    /// Устанавливает надписи в соответствии с параметрами текущего списка данных.
+    /// </summary>
+    private void UpdateLabels()
+    {
+      if (this.ItemsType == EntryType.Expense)
+      {
+        this.btnAdd.Text = "Добавить расход";
+        this.StatusTitle.Text = String.Format("Расходы с {0} по {1}", this.DateFrom.Value.ToShortDateString(), this.DateTo.Value.ToShortDateString());
+      }
+      else if (this.ItemsType == EntryType.Income)
+      {
+        this.btnAdd.Text = "Добавить доход";
+        this.StatusTitle.Text = String.Format("Доходы с {0} по {1}", this.DateFrom.Value.ToShortDateString(), this.DateTo.Value.ToShortDateString());
+      }
+
+      this.TotalItems.Text = String.Format("Всего: {0}", this.DataGridView1.Rows.Count);
+
+      if (this.TotalAmountByCurrencies.Count <= 0)
+      {
+        this.TotalAmount.Text = "-";
+      }
+      else
+      {
+        this.TotalAmount.Text = "";
+        foreach (var key in this.TotalAmountByCurrencies.Keys)
+        {
+          if (!String.IsNullOrEmpty(this.TotalAmount.Text))
+          {
+            this.TotalAmount.Text += ", ";
+          }
+          this.TotalAmount.Text += this.TotalAmountByCurrencies[key].ToString("##,###,##0.00");
+          this.TotalAmount.Text += " " + this.User.Currencies[key].ShortName;
+        }
+      }
+    }
+
+    /// <summary>
+    /// Загружает и выводит в списки справочники.
+    /// </summary>
     public void ReloadDictionaries()
     {
       var selectedAccountId = 0;
@@ -172,15 +219,29 @@ namespace MoneyBook.WinApp
       }
     }
 
+    /// <summary>
+    /// Загружает из базы и выводит список записей в соответствии с параметрами фильтра.
+    /// </summary>
     public void ReloadItems()
     {
       this.DataGridView1.Rows.Clear();
+      this.TotalAmountByCurrencies.Clear();
 
       var u = this.User;
 
       if (this.ItemsType == EntryType.None || u == null) { return; }
 
-      var items = u.GetMoneyItems(this.ItemsType);
+      var items = u.GetMoneyItems
+      (
+        type: this.ItemsType,
+        accountId: ((Account)this.Accounts.SelectedItem).Id,
+        categoryId: ((Category)this.Categories.SelectedItem).Id,
+        dateFrom: this.DateFrom.Value,
+        dateTo: this.DateTo.Value,
+        amountFrom: Convert.ToDecimal(this.AmountFrom.Text, null),
+        amountTo: Convert.ToDecimal(this.AmountTo.Text, null)
+      );
+
       foreach (var item in items)
       {
         var row = new DataGridViewRow();
@@ -257,15 +318,19 @@ namespace MoneyBook.WinApp
 
         // добавляем строку
         this.DataGridView1.Rows.Add(row);
+
+        // общая сумма
+        if (!this.TotalAmountByCurrencies.ContainsKey(account.CurrencyCode))
+        {
+          this.TotalAmountByCurrencies.Add(account.CurrencyCode, 0);
+        }
+
+        this.TotalAmountByCurrencies[account.CurrencyCode] += item.Amount;
       }
-    }
 
+      this.UpdateLabels();
+    }
     
-
-    private void DataGridView1_VisibleChanged(object sender, EventArgs e)
-    {
-    }
-
   }
 
 }

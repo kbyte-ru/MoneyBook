@@ -30,6 +30,7 @@
     {
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabExpenses = new System.Windows.Forms.TabPage();
+      this.Expenses = new MoneyBook.WinApp.MoneyHistory();
       this.tabIncomes = new System.Windows.Forms.TabPage();
       this.Incomes = new MoneyBook.WinApp.MoneyHistory();
       this.tabAccounts = new System.Windows.Forms.TabPage();
@@ -41,7 +42,6 @@
       this.tabSettings = new System.Windows.Forms.TabPage();
       this.tabInfo = new System.Windows.Forms.TabPage();
       this.tabAbout = new System.Windows.Forms.TabPage();
-      this.Expenses = new MoneyBook.WinApp.MoneyHistory();
       this.tabControl1.SuspendLayout();
       this.tabExpenses.SuspendLayout();
       this.tabIncomes.SuspendLayout();
@@ -78,13 +78,24 @@
       this.tabExpenses.Text = "Расходы";
       this.tabExpenses.UseVisualStyleBackColor = true;
       // 
+      // Expenses
+      // 
+      this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
+      this.Expenses.Location = new System.Drawing.Point(3, 3);
+      this.Expenses.Name = "Expenses";
+      this.Expenses.Size = new System.Drawing.Size(656, 371);
+      this.Expenses.TabIndex = 0;
+      this.Expenses.User = null;
+      // 
       // tabIncomes
       // 
       this.tabIncomes.Controls.Add(this.Incomes);
       this.tabIncomes.Location = new System.Drawing.Point(4, 22);
       this.tabIncomes.Name = "tabIncomes";
       this.tabIncomes.Padding = new System.Windows.Forms.Padding(3);
-      this.tabIncomes.Size = new System.Drawing.Size(484, 336);
+      this.tabIncomes.Size = new System.Drawing.Size(662, 377);
       this.tabIncomes.TabIndex = 1;
       this.tabIncomes.Text = "Доходы";
       this.tabIncomes.UseVisualStyleBackColor = true;
@@ -96,15 +107,16 @@
       this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
       this.Incomes.Location = new System.Drawing.Point(3, 3);
       this.Incomes.Name = "Incomes";
-      this.Incomes.Size = new System.Drawing.Size(478, 330);
+      this.Incomes.Size = new System.Drawing.Size(656, 371);
       this.Incomes.TabIndex = 0;
+      this.Incomes.User = null;
       // 
       // tabAccounts
       // 
       this.tabAccounts.Controls.Add(this.mDataGridView1);
       this.tabAccounts.Location = new System.Drawing.Point(4, 22);
       this.tabAccounts.Name = "tabAccounts";
-      this.tabAccounts.Size = new System.Drawing.Size(484, 336);
+      this.tabAccounts.Size = new System.Drawing.Size(662, 377);
       this.tabAccounts.TabIndex = 2;
       this.tabAccounts.Text = "Счета";
       this.tabAccounts.UseVisualStyleBackColor = true;
@@ -149,7 +161,7 @@
       this.tabDictionaries.Controls.Add(this.label1);
       this.tabDictionaries.Location = new System.Drawing.Point(4, 22);
       this.tabDictionaries.Name = "tabDictionaries";
-      this.tabDictionaries.Size = new System.Drawing.Size(484, 336);
+      this.tabDictionaries.Size = new System.Drawing.Size(662, 377);
       this.tabDictionaries.TabIndex = 3;
       this.tabDictionaries.Text = "Справочники";
       this.tabDictionaries.UseVisualStyleBackColor = true;
@@ -168,7 +180,7 @@
       // 
       this.tabSettings.Location = new System.Drawing.Point(4, 22);
       this.tabSettings.Name = "tabSettings";
-      this.tabSettings.Size = new System.Drawing.Size(484, 336);
+      this.tabSettings.Size = new System.Drawing.Size(662, 377);
       this.tabSettings.TabIndex = 4;
       this.tabSettings.Text = "Параметры";
       this.tabSettings.UseVisualStyleBackColor = true;
@@ -177,7 +189,7 @@
       // 
       this.tabInfo.Location = new System.Drawing.Point(4, 22);
       this.tabInfo.Name = "tabInfo";
-      this.tabInfo.Size = new System.Drawing.Size(484, 336);
+      this.tabInfo.Size = new System.Drawing.Size(662, 377);
       this.tabInfo.TabIndex = 6;
       this.tabInfo.Text = "Info";
       this.tabInfo.UseVisualStyleBackColor = true;
@@ -186,20 +198,10 @@
       // 
       this.tabAbout.Location = new System.Drawing.Point(4, 22);
       this.tabAbout.Name = "tabAbout";
-      this.tabAbout.Size = new System.Drawing.Size(484, 336);
+      this.tabAbout.Size = new System.Drawing.Size(662, 377);
       this.tabAbout.TabIndex = 5;
       this.tabAbout.Text = "О программе...";
       this.tabAbout.UseVisualStyleBackColor = true;
-      // 
-      // Expenses
-      // 
-      this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
-      this.Expenses.Location = new System.Drawing.Point(3, 3);
-      this.Expenses.Name = "Expenses";
-      this.Expenses.Size = new System.Drawing.Size(656, 371);
-      this.Expenses.TabIndex = 0;
       // 
       // Main
       // 
@@ -207,9 +209,11 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(670, 403);
       this.Controls.Add(this.tabControl1);
+      this.DoubleBuffered = true;
       this.Name = "Main";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Main";
+      this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
       this.Load += new System.EventHandler(this.Main_Load);
       this.Shown += new System.EventHandler(this.Main_Shown);
       this.tabControl1.ResumeLayout(false);

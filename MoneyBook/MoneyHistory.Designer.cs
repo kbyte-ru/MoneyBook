@@ -31,7 +31,6 @@
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MoneyHistory));
       this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
       this.StatusTitle = new System.Windows.Forms.ToolStripStatusLabel();
       this.TotalItems = new System.Windows.Forms.ToolStripStatusLabel();
@@ -57,6 +56,16 @@
       this.ToolStrip2 = new MoneyBook.WinApp.MToolStrip();
       this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
       this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+      this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+      this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+      this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+      this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+      this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
       this.AmountFrom = new System.Windows.Forms.ToolStripTextBox();
@@ -316,6 +325,7 @@
       this.ToolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel3,
             this.toolStripLabel4,
+            this.toolStripDropDownButton1,
             this.toolStripSeparator1,
             this.toolStripLabel5,
             this.AmountFrom,
@@ -342,6 +352,76 @@
       this.toolStripLabel4.Name = "toolStripLabel4";
       this.toolStripLabel4.Size = new System.Drawing.Size(24, 22);
       this.toolStripLabel4.Text = "по:";
+      // 
+      // toolStripDropDownButton1
+      // 
+      this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripSeparator5,
+            this.toolStripMenuItem3,
+            this.toolStripSeparator6,
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5,
+            this.toolStripSeparator7,
+            this.toolStripMenuItem6});
+      this.toolStripDropDownButton1.Image = global::MoneyBook.WinApp.Properties.Resources.date_relation;
+      this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+      this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
+      this.toolStripDropDownButton1.Text = "toolStripButton1";
+      // 
+      // toolStripMenuItem1
+      // 
+      this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+      this.toolStripMenuItem1.Size = new System.Drawing.Size(192, 22);
+      this.toolStripMenuItem1.Text = "Текущий месяц";
+      // 
+      // toolStripMenuItem2
+      // 
+      this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+      this.toolStripMenuItem2.Size = new System.Drawing.Size(192, 22);
+      this.toolStripMenuItem2.Text = "Текущий год";
+      // 
+      // toolStripSeparator5
+      // 
+      this.toolStripSeparator5.Name = "toolStripSeparator5";
+      this.toolStripSeparator5.Size = new System.Drawing.Size(189, 6);
+      // 
+      // toolStripMenuItem3
+      // 
+      this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+      this.toolStripMenuItem3.Size = new System.Drawing.Size(192, 22);
+      this.toolStripMenuItem3.Text = "Месяц текущего года";
+      // 
+      // toolStripSeparator6
+      // 
+      this.toolStripSeparator6.Name = "toolStripSeparator6";
+      this.toolStripSeparator6.Size = new System.Drawing.Size(189, 6);
+      // 
+      // toolStripMenuItem4
+      // 
+      this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+      this.toolStripMenuItem4.Size = new System.Drawing.Size(192, 22);
+      this.toolStripMenuItem4.Text = "Предыдущий месяц";
+      // 
+      // toolStripMenuItem5
+      // 
+      this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+      this.toolStripMenuItem5.Size = new System.Drawing.Size(192, 22);
+      this.toolStripMenuItem5.Text = "Предыдущий год";
+      // 
+      // toolStripSeparator7
+      // 
+      this.toolStripSeparator7.Name = "toolStripSeparator7";
+      this.toolStripSeparator7.Size = new System.Drawing.Size(189, 6);
+      // 
+      // toolStripMenuItem6
+      // 
+      this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+      this.toolStripMenuItem6.Size = new System.Drawing.Size(192, 22);
+      this.toolStripMenuItem6.Text = "Весь период";
       // 
       // toolStripSeparator1
       // 
@@ -377,7 +457,7 @@
       // 
       // btnFilter
       // 
-      this.btnFilter.Image = ((System.Drawing.Image)(resources.GetObject("btnFilter.Image")));
+      this.btnFilter.Image = global::MoneyBook.WinApp.Properties.Resources.filter2;
       this.btnFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.btnFilter.Name = "btnFilter";
       this.btnFilter.Size = new System.Drawing.Size(77, 22);
@@ -530,5 +610,15 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn ItemDate;
     private System.Windows.Forms.DataGridViewTextBoxColumn ItemAmount;
     private System.Windows.Forms.DataGridViewTextBoxColumn ItemCurrency;
+    private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
   }
 }
