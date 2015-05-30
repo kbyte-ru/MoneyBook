@@ -245,12 +245,23 @@ namespace MoneyBook.Core.Data
         this.OnQueryProcessing(new QueryProcessingEventArgs(QueryProcessingState.Disconnected));
       }
     }
-
+    
     /// <summary>
     /// Создает экземпляр сущности указанного типа и наполняет указанными данными.
     /// </summary>
     private T CreateEntityInstance<T>(DataRow row) where T : IEntity
     {
+      object primaryKeyValue = null;
+      return this.CreateEntityInstance<T>(row, ref primaryKeyValue);
+    }
+
+    /// <summary>
+    /// Создает экземпляр сущности указанного типа и наполняет указанными данными.
+    /// </summary>
+    private T CreateEntityInstance<T>(DataRow row, ref object primaryKeyValue) where T : IEntity
+    {
+      primaryKeyValue = null;
+
       var entity = (T)Activator.CreateInstance(typeof(T));
 
       if (row == null)
@@ -326,6 +337,11 @@ namespace MoneyBook.Core.Data
           {
             // другой тип данных
             p.SetValue(entity, row[column.ColumnName], null);
+          }
+
+          if (column.IsPrimaryKey)
+          {
+            primaryKeyValue = row[column.ColumnName];
           }
         }
         else

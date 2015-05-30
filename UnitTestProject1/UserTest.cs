@@ -21,10 +21,11 @@ namespace UnitTestProject1
 
       var u = User.Create(ApplicationType.Desktop, App.CurrentPath, "user", "123");
       var account = new Account();
-      account.Name = "Проверочный счет";
-
-      u.Save(account);
+      account.Name = "Проверочный счет user";
       
+      Console.WriteLine("acc: {0}", u.Accounts.Count);
+      u.Save(account);
+
       Assert.AreEqual(account.Id, 1);
 
       var deleted = u.Delete(account);
@@ -41,9 +42,9 @@ namespace UnitTestProject1
 
       u.Save(category);
 
-      Assert.AreEqual(u.Categories[0].ForeColor.ToArgb(), Color.Red.ToArgb());
-      Assert.AreEqual(u.Categories[0].BackColor.ToArgb(), Color.Yellow.ToArgb());
-      Assert.AreEqual(u.Categories[0].FontStyle, FontStyle.Bold | FontStyle.Italic);
+      Assert.AreEqual(u.Categories[1].ForeColor.ToArgb(), Color.Red.ToArgb());
+      Assert.AreEqual(u.Categories[1].BackColor.ToArgb(), Color.Yellow.ToArgb());
+      Assert.AreEqual(u.Categories[1].FontStyle, FontStyle.Bold | FontStyle.Italic);
     }
 
     [TestMethod]
@@ -122,7 +123,7 @@ namespace UnitTestProject1
       u.SetPassword("test");
 
       var account = new Account();
-      account.Name = "Проверочный счет";
+      account.Name = "Проверочный счет pwd";
       u.Save(account);
 
       Assert.AreEqual(account.Id, 1);
@@ -161,7 +162,7 @@ namespace UnitTestProject1
       u.Save(accountType);
 
       var account = new Account();
-      account.Name = "Денежный счет";
+      account.Name = "Денежный счет items";
       account.AccountTypeId = accountType.Id;
       account.CurrencyCode = currency.Code;
       u.Save(account);
@@ -253,7 +254,7 @@ namespace UnitTestProject1
       u.Save(currency);
 
       // изменение по ссылке
-      u.Currencies[0].LongName = "Другая деньга";
+      u.Currencies["MNY"].LongName = "Другая деньга";
       Assert.IsTrue(currency.LongName == "Другая деньга");
 
       // новых записей не должно быть создано
@@ -267,7 +268,7 @@ namespace UnitTestProject1
       u.Save(currency2);
 
       Assert.IsTrue(u.Currencies.Count == 1);
-      Assert.IsTrue(u.Currencies[0].LongName == "Вообще другая деньга");
+      Assert.IsTrue(u.Currencies["MNY"].LongName == "Вообще другая деньга");
 
       // первая ссылка должна отвалиться
       Assert.AreNotEqual(currency.LongName, currency2.LongName);

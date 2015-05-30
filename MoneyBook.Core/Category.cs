@@ -116,6 +116,21 @@ namespace MoneyBook.Core
     [Column("date_created", SqlDbType.DateTime, Default = DefaultValues.Now)]
     public DateTime DateCreated { get; set; }
 
+    public Category()
+    {
+      this.BackColor = Color.White;
+      this.ForeColor = Color.Black;
+      this.FontStyle = System.Drawing.FontStyle.Regular;
+    }
+
+    /// <summary>
+    /// Возвращает название и идентификатор экземпляра категории.
+    /// </summary>
+    public override string ToString()
+    {
+      return String.Format("{0} (id: {1})", this.Name, this.Id);
+    }
+
   }
 
 }

@@ -59,13 +59,13 @@ namespace MoneyBook.Core
     /// </summary>
     private string Password = "";
 
-    private List<AccountType> _AccountTypes = null;
+    private Dictionary<int, AccountType> _AccountTypes = null;
 
     /// <summary>
     /// Список типов счетов пользователя.
     /// </summary>
     [ChangesMonitor]
-    public List<AccountType> AccountTypes
+    public Dictionary<int, AccountType> AccountTypes
     {
       get
       {
@@ -77,13 +77,13 @@ namespace MoneyBook.Core
       }
     }
 
-    private List<Account> _Accounts = null;
+    private Dictionary<int, Account> _Accounts = null;
 
     /// <summary>
     /// Список счетов пользователя.
     /// </summary>
     [ChangesMonitor]
-    public List<Account> Accounts
+    public Dictionary<int, Account> Accounts
     {
       get
       {
@@ -95,13 +95,13 @@ namespace MoneyBook.Core
       }
     }
 
-    private List<Category> _Categories = null;
+    private Dictionary<int, Category> _Categories = null;
 
     /// <summary>
     /// Список категорий.
     /// </summary>
     [ChangesMonitor]
-    public List<Category> Categories
+    public Dictionary<int, Category> Categories
     {
       get
       {
@@ -113,13 +113,13 @@ namespace MoneyBook.Core
       }
     }
 
-    private List<Currency> _Currencies = null;
+    private Dictionary<string, Currency> _Currencies = null;
 
     /// <summary>
     /// Список валют.
     /// </summary>
     [ChangesMonitor]
-    public List<Currency> Currencies
+    public Dictionary<string, Currency> Currencies
     {
       get
       {
@@ -390,11 +390,28 @@ namespace MoneyBook.Core
         // добавляем запись в текущий экземпляр, если есть куда
         foreach (var p in this.MonitoringPropeties)
         {
-          if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(List<>) && p.PropertyType.GetGenericArguments().First() == t)
+          if (p.PropertyType.IsGenericType)
           {
-            var list = (IList)p.GetValue(this, null);
-            list.Add(entity);
-            break;
+            if (p.PropertyType.GetGenericTypeDefinition() == typeof(List<>) && p.PropertyType.GetGenericArguments().First() == t)
+            {
+              var list = (IList)p.GetValue(this, null);
+              list.Add(entity);
+              break;
+            }
+            else if (p.PropertyType.GetGenericTypeDefinition() == typeof(Dictionary<,>) && p.PropertyType.GetGenericArguments().Any(a => a == t)) // TODO: По идее Last должно быть достаточно
+            {
+              var list = (IDictionary)p.GetValue(this, null);
+              if (!list.Contains(entity.PrimaryKeyValue))
+              {
+                list.Add(entity.PrimaryKeyValue, entity);
+              }
+              else
+              {
+                // TODO: понять, почему так происходит
+                bool todo = true;
+              }
+              break;
+            }
           }
         }
       }
@@ -418,6 +435,16 @@ namespace MoneyBook.Core
                 list[i] = entity; // меняем
                 break;
               }
+            }
+            break;
+          }
+          else if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(Dictionary<,>) && p.PropertyType.GetGenericArguments().Any(a => a == t))
+          {
+            var list = (IDictionary)p.GetValue(this, null);
+            if (list.Contains(entity.PrimaryKeyValue))
+            {
+              // нашли нужный элемент, меняем на новый
+              list[entity.PrimaryKeyValue] = entity;
             }
             break;
           }
@@ -484,6 +511,16 @@ namespace MoneyBook.Core
               list.RemoveAt(i);
               break;
             }
+          }
+          break;
+        }
+        else if (p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(Dictionary<,>) && p.PropertyType.GetGenericArguments().Any(a => a == t))
+        {
+          var list = (IDictionary)p.GetValue(this, null);
+          if (list.Contains(entity.PrimaryKeyValue))
+          {
+            // нашли нужный элемент, удаляем
+            list.Remove(entity.PrimaryKeyValue);
           }
           break;
         }
@@ -616,82 +653,48 @@ namespace MoneyBook.Core
     /// <summary>
     /// Возвращает список типов счетов.
     /// </summary>
-    private List<AccountType> GetAccountTypes()
+    private Dictionary<int, AccountType> GetAccountTypes()
     {
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
         client.CommandText = "SELECT * FROM [account_types] ORDER BY [account_type_name], [id_account_types]";
-        return client.GetEntities<AccountType>();
+        return client.GetEntities<int, AccountType>();
       }
     }
 
     /// <summary>
     /// Возвращает список счетов.
     /// </summary>
-    private List<Account> GetAccounts()
+    private Dictionary<int, Account> GetAccounts()
     {
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
         client.CommandText = "SELECT * FROM [accounts] ORDER BY [account_name], [id_accounts]";
-        return client.GetEntities<Account>();
+        return client.GetEntities<int, Account>();
       }
     }
 
     /// <summary>
     /// Возвращает список категорий расходов/доходов.
     /// </summary>
-    private List<Category> GetCategories()
+    private Dictionary<int, Category> GetCategories()
     {
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
         client.CommandText = "SELECT * FROM [categories]";
-        return client.GetEntities<Category>();
+        return client.GetEntities<int, Category>();
       }
     }
 
     /// <summary>
     /// Возвращает список валют.
     /// </summary>
-    private List<Currency> GetCurrencies()
+    private Dictionary<string, Currency> GetCurrencies()
     {
       using (var client = new SqlDbCeClient(this.ConnectionString))
       {
         client.CommandText = "SELECT * FROM [currencies] ORDER BY [priority] ASC";
-        return client.GetEntities<Currency>();
-      }
-    }
-
-    /// <summary>
-    /// Перезагружает из базы данные в текущий экземпляр класса.
-    /// </summary>
-    /// <param name="t">Тип данных, который следует перезагрузить. Значение <b>null</b> - все данные.</param>
-    [Obsolete("Быть или не быть...", true)]
-    private void ReloadData(Type t)
-    {
-      if (t == null)
-      {
-        _Currencies = this.GetCurrencies();
-        _AccountTypes = this.GetAccountTypes();
-        _Accounts = this.GetAccounts();
-        _Categories = this.GetCategories();
-        return;
-      }
-
-      if (t == typeof(Currency))
-      {
-        _Currencies = this.GetCurrencies();
-      }
-      else if (t == typeof(AccountType))
-      {
-        _AccountTypes = this.GetAccountTypes();
-      }
-      else if (t == typeof(Account))
-      {
-        _Accounts = this.GetAccounts();
-      }
-      else if (t == typeof(Category))
-      {
-        _Categories = this.GetCategories();
+        return client.GetEntities<string, Currency>();
       }
     }
 

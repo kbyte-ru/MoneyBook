@@ -36,7 +36,6 @@ namespace MoneyBook.Core
     [Column("account_type_name", SqlDbType.NVarChar, Size = 50)]
     public string Name { get; set; }
 
-
     /// <summary>
     /// Возвращает название и идентификатор текущего экземпляра типа счета.
     /// </summary>
