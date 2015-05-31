@@ -216,9 +216,6 @@
     <None Include="Resources\laptop.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\chart_bar.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\cross.png" />
   </ItemGroup>
   <ItemGroup>
@@ -243,10 +240,13 @@
     <None Include="Resources\calendar.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\date_relation.png" />
+    <None Include="Resources\filter2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\filter2.png" />
+    <None Include="Resources\finance1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar_select_days.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

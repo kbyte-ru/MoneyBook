@@ -28,6 +28,8 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabExpenses = new System.Windows.Forms.TabPage();
       this.tabIncomes = new System.Windows.Forms.TabPage();
@@ -37,6 +39,7 @@
       this.tabSettings = new System.Windows.Forms.TabPage();
       this.tabInfo = new System.Windows.Forms.TabPage();
       this.tabAbout = new System.Windows.Forms.TabPage();
+      this.iconList = new System.Windows.Forms.ImageList(this.components);
       this.Expenses = new MoneyBook.WinApp.MoneyHistory();
       this.Incomes = new MoneyBook.WinApp.MoneyHistory();
       this.mDataGridView1 = new MoneyBook.WinApp.MDataGridView();
@@ -66,6 +69,7 @@
       this.tabControl1.Controls.Add(this.tabInfo);
       this.tabControl1.Controls.Add(this.tabAbout);
       this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tabControl1.ImageList = this.iconList;
       this.tabControl1.Location = new System.Drawing.Point(0, 0);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
@@ -76,10 +80,11 @@
       // tabExpenses
       // 
       this.tabExpenses.Controls.Add(this.Expenses);
-      this.tabExpenses.Location = new System.Drawing.Point(4, 22);
+      this.tabExpenses.ImageIndex = 0;
+      this.tabExpenses.Location = new System.Drawing.Point(4, 23);
       this.tabExpenses.Name = "tabExpenses";
       this.tabExpenses.Padding = new System.Windows.Forms.Padding(3);
-      this.tabExpenses.Size = new System.Drawing.Size(662, 377);
+      this.tabExpenses.Size = new System.Drawing.Size(662, 376);
       this.tabExpenses.TabIndex = 0;
       this.tabExpenses.Text = "Расходы";
       this.tabExpenses.UseVisualStyleBackColor = true;
@@ -87,10 +92,11 @@
       // tabIncomes
       // 
       this.tabIncomes.Controls.Add(this.Incomes);
-      this.tabIncomes.Location = new System.Drawing.Point(4, 22);
+      this.tabIncomes.ImageIndex = 1;
+      this.tabIncomes.Location = new System.Drawing.Point(4, 23);
       this.tabIncomes.Name = "tabIncomes";
       this.tabIncomes.Padding = new System.Windows.Forms.Padding(3);
-      this.tabIncomes.Size = new System.Drawing.Size(662, 377);
+      this.tabIncomes.Size = new System.Drawing.Size(662, 376);
       this.tabIncomes.TabIndex = 1;
       this.tabIncomes.Text = "Доходы";
       this.tabIncomes.UseVisualStyleBackColor = true;
@@ -98,9 +104,10 @@
       // tabAccounts
       // 
       this.tabAccounts.Controls.Add(this.mDataGridView1);
-      this.tabAccounts.Location = new System.Drawing.Point(4, 22);
+      this.tabAccounts.ImageIndex = 2;
+      this.tabAccounts.Location = new System.Drawing.Point(4, 23);
       this.tabAccounts.Name = "tabAccounts";
-      this.tabAccounts.Size = new System.Drawing.Size(662, 377);
+      this.tabAccounts.Size = new System.Drawing.Size(662, 376);
       this.tabAccounts.TabIndex = 2;
       this.tabAccounts.Text = "Счета";
       this.tabAccounts.UseVisualStyleBackColor = true;
@@ -108,9 +115,10 @@
       // tabDictionaries
       // 
       this.tabDictionaries.Controls.Add(this.label1);
-      this.tabDictionaries.Location = new System.Drawing.Point(4, 22);
+      this.tabDictionaries.ImageIndex = 3;
+      this.tabDictionaries.Location = new System.Drawing.Point(4, 23);
       this.tabDictionaries.Name = "tabDictionaries";
-      this.tabDictionaries.Size = new System.Drawing.Size(662, 377);
+      this.tabDictionaries.Size = new System.Drawing.Size(662, 376);
       this.tabDictionaries.TabIndex = 3;
       this.tabDictionaries.Text = "Справочники";
       this.tabDictionaries.UseVisualStyleBackColor = true;
@@ -127,9 +135,10 @@
       // 
       // tabSettings
       // 
-      this.tabSettings.Location = new System.Drawing.Point(4, 22);
+      this.tabSettings.ImageIndex = 4;
+      this.tabSettings.Location = new System.Drawing.Point(4, 23);
       this.tabSettings.Name = "tabSettings";
-      this.tabSettings.Size = new System.Drawing.Size(662, 377);
+      this.tabSettings.Size = new System.Drawing.Size(662, 376);
       this.tabSettings.TabIndex = 4;
       this.tabSettings.Text = "Параметры";
       this.tabSettings.UseVisualStyleBackColor = true;
@@ -137,21 +146,35 @@
       // tabInfo
       // 
       this.tabInfo.Controls.Add(this.dgvInfo);
-      this.tabInfo.Location = new System.Drawing.Point(4, 22);
+      this.tabInfo.ImageIndex = 5;
+      this.tabInfo.Location = new System.Drawing.Point(4, 23);
       this.tabInfo.Name = "tabInfo";
-      this.tabInfo.Size = new System.Drawing.Size(662, 377);
+      this.tabInfo.Size = new System.Drawing.Size(662, 376);
       this.tabInfo.TabIndex = 6;
       this.tabInfo.Text = "Info";
       this.tabInfo.UseVisualStyleBackColor = true;
       // 
       // tabAbout
       // 
-      this.tabAbout.Location = new System.Drawing.Point(4, 22);
+      this.tabAbout.ImageIndex = 6;
+      this.tabAbout.Location = new System.Drawing.Point(4, 23);
       this.tabAbout.Name = "tabAbout";
-      this.tabAbout.Size = new System.Drawing.Size(662, 377);
+      this.tabAbout.Size = new System.Drawing.Size(662, 376);
       this.tabAbout.TabIndex = 5;
       this.tabAbout.Text = "О программе...";
       this.tabAbout.UseVisualStyleBackColor = true;
+      // 
+      // iconList
+      // 
+      this.iconList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconList.ImageStream")));
+      this.iconList.TransparentColor = System.Drawing.Color.Transparent;
+      this.iconList.Images.SetKeyName(0, "coins_delete.png");
+      this.iconList.Images.SetKeyName(1, "coins_add.png");
+      this.iconList.Images.SetKeyName(2, "entity.png");
+      this.iconList.Images.SetKeyName(3, "category.png");
+      this.iconList.Images.SetKeyName(4, "gear_in.png");
+      this.iconList.Images.SetKeyName(5, "application_terminal.png");
+      this.iconList.Images.SetKeyName(6, "information_frame.png");
       // 
       // Expenses
       // 
@@ -160,7 +183,7 @@
       this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
       this.Expenses.Location = new System.Drawing.Point(3, 3);
       this.Expenses.Name = "Expenses";
-      this.Expenses.Size = new System.Drawing.Size(656, 371);
+      this.Expenses.Size = new System.Drawing.Size(656, 370);
       this.Expenses.TabIndex = 0;
       this.Expenses.User = null;
       // 
@@ -171,7 +194,7 @@
       this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
       this.Incomes.Location = new System.Drawing.Point(3, 3);
       this.Incomes.Name = "Incomes";
-      this.Incomes.Size = new System.Drawing.Size(656, 371);
+      this.Incomes.Size = new System.Drawing.Size(656, 370);
       this.Incomes.TabIndex = 0;
       this.Incomes.User = null;
       // 
@@ -232,7 +255,7 @@
       this.dgvInfo.RowHeadersWidth = 12;
       this.dgvInfo.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       this.dgvInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.dgvInfo.Size = new System.Drawing.Size(662, 377);
+      this.dgvInfo.Size = new System.Drawing.Size(662, 376);
       this.dgvInfo.TabIndex = 0;
       // 
       // Column3
@@ -305,6 +328,7 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+    private System.Windows.Forms.ImageList iconList;
 
   }
 }

@@ -232,6 +232,39 @@ namespace MoneyBook.WinApp
       }
     }
 
+    private void Amount_KeyPress(object sender, KeyPressEventArgs e)
+    {
+      if (!(e.KeyChar == 8 || e.KeyChar == '.' || e.KeyChar == ',') && (e.KeyChar < 48 || e.KeyChar > 57)) //  || e.KeyChar == '-'
+      {
+        e.Handled = true;
+        return;
+      }
+
+      var value = ((ToolStripTextBox)sender).Text;
+
+      if (!(value.IndexOf(".") == -1 && value.IndexOf(",") == -1) && (e.KeyChar == ',' || e.KeyChar == '.'))
+      {
+        e.Handled = true;
+        return;
+      }
+    }
+
+    private void Amount_TextChanged(object sender, EventArgs e)
+    {
+      var textBox = ((ToolStripTextBox)sender);
+      var value = Convertion.ToDecimal(textBox.Text, null);
+      if (!value.HasValue)
+      {
+        textBox.Text = "";
+      }
+      else
+      {
+        textBox.TextChanged -= this.Amount_TextChanged;
+        textBox.Text = value.Value.ToString();
+        textBox.TextChanged += this.Amount_TextChanged;
+      }
+    }
+
     #endregion
     #region ..методы..
 
@@ -571,7 +604,6 @@ namespace MoneyBook.WinApp
     }
 
     #endregion
-
 
 
   }

@@ -145,17 +145,19 @@
       this.DateFrom.CustomFormat = "dd.MM.yyyy";
       this.DateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
       this.DateFrom.Location = new System.Drawing.Point(444, 28);
+      this.DateFrom.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
       this.DateFrom.Name = "DateFrom";
-      this.DateFrom.Size = new System.Drawing.Size(103, 20);
+      this.DateFrom.Size = new System.Drawing.Size(79, 20);
       this.DateFrom.TabIndex = 12;
       // 
       // DateTo
       // 
       this.DateTo.CustomFormat = "dd.MM.yyyy";
       this.DateTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-      this.DateTo.Location = new System.Drawing.Point(553, 28);
+      this.DateTo.Location = new System.Drawing.Point(529, 28);
+      this.DateTo.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
       this.DateTo.Name = "DateTo";
-      this.DateTo.Size = new System.Drawing.Size(103, 20);
+      this.DateTo.Size = new System.Drawing.Size(79, 20);
       this.DateTo.TabIndex = 13;
       // 
       // Column1
@@ -172,7 +174,7 @@
             this.mnuEdit,
             this.mnuDelete});
       this.contextMenuStrip1.Name = "contextMenuStrip1";
-      this.contextMenuStrip1.Size = new System.Drawing.Size(174, 98);
+      this.contextMenuStrip1.Size = new System.Drawing.Size(174, 76);
       this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
       // 
       // mnuAdd
@@ -344,7 +346,7 @@
       // 
       // btnReport
       // 
-      this.btnReport.Image = global::MoneyBook.WinApp.Properties.Resources.chart_bar;
+      this.btnReport.Image = global::MoneyBook.WinApp.Properties.Resources.finance;
       this.btnReport.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.btnReport.Name = "btnReport";
       this.btnReport.Size = new System.Drawing.Size(59, 22);
@@ -421,7 +423,7 @@
             this.toolStripMenuItem5,
             this.toolStripSeparator7,
             this.toolStripMenuItem6});
-      this.toolStripDropDownButton1.Image = global::MoneyBook.WinApp.Properties.Resources.date_relation;
+      this.toolStripDropDownButton1.Image = global::MoneyBook.WinApp.Properties.Resources.calendar_select_days;
       this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
       this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
@@ -491,8 +493,11 @@
       // 
       // AmountFrom
       // 
+      this.AmountFrom.MaxLength = 100;
       this.AmountFrom.Name = "AmountFrom";
       this.AmountFrom.Size = new System.Drawing.Size(60, 25);
+      this.AmountFrom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Amount_KeyPress);
+      this.AmountFrom.TextChanged += new System.EventHandler(this.Amount_TextChanged);
       // 
       // toolStripLabel6
       // 
@@ -502,8 +507,11 @@
       // 
       // AmountTo
       // 
+      this.AmountTo.MaxLength = 100;
       this.AmountTo.Name = "AmountTo";
       this.AmountTo.Size = new System.Drawing.Size(60, 25);
+      this.AmountTo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Amount_KeyPress);
+      this.AmountTo.TextChanged += new System.EventHandler(this.Amount_TextChanged);
       // 
       // toolStripSeparator4
       // 
