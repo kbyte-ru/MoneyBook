@@ -64,7 +64,7 @@
     <Compile Include="Enums\ApplicationType.cs" />
     <Compile Include="Enums\EntryType.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
-    <Compile Include="InfoId.cs" />
+    <Compile Include="InfoId\InfoId.cs" />
     <Compile Include="Data\SqlDbCeClient\ExecuteNonQuery.cs" />
     <Compile Include="Data\SqlDbCeClient\ExecuteScalar.cs" />
     <Compile Include="Data\SqlDbCeClient\GetData.cs" />
@@ -76,6 +76,11 @@
     <Compile Include="Data\SqlDbCeClient\SaveEntities.cs" />
     <Compile Include="Data\SqlType.cs" />
     <Compile Include="Data\TableAttribute.cs" />
+    <Compile Include="InfoId\Settings.Web.cs" />
+    <Compile Include="InfoId\Settings.Mobile.cs" />
+    <Compile Include="InfoId\Settings.Desktop.cs" />
+    <Compile Include="InfoId\Stat.cs" />
+    <Compile Include="InfoId\Initial.cs" />
     <Compile Include="InfoItem.cs" />
     <Compile Include="MoneyItems.cs" />
     <Compile Include="MoneyItem.cs" />

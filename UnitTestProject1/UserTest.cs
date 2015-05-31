@@ -65,12 +65,12 @@ namespace UnitTestProject1
       {
         Assert.AreEqual(u.Info[1005], "Это проверка");
         Assert.AreEqual(u.Info[1000], "456");
-        Assert.AreEqual(u.Info[InfoId.TotalSessions], "1");
+        Assert.AreEqual(u.Info[InfoId.Stat.TotalSessions], "1");
       }
       
       using (var u = new User(App.CurrentPath, "info"))
       {
-        Assert.AreEqual(u.Info[InfoId.TotalSessions], "2");
+        Assert.AreEqual(u.Info[InfoId.Stat.TotalSessions], "2");
       }
     }
     

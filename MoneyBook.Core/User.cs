@@ -173,8 +173,8 @@ namespace MoneyBook.Core
 
       // счетчик запусков
       int totalSession = 0;
-      int.TryParse(this.Info[InfoId.TotalSessions], out totalSession);
-      this.Info.Set(InfoId.TotalSessions, totalSession + 1);
+      int.TryParse(this.Info[InfoId.Stat.TotalSessions], out totalSession);
+      this.Info.Set(InfoId.Stat.TotalSessions, totalSession + 1);
     }
     
     public void Dispose()
@@ -191,8 +191,8 @@ namespace MoneyBook.Core
       {
         // обновление информации
         long totalTime = 0;
-        long.TryParse(this.Info[InfoId.TotalTime], out totalTime);
-        this.Info.Set(InfoId.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds));
+        long.TryParse(this.Info[InfoId.Stat.TotalTime], out totalTime);
+        this.Info.Set(InfoId.Stat.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds));
       }
 
       this.IsDisposed = true;
@@ -759,36 +759,36 @@ namespace MoneyBook.Core
       }
 
       // добавляем информация об источнике происхождения базы
-      newUser.Info.Set(InfoId.InitialAppType, applicationType.ToString());
-      newUser.Info.Set(InfoId.InitialSystemID, Environment.OSVersion.Platform.ToString());
-      newUser.Info.Set(InfoId.InitialSystemVersion, Environment.OSVersion.Version);
-      newUser.Info.Set(InfoId.InitialNetVersion, Environment.Version);
+      newUser.Info.Set(InfoId.Initial.AppType, applicationType.ToString());
+      newUser.Info.Set(InfoId.Initial.SystemID, Environment.OSVersion.Platform.ToString());
+      newUser.Info.Set(InfoId.Initial.SystemVersion, Environment.OSVersion.Version);
+      newUser.Info.Set(InfoId.Initial.NetVersion, Environment.Version);
 
       var program = Assembly.GetEntryAssembly();
       if (program != null)
       {
         var programName = program.GetName();
-        newUser.Info.Set(InfoId.InitialProgramName, programName.Name);
-        newUser.Info.Set(InfoId.InitialProgramVersion, programName.Version);
+        newUser.Info.Set(InfoId.Initial.ProgramName, programName.Name);
+        newUser.Info.Set(InfoId.Initial.ProgramVersion, programName.Version);
       }
 
       var me = Assembly.GetExecutingAssembly().GetName();
-      newUser.Info.Set(InfoId.InitialCoreName, me.Name);
-      newUser.Info.Set(InfoId.InitialCoreVersion, me.Version);
+      newUser.Info.Set(InfoId.Initial.CoreName, me.Name);
+      newUser.Info.Set(InfoId.Initial.CoreVersion, me.Version);
       
       try
       {
-        newUser.Info.Set(InfoId.InitialMachineName, Environment.MachineName);
-        newUser.Info.Set(InfoId.InitialUserName, Environment.UserName);
+        newUser.Info.Set(InfoId.Initial.MachineName, Environment.MachineName);
+        newUser.Info.Set(InfoId.Initial.UserName, Environment.UserName);
       }
       catch { }
 
-      newUser.Info.Set(InfoId.InitialCulture, System.Globalization.CultureInfo.CurrentCulture.Name);
-      newUser.Info.Set(InfoId.InitialDateTime, DateTime.Now.Ticks);
-      newUser.Info.Set(InfoId.InitialTimeZone, TimeZoneInfo.Local.BaseUtcOffset.Ticks);
+      newUser.Info.Set(InfoId.Initial.Culture, System.Globalization.CultureInfo.CurrentCulture.Name);
+      newUser.Info.Set(InfoId.Initial.DateTime, DateTime.Now.Ticks);
+      newUser.Info.Set(InfoId.Initial.TimeZone, TimeZoneInfo.Local.BaseUtcOffset.Ticks);
 
       // считаем создание пользователя за сессию
-      newUser.Info.Set(InfoId.TotalSessions, 1);
+      newUser.Info.Set(InfoId.Stat.TotalSessions, 1);
       // --
 
       // возвращаем созданного пользователя
