@@ -14,7 +14,7 @@ namespace MoneyBook.WinApp
   public partial class MoneyHistory : UserControl
   {
 
-    #region ..свойства..
+    #region ..поля и свойства, поля и свойства..
 
     private User _User = null;
 
@@ -232,26 +232,103 @@ namespace MoneyBook.WinApp
       }
     }
 
+    private bool AmountKeyIsClipboard = false;
+    private bool AmountIsKeyPress = false;
+
+    private void Amount_KeyDown(object sender, KeyEventArgs e)
+    {
+      //Console.WriteLine("Amount_KeyDown");
+
+      if (e.Control && (e.KeyData.HasFlag(Keys.C) || e.KeyData.HasFlag(Keys.X) || e.KeyData.HasFlag(Keys.V)))
+      {
+        this.AmountKeyIsClipboard = true;
+        return;
+      }
+
+      this.AmountKeyIsClipboard = false;
+
+      // началась обработка нажатий
+      this.AmountIsKeyPress = true;
+    }
+
     private void Amount_KeyPress(object sender, KeyPressEventArgs e)
     {
-      if (!(e.KeyChar == 8 || e.KeyChar == '.' || e.KeyChar == ',') && (e.KeyChar < 48 || e.KeyChar > 57)) //  || e.KeyChar == '-'
+      //Console.WriteLine("Amount_KeyPress");
+
+      // проверяем, может проверять не нужно
+      if (this.AmountKeyIsClipboard)
+      {
+        return;
+      }
+
+      // если не backspace, разделитель или число, то
+      if (!(e.KeyChar == '\b' || e.KeyChar == '.' || e.KeyChar == ',' || e.KeyChar == '-') && (e.KeyChar < 48 || e.KeyChar > 57))
+      {
+        // кина не будет
+        e.Handled = true;
+        return;
+      }
+
+      var textBox = (ToolStripTextBox)sender;
+      // минус может быть только в начале строки и только один
+      if (e.KeyChar == '-' && textBox.SelectionStart != 0 && textBox.Text.IndexOf("-") == -1)
       {
         e.Handled = true;
         return;
       }
 
-      var value = ((ToolStripTextBox)sender).Text;
-
-      if (!(value.IndexOf(".") == -1 && value.IndexOf(",") == -1) && (e.KeyChar == ',' || e.KeyChar == '.'))
+      // проверяем, получится в итоге число или нет
+      if (e.KeyChar != '\b')
       {
-        e.Handled = true;
-        return;
+        var value = Convertion.ToDecimal(textBox.Text + e.KeyChar, null);
+
+        if (!value.HasValue)
+        {
+          e.Handled = true;
+          return;
+        }
       }
+    }
+
+    private void Amount_KeyUp(object sender, KeyEventArgs e)
+    {
+      // обработка клавы завершена
+      this.AmountIsKeyPress = false;
+      //Console.WriteLine("Amount_KeyUp");
     }
 
     private void Amount_TextChanged(object sender, EventArgs e)
     {
+      //Console.WriteLine("Amount_TextChanged");
+
+      if (this.AmountIsKeyPress && !this.AmountKeyIsClipboard)
+      {
+        //Console.WriteLine("false");
+        return;
+      }
+
+      //Console.WriteLine("true");
+
+      // защита от вставок неправильных данных из буфера обмана
       var textBox = ((ToolStripTextBox)sender);
+      var value = Convertion.ToDecimal(textBox.Text, null);
+      if (!value.HasValue)
+      {
+        textBox.Text = "";
+      }
+      else
+      {
+        textBox.TextChanged -= this.Amount_TextChanged;
+        textBox.Text = value.Value.ToString();
+        textBox.TextChanged += this.Amount_TextChanged;
+      }
+    }
+
+    private void Amount_Leave(object sender, EventArgs e)
+    {
+      var textBox = ((ToolStripTextBox)sender);
+      if (String.IsNullOrWhiteSpace(textBox.Text)) { return; }
+
       var value = Convertion.ToDecimal(textBox.Text, null);
       if (!value.HasValue)
       {
@@ -575,7 +652,7 @@ namespace MoneyBook.WinApp
         row.Cells.Add(new DataGridViewTextBoxCell { Value = account.Name });
         row.Cells.Add(new DataGridViewTextBoxCell { Value = item.DateEntry });
         row.Cells.Add(new DataGridViewTextBoxCell { Value = item.Amount });
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = u.Currencies[account.CurrencyCode].ShortName });
+        row.Cells.Add(new DataGridViewTextBoxCell { Value = account.CurrencyCode }); //u.Currencies[account.CurrencyCode].ShortName
 
         row.Tag = item;
 
@@ -604,8 +681,7 @@ namespace MoneyBook.WinApp
     }
 
     #endregion
-
-
+    
   }
 
 }

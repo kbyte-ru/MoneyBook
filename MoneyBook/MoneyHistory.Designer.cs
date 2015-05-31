@@ -46,14 +46,6 @@
       this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.DataGridView1 = new MoneyBook.WinApp.MDataGridView();
-      this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
-      this.ItemCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemSubcategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemAccount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.ToolStrip3 = new MoneyBook.WinApp.MToolStrip();
       this.btnAdd = new System.Windows.Forms.ToolStripButton();
       this.btnReport = new System.Windows.Forms.ToolStripButton();
@@ -88,6 +80,14 @@
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
+      this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
+      this.ItemCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemSubcategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemAccount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.StatusStrip1.SuspendLayout();
       this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
@@ -147,7 +147,7 @@
       this.DateFrom.Location = new System.Drawing.Point(444, 28);
       this.DateFrom.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
       this.DateFrom.Name = "DateFrom";
-      this.DateFrom.Size = new System.Drawing.Size(79, 20);
+      this.DateFrom.Size = new System.Drawing.Size(80, 20);
       this.DateFrom.TabIndex = 12;
       // 
       // DateTo
@@ -157,7 +157,7 @@
       this.DateTo.Location = new System.Drawing.Point(529, 28);
       this.DateTo.MinDate = new System.DateTime(1900, 1, 1, 0, 0, 0, 0);
       this.DateTo.Name = "DateTo";
-      this.DateTo.Size = new System.Drawing.Size(79, 20);
+      this.DateTo.Size = new System.Drawing.Size(80, 20);
       this.DateTo.TabIndex = 13;
       // 
       // Column1
@@ -241,82 +241,6 @@
       this.DataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
       this.DataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellEnter);
       this.DataGridView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DataGridView1_KeyUp);
-      // 
-      // ItemIcon
-      // 
-      this.ItemIcon.HeaderText = "";
-      this.ItemIcon.MinimumWidth = 18;
-      this.ItemIcon.Name = "ItemIcon";
-      this.ItemIcon.ReadOnly = true;
-      this.ItemIcon.Width = 18;
-      // 
-      // ItemCategory
-      // 
-      this.ItemCategory.HeaderText = "Статья";
-      this.ItemCategory.Name = "ItemCategory";
-      this.ItemCategory.ReadOnly = true;
-      this.ItemCategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemCategory.Width = 90;
-      // 
-      // ItemSubcategory
-      // 
-      this.ItemSubcategory.HeaderText = "Категория";
-      this.ItemSubcategory.Name = "ItemSubcategory";
-      this.ItemSubcategory.ReadOnly = true;
-      this.ItemSubcategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemSubcategory.Width = 90;
-      // 
-      // ItemTitle
-      // 
-      this.ItemTitle.HeaderText = "Наименование";
-      this.ItemTitle.MinimumWidth = 50;
-      this.ItemTitle.Name = "ItemTitle";
-      this.ItemTitle.ReadOnly = true;
-      this.ItemTitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemTitle.Width = 120;
-      // 
-      // ItemAccount
-      // 
-      this.ItemAccount.HeaderText = "Счет";
-      this.ItemAccount.MinimumWidth = 25;
-      this.ItemAccount.Name = "ItemAccount";
-      this.ItemAccount.ReadOnly = true;
-      this.ItemAccount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
-      // ItemDate
-      // 
-      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle1.Format = "dd.MM.yyyy";
-      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle1;
-      this.ItemDate.HeaderText = "Дата";
-      this.ItemDate.MinimumWidth = 25;
-      this.ItemDate.Name = "ItemDate";
-      this.ItemDate.ReadOnly = true;
-      this.ItemDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemDate.Width = 75;
-      // 
-      // ItemAmount
-      // 
-      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle2.Format = "##,###,##0.00";
-      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle2;
-      this.ItemAmount.HeaderText = "Сумма";
-      this.ItemAmount.MinimumWidth = 15;
-      this.ItemAmount.Name = "ItemAmount";
-      this.ItemAmount.ReadOnly = true;
-      this.ItemAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemAmount.Width = 60;
-      // 
-      // ItemCurrency
-      // 
-      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle3;
-      this.ItemCurrency.HeaderText = "Ед.";
-      this.ItemCurrency.MinimumWidth = 15;
-      this.ItemCurrency.Name = "ItemCurrency";
-      this.ItemCurrency.ReadOnly = true;
-      this.ItemCurrency.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemCurrency.Width = 40;
       // 
       // ToolStrip3
       // 
@@ -495,8 +419,11 @@
       // 
       this.AmountFrom.MaxLength = 100;
       this.AmountFrom.Name = "AmountFrom";
-      this.AmountFrom.Size = new System.Drawing.Size(60, 25);
+      this.AmountFrom.Size = new System.Drawing.Size(80, 25);
+      this.AmountFrom.Leave += new System.EventHandler(this.Amount_Leave);
+      this.AmountFrom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Amount_KeyDown);
       this.AmountFrom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Amount_KeyPress);
+      this.AmountFrom.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Amount_KeyUp);
       this.AmountFrom.TextChanged += new System.EventHandler(this.Amount_TextChanged);
       // 
       // toolStripLabel6
@@ -509,8 +436,11 @@
       // 
       this.AmountTo.MaxLength = 100;
       this.AmountTo.Name = "AmountTo";
-      this.AmountTo.Size = new System.Drawing.Size(60, 25);
+      this.AmountTo.Size = new System.Drawing.Size(80, 25);
+      this.AmountTo.Leave += new System.EventHandler(this.Amount_Leave);
+      this.AmountTo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Amount_KeyDown);
       this.AmountTo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Amount_KeyPress);
+      this.AmountTo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Amount_KeyUp);
       this.AmountTo.TextChanged += new System.EventHandler(this.Amount_TextChanged);
       // 
       // toolStripSeparator4
@@ -601,6 +531,82 @@
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(150, 25);
       // 
+      // ItemIcon
+      // 
+      this.ItemIcon.HeaderText = "";
+      this.ItemIcon.MinimumWidth = 18;
+      this.ItemIcon.Name = "ItemIcon";
+      this.ItemIcon.ReadOnly = true;
+      this.ItemIcon.Width = 18;
+      // 
+      // ItemCategory
+      // 
+      this.ItemCategory.HeaderText = "Статья";
+      this.ItemCategory.Name = "ItemCategory";
+      this.ItemCategory.ReadOnly = true;
+      this.ItemCategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemCategory.Width = 90;
+      // 
+      // ItemSubcategory
+      // 
+      this.ItemSubcategory.HeaderText = "Категория";
+      this.ItemSubcategory.Name = "ItemSubcategory";
+      this.ItemSubcategory.ReadOnly = true;
+      this.ItemSubcategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemSubcategory.Width = 90;
+      // 
+      // ItemTitle
+      // 
+      this.ItemTitle.HeaderText = "Наименование";
+      this.ItemTitle.MinimumWidth = 50;
+      this.ItemTitle.Name = "ItemTitle";
+      this.ItemTitle.ReadOnly = true;
+      this.ItemTitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemTitle.Width = 120;
+      // 
+      // ItemAccount
+      // 
+      this.ItemAccount.HeaderText = "Счет";
+      this.ItemAccount.MinimumWidth = 25;
+      this.ItemAccount.Name = "ItemAccount";
+      this.ItemAccount.ReadOnly = true;
+      this.ItemAccount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      // 
+      // ItemDate
+      // 
+      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle1.Format = "dd.MM.yyyy";
+      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle1;
+      this.ItemDate.HeaderText = "Дата";
+      this.ItemDate.MinimumWidth = 25;
+      this.ItemDate.Name = "ItemDate";
+      this.ItemDate.ReadOnly = true;
+      this.ItemDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemDate.Width = 75;
+      // 
+      // ItemAmount
+      // 
+      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle2.Format = "##,###,##0.00";
+      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle2;
+      this.ItemAmount.HeaderText = "Сумма";
+      this.ItemAmount.MinimumWidth = 15;
+      this.ItemAmount.Name = "ItemAmount";
+      this.ItemAmount.ReadOnly = true;
+      this.ItemAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemAmount.Width = 75;
+      // 
+      // ItemCurrency
+      // 
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle3;
+      this.ItemCurrency.HeaderText = "Валюта";
+      this.ItemCurrency.MinimumWidth = 15;
+      this.ItemCurrency.Name = "ItemCurrency";
+      this.ItemCurrency.ReadOnly = true;
+      this.ItemCurrency.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemCurrency.Width = 50;
+      // 
       // MoneyHistory
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -667,14 +673,6 @@
     private System.Windows.Forms.ToolStripButton btnEdit;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     private MDataGridView DataGridView1;
-    private System.Windows.Forms.DataGridViewImageColumn ItemIcon;
-    private System.Windows.Forms.DataGridViewTextBoxColumn ItemCategory;
-    private System.Windows.Forms.DataGridViewTextBoxColumn ItemSubcategory;
-    private System.Windows.Forms.DataGridViewTextBoxColumn ItemTitle;
-    private System.Windows.Forms.DataGridViewTextBoxColumn ItemAccount;
-    private System.Windows.Forms.DataGridViewTextBoxColumn ItemDate;
-    private System.Windows.Forms.DataGridViewTextBoxColumn ItemAmount;
-    private System.Windows.Forms.DataGridViewTextBoxColumn ItemCurrency;
     private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
@@ -690,5 +688,13 @@
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
     private System.Windows.Forms.ToolStripMenuItem mnuEdit;
     private System.Windows.Forms.ToolStripMenuItem mnuDelete;
+    private System.Windows.Forms.DataGridViewImageColumn ItemIcon;
+    private System.Windows.Forms.DataGridViewTextBoxColumn ItemCategory;
+    private System.Windows.Forms.DataGridViewTextBoxColumn ItemSubcategory;
+    private System.Windows.Forms.DataGridViewTextBoxColumn ItemTitle;
+    private System.Windows.Forms.DataGridViewTextBoxColumn ItemAccount;
+    private System.Windows.Forms.DataGridViewTextBoxColumn ItemDate;
+    private System.Windows.Forms.DataGridViewTextBoxColumn ItemAmount;
+    private System.Windows.Forms.DataGridViewTextBoxColumn ItemCurrency;
   }
 }
