@@ -18,8 +18,35 @@ namespace MoneyBook.Core
       public static class Desktop
       {
 
+        // общие параметры 500-519
+
         /// <summary>
-        /// Параметры доходов (500-549).
+        /// Ширина окна.
+        /// </summary>
+        public const short WindowWidth = 501;
+
+        /// <summary>
+        /// Высота окна.
+        /// </summary>
+        public const short WindowHeight = 502;
+
+        /// <summary>
+        /// Состояние окна.
+        /// </summary>
+        public const short WindowState = 503;
+
+        /// <summary>
+        /// Позиция по X.
+        /// </summary>
+        public const short WindowLeft = 504;
+
+        /// <summary>
+        /// Позиция по Y.
+        /// </summary>
+        public const short WindowTop = 505;
+
+        /// <summary>
+        /// Параметры доходов (520-559).
         /// </summary>
         public static class Incomes
         {
@@ -27,67 +54,67 @@ namespace MoneyBook.Core
           /// <summary>
           /// Идентификатор последнего счета.
           /// </summary>
-          public const short AccountId = 501;
+          public const short AccountId = 521;
 
           /// <summary>
           /// Идентификатор последней категории.
           /// </summary>
-          public const short CategoryId = 502;
+          public const short CategoryId = 522;
 
           /// <summary>
           /// Идентификатор последней подкатегории.
           /// </summary>
-          public const short SubcategoryId = 503;
+          public const short SubcategoryId = 523;
 
           /// <summary>
           /// Период.
           /// </summary>
-          public const short Period = 510;
+          public const short Period = 530;
 
           /// <summary>
           /// Значение периода.
           /// </summary>
-          public const short PeriodValue = 511;
+          public const short PeriodValue = 531;
 
           /// <summary>
           /// Дата от...
           /// </summary>
-          public const short DateForm = 512;
+          public const short DateForm = 532;
 
           /// <summary>
           /// Дата до...
           /// </summary>
-          public const short DateTo = 513;
+          public const short DateTo = 533;
           
           /// <summary>
           /// Сумма.
           /// </summary>
-          public const short Amount = 520;
+          public const short Amount = 540;
 
           /// <summary>
           /// Код валюты.
           /// </summary>
-          public const short CurrencyCode = 521;
+          public const short CurrencyCode = 541;
 
           /// <summary>
           /// Сумма от...
           /// </summary>
-          public const short AmountFrom = 522;
+          public const short AmountFrom = 542;
 
           /// <summary>
           /// Сумма до...
           /// </summary>
-          public const short AmountTo = 523;
+          public const short AmountTo = 543;
 
           /// <summary>
           /// Поиск.
           /// </summary>
-          public const short Search = 530;
+          public const short Search = 550;
 
         }
         
         /// <summary>
-        /// Параметры расходов (550-599).
+        /// Параметры расходов (560-599).
         /// </summary>
         public static class Expenses
         {
@@ -95,62 +122,62 @@ namespace MoneyBook.Core
           /// <summary>
           /// Идентификатор последнего счета.
           /// </summary>
-          public const short AccountId = 551;
+          public const short AccountId = 561;
 
           /// <summary>
           /// Идентификатор последней категории.
           /// </summary>
-          public const short CategoryId = 552;
+          public const short CategoryId = 562;
 
           /// <summary>
           /// Идентификатор последней подкатегории.
           /// </summary>
-          public const short SubcategoryId = 553;
+          public const short SubcategoryId = 563;
 
           /// <summary>
           /// Период.
           /// </summary>
-          public const short Period = 560;
+          public const short Period = 570;
 
           /// <summary>
           /// Значение периода.
           /// </summary>
-          public const short PeriodValue = 561;
+          public const short PeriodValue = 571;
 
           /// <summary>
           /// Дата от...
           /// </summary>
-          public const short DateForm = 562;
+          public const short DateForm = 572;
 
           /// <summary>
           /// Дата до...
           /// </summary>
-          public const short DateTo = 563;
+          public const short DateTo = 573;
 
           /// <summary>
           /// Сумма.
           /// </summary>
-          public const short Amount = 570;
+          public const short Amount = 580;
 
           /// <summary>
           /// Код валюты.
           /// </summary>
-          public const short CurrencyCode = 571;
+          public const short CurrencyCode = 581;
 
           /// <summary>
           /// Сумма от...
           /// </summary>
-          public const short AmountFrom = 572;
+          public const short AmountFrom = 582;
 
           /// <summary>
           /// Сумма до...
           /// </summary>
-          public const short AmountTo = 573;
+          public const short AmountTo = 583;
 
           /// <summary>
           /// Поиск.
           /// </summary>
-          public const short Search = 580;
+          public const short Search = 590;
 
         }
 

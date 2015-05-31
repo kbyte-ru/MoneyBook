@@ -18,8 +18,10 @@ namespace MoneyBook.Core
       public static class Web
       {
 
+        // общие параметры 700-719
+
         /// <summary>
-        /// Параметры доходов (700-749).
+        /// Параметры доходов (720-759).
         /// </summary>
         public static class Incomes
         {
@@ -27,67 +29,67 @@ namespace MoneyBook.Core
           /// <summary>
           /// Идентификатор последнего счета.
           /// </summary>
-          public const short AccountId = 701;
+          public const short AccountId = 721;
 
           /// <summary>
           /// Идентификатор последней категории.
           /// </summary>
-          public const short CategoryId = 702;
+          public const short CategoryId = 722;
 
           /// <summary>
           /// Идентификатор последней подкатегории.
           /// </summary>
-          public const short SubcategoryId = 703;
+          public const short SubcategoryId = 723;
 
           /// <summary>
           /// Период.
           /// </summary>
-          public const short Period = 710;
+          public const short Period = 730;
 
           /// <summary>
           /// Значение периода.
           /// </summary>
-          public const short PeriodValue = 711;
+          public const short PeriodValue = 731;
 
           /// <summary>
           /// Дата от...
           /// </summary>
-          public const short DateForm = 712;
+          public const short DateForm = 732;
 
           /// <summary>
           /// Дата до...
           /// </summary>
-          public const short DateTo = 713;
+          public const short DateTo = 733;
           
           /// <summary>
           /// Сумма.
           /// </summary>
-          public const short Amount = 720;
+          public const short Amount = 740;
 
           /// <summary>
           /// Код валюты.
           /// </summary>
-          public const short CurrencyCode = 721;
+          public const short CurrencyCode = 741;
 
           /// <summary>
           /// Сумма от...
           /// </summary>
-          public const short AmountFrom = 722;
+          public const short AmountFrom = 742;
 
           /// <summary>
           /// Сумма до...
           /// </summary>
-          public const short AmountTo = 723;
+          public const short AmountTo = 743;
 
           /// <summary>
           /// Поиск.
           /// </summary>
-          public const short Search = 730;
+          public const short Search = 750;
 
         }
         
         /// <summary>
-        /// Параметры расходов (750-799).
+        /// Параметры расходов (760-799).
         /// </summary>
         public static class Expenses
         {
@@ -95,62 +97,62 @@ namespace MoneyBook.Core
           /// <summary>
           /// Идентификатор последнего счета.
           /// </summary>
-          public const short AccountId = 751;
+          public const short AccountId = 761;
 
           /// <summary>
           /// Идентификатор последней категории.
           /// </summary>
-          public const short CategoryId = 752;
+          public const short CategoryId = 762;
 
           /// <summary>
           /// Идентификатор последней подкатегории.
           /// </summary>
-          public const short SubcategoryId = 753;
+          public const short SubcategoryId = 763;
 
           /// <summary>
           /// Период.
           /// </summary>
-          public const short Period = 760;
+          public const short Period = 770;
 
           /// <summary>
           /// Значение периода.
           /// </summary>
-          public const short PeriodValue = 761;
+          public const short PeriodValue = 771;
 
           /// <summary>
           /// Дата от...
           /// </summary>
-          public const short DateForm = 762;
+          public const short DateForm = 772;
 
           /// <summary>
           /// Дата до...
           /// </summary>
-          public const short DateTo = 763;
+          public const short DateTo = 773;
 
           /// <summary>
           /// Сумма.
           /// </summary>
-          public const short Amount = 770;
+          public const short Amount = 780;
 
           /// <summary>
           /// Код валюты.
           /// </summary>
-          public const short CurrencyCode = 771;
+          public const short CurrencyCode = 781;
 
           /// <summary>
           /// Сумма от...
           /// </summary>
-          public const short AmountFrom = 772;
+          public const short AmountFrom = 782;
 
           /// <summary>
           /// Сумма до...
           /// </summary>
-          public const short AmountTo = 773;
+          public const short AmountTo = 783;
 
           /// <summary>
           /// Поиск.
           /// </summary>
-          public const short Search = 780;
+          public const short Search = 790;
 
         }
 
