@@ -192,6 +192,10 @@ namespace MoneyBook.WinApp
 
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
     {
+      if (tabControl1.SelectedTab.Name.Equals("tabInfo"))
+      {
+        dgvInfo.DataSource = Program.CurrentUser.Info.GetAllInfo();
+      }
     }
 
     private void Main_FormClosed(object sender, FormClosedEventArgs e)

@@ -164,10 +164,47 @@ namespace MoneyBook.Core
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public List<InfoItem> GetAllInfo()
     {
+      var constants = new Dictionary<short, string>();
+
       using (var client = new SqlDbCeClient(this.CurrentUser.ConnectionString))
       {
-        client.CommandText = "SELECT * FROM [info]";
-        return client.GetEntities<InfoItem>();
+        client.CommandText = "SELECT * FROM [info] ORDER BY [id_info]";
+        var result = client.GetEntities<InfoItem>();
+
+        // добвавляем к результату имена констант
+        this.GetAllConstants(null, typeof(InfoId), constants);
+        foreach (var item in result)
+        {
+          if (constants.ContainsKey(item.Id))
+          {
+            item.Name = constants[item.Id];
+          }
+        }
+        // --
+
+        return result;
+      }
+    }
+
+    /// <summary>
+    /// Выбирает все константы из указанного типа.
+    /// </summary>
+    private void GetAllConstants(string parentName, Type t, Dictionary<short, string> list)
+    {
+      foreach (var field in t.GetFields())
+      {
+        var name = String.Format("{0}.{1}", t.Name, field.Name);
+        if (!String.IsNullOrEmpty(parentName) && !parentName.Equals("InfoId"))
+        {
+          name = String.Format("{0}.{1}", parentName, name);
+        }
+        list.Add(Convert.ToInt16(field.GetRawConstantValue()), name);
+      }
+
+      // вложенные типы
+      foreach (var st in t.GetNestedTypes())
+      {
+        this.GetAllConstants(t.Name, st, list);
       }
     }
 

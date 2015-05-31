@@ -26,8 +26,43 @@ using System.Threading;
 namespace MoneyBook.WinApp
 {
 
-  public static class Convert
+  public static class Convertion
   {
+
+    /// <summary>
+    /// Converts the value of the specified object to a 32-bit signed integer.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    public static Int32? ToInt32(object value, Int32? @default)
+    {
+      if (!Convertion.HasValue(value)) { return @default; }
+      decimal? result = Convertion.ToDecimal(value, null);
+      if (!result.HasValue || result.Value < Int32.MinValue || result.Value > Int32.MaxValue)
+      {
+        return @default;
+      }
+      return Convert.ToInt32(result);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a 32-bit signed integer.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    public static Int32 ToInt32(object value, Int32 @default)
+    {
+      return Convertion.ToInt32(value, (Int32?)@default).GetValueOrDefault(@default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a 32-bit signed integer.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    public static Int32 ToInt32(object value)
+    {
+      return Convertion.ToInt32(value, null).GetValueOrDefault();
+    }
 
     /// <summary>
     /// Converts the value of the specified object to an equivalent decimal number.
@@ -36,9 +71,9 @@ namespace MoneyBook.WinApp
     /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
     public static decimal? ToDecimal(object value, decimal? @default)
     {
-      if (!Convert.HasValue(value)) { return @default; }
+      if (!Convertion.HasValue(value)) { return @default; }
       decimal result = 0;
-      if (!decimal.TryParse(Convert.GetNumber(value), NumberStyles.Any, Thread.CurrentThread.CurrentCulture, out result))
+      if (!decimal.TryParse(Convertion.GetNumber(value), NumberStyles.Any, Thread.CurrentThread.CurrentCulture, out result))
       {
         return @default;
       }
@@ -52,7 +87,7 @@ namespace MoneyBook.WinApp
     /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
     public static decimal ToDecimal(object value, decimal @default)
     {
-      return Convert.ToDecimal(value, (decimal?)@default).GetValueOrDefault(@default);
+      return Convertion.ToDecimal(value, (decimal?)@default).GetValueOrDefault(@default);
     }
 
     /// <summary>
@@ -61,7 +96,7 @@ namespace MoneyBook.WinApp
     /// <param name="value">The value to convert.</param>
     public static decimal ToDecimal(object value)
     {
-      return Convert.ToDecimal(value, null).GetValueOrDefault();
+      return Convertion.ToDecimal(value, null).GetValueOrDefault();
     }
     
     /// <summary>
@@ -81,7 +116,7 @@ namespace MoneyBook.WinApp
     /// <param name="value">The value for processing.</param>
     private static string GetNumber(object value)
     {
-      if (!Convert.HasValue(value)) { return "0"; }
+      if (!Convertion.HasValue(value)) { return "0"; }
       return Regex.Replace(Regex.Replace(value.ToString(), @",|\.", NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator), @"\s+", "");
     }
 

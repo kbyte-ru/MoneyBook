@@ -14,27 +14,7 @@ namespace MoneyBook.WinApp
   public partial class MoneyHistory : UserControl
   {
 
-    private EntryType _ItemsType = EntryType.None;
-
-    /// <summary>
-    /// Типы записей.
-    /// </summary>
-    public EntryType ItemsType
-    {
-      get
-      {
-        return _ItemsType;
-      }
-      set
-      {
-        var reloadNeed = (_ItemsType != value);
-        _ItemsType = value;
-        if (reloadNeed)
-        {
-          this.ReloadItems();
-        }
-      }
-    }
+    #region ..свойства..
 
     private User _User = null;
 
@@ -54,6 +34,30 @@ namespace MoneyBook.WinApp
         if (reloadNeed)
         {
           this.ReloadDictionaries();
+          this.LoadSettings();
+          this.ReloadItems();
+        }
+      }
+    }
+
+    private EntryType _ItemsType = EntryType.None;
+
+    /// <summary>
+    /// Типы записей.
+    /// </summary>
+    public EntryType ItemsType
+    {
+      get
+      {
+        return _ItemsType;
+      }
+      set
+      {
+        var reloadNeed = (_ItemsType != value);
+        _ItemsType = value;
+        if (reloadNeed)
+        {
+          this.LoadSettings();
           this.ReloadItems();
         }
       }
@@ -63,6 +67,9 @@ namespace MoneyBook.WinApp
     /// Общая сумма в текущем списке.
     /// </summary>
     protected Dictionary<string, decimal> TotalAmountByCurrencies { get; set; }
+
+    #endregion
+    #region ..конструктор..
 
     public MoneyHistory()
     {
@@ -82,12 +89,19 @@ namespace MoneyBook.WinApp
 
       this.TotalAmountByCurrencies = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
     }
+    
+    #endregion
+    #region ..обработчики..
 
     private void MoneyHistory_Load(object sender, EventArgs e)
     {
+      // восстанавливаем ранее выбранные параметры
+      this.LoadSettings();
+
+      // загружаем данные
       this.ReloadItems();
     }
-
+    
     private void btnAdd_Click(object sender, EventArgs e)
     {
 
@@ -110,7 +124,154 @@ namespace MoneyBook.WinApp
 
     private void btnFilter_Click(object sender, EventArgs e)
     {
+      // загружаем данные
       this.ReloadItems();
+
+      // запоминаем выбранные параметры
+      this.SaveSettings();
+    }
+
+    private void Categories_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      var selectedCategoryId = 0;
+
+      if (this.Subcategories.SelectedItem != null)
+      {
+        selectedCategoryId = ((Category)this.Subcategories.SelectedItem).Id;
+      }
+
+      this.Subcategories.Items.Clear();
+      this.Subcategories.Items.Add(new Category { Id = 0, Name = "<Все>" });
+      this.Subcategories.SelectedIndex = 0;
+
+      var u = this.User;
+
+      if (u == null) { return; }
+
+      IEnumerable<Category> list = null;
+      var categoryId = ((Category)this.Categories.SelectedItem).Id;
+      if (categoryId > 0)
+      {
+        // если выбрана статья, то показываем только подкатегории этой статьи
+        list = u.Categories.Values.Where(c => c.ParentId == categoryId && c.CategoryType == this.ItemsType);
+      }
+      else
+      {
+        // в противном случае, все подкатегории
+        list = u.Categories.Values.Where(c => c.ParentId > 0 && c.CategoryType == this.ItemsType);
+      }
+
+      foreach (var item in list)
+      {
+        this.Subcategories.Items.Add(item);
+
+        if (selectedCategoryId == item.Id)
+        {
+          this.Subcategories.SelectedIndex = this.Subcategories.Items.Count - 1;
+        }
+      }
+    }
+
+    #endregion
+    #region ..методы..
+
+    /// <summary>
+    /// Загружает и применяет настройки пользователя.
+    /// </summary>
+    private void LoadSettings()
+    {
+      if (this.ItemsType == EntryType.None || this.User == null) { return; }
+
+      int selectedAccountId = 0;
+      int selectedCategoryId = 0;
+      int selectedSubcategoryId = 0;
+
+      if (this.ItemsType == EntryType.Expense)
+      {
+        selectedAccountId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Expenses.AccountId]);
+        selectedCategoryId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Expenses.CategoryId]);
+        selectedSubcategoryId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Expenses.SubcategoryId]);
+
+        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, 0);
+        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value);
+        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value);
+        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text);
+        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountTo, AmountTo.Text);
+      }
+      else if (this.ItemsType == EntryType.Income)
+      {
+        selectedAccountId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Incomes.AccountId]);
+        selectedCategoryId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Incomes.CategoryId]);
+        selectedSubcategoryId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Incomes.SubcategoryId]);
+
+        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, 0);
+        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value);
+        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value);
+        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text);
+        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text);
+      }
+
+      for (int i = 0; i < this.Accounts.Items.Count; i++)
+      {
+        if (((Account)this.Accounts.Items[i]).Id == selectedAccountId)
+        {
+          this.Accounts.SelectedIndex = i;
+          break;
+        }
+      }
+
+      for (int i = 0; i < this.Categories.Items.Count; i++)
+      {
+        if (((Category)this.Categories.Items[i]).Id == selectedCategoryId)
+        {
+          this.Categories.SelectedIndex = i;
+          break;
+        }
+      }
+
+      for (int i = 0; i < this.Subcategories.Items.Count; i++)
+      {
+        if (((Category)this.Subcategories.Items[i]).Id == selectedSubcategoryId)
+        {
+          this.Subcategories.SelectedIndex = i;
+          break;
+        }
+      }
+    }
+
+    /// <summary>
+    /// Сохраняет настройки.
+    /// </summary>
+    private void SaveSettings()
+    {
+      if (this.ItemsType == EntryType.None || this.User == null) { return; }
+
+      //DateTime s = DateTime.Now;
+
+      if (this.ItemsType == EntryType.Expense)
+      {
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AccountId, ((Account)this.Accounts.SelectedItem).Id);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.CategoryId, ((Category)this.Categories.SelectedItem).Id);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, 0);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountTo, AmountTo.Text);
+      }
+      else if (this.ItemsType == EntryType.Income)
+      {
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AccountId, ((Account)this.Accounts.SelectedItem).Id);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.CategoryId, ((Category)this.Categories.SelectedItem).Id);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, 0);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text);
+      }
+
+      //Console.WriteLine(DateTime.Now.Subtract(s));
     }
 
     /// <summary>
@@ -230,8 +391,8 @@ namespace MoneyBook.WinApp
         categoryId: categoryId,
         dateFrom: this.DateFrom.Value,
         dateTo: this.DateTo.Value,
-        amountFrom: Convert.ToDecimal(this.AmountFrom.Text, null),
-        amountTo: Convert.ToDecimal(this.AmountTo.Text, null)
+        amountFrom: Convertion.ToDecimal(this.AmountFrom.Text, null),
+        amountTo: Convertion.ToDecimal(this.AmountTo.Text, null)
       );
 
       foreach (var item in items)
@@ -323,47 +484,8 @@ namespace MoneyBook.WinApp
       this.UpdateLabels();
     }
 
-    private void Categories_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      var selectedCategoryId = 0;
+    #endregion
 
-      if (this.Subcategories.SelectedItem != null)
-      {
-        selectedCategoryId = ((Category)this.Subcategories.SelectedItem).Id;
-      }
-
-      this.Subcategories.Items.Clear();
-      this.Subcategories.Items.Add(new Category { Id = 0, Name = "<Все>" });
-      this.Subcategories.SelectedIndex = 0;
-
-      var u = this.User;
-
-      if (u == null) { return; }
-
-      IEnumerable<Category> list = null;
-      var categoryId = ((Category)this.Categories.SelectedItem).Id;
-      if (categoryId > 0)
-      {
-        // если выбрана статья, то показываем только подкатегории этой статьи
-        list = u.Categories.Values.Where(c => c.ParentId == categoryId && c.CategoryType == this.ItemsType);
-      }
-      else
-      {
-        // в противном случае, все подкатегории
-        list = u.Categories.Values.Where(c => c.ParentId > 0 && c.CategoryType == this.ItemsType);
-      }
-
-      foreach (var item in list)
-      {
-        this.Subcategories.Items.Add(item);
-
-        if (selectedCategoryId == item.Id)
-        {
-          this.Subcategories.SelectedIndex = this.Subcategories.Items.Count - 1;
-        }
-      }
-    }
-    
   }
 
 }

@@ -41,13 +41,19 @@
       this.label1 = new System.Windows.Forms.Label();
       this.tabSettings = new System.Windows.Forms.TabPage();
       this.tabInfo = new System.Windows.Forms.TabPage();
+      this.dgvInfo = new MoneyBook.WinApp.MDataGridView();
       this.tabAbout = new System.Windows.Forms.TabPage();
+      this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.tabControl1.SuspendLayout();
       this.tabExpenses.SuspendLayout();
       this.tabIncomes.SuspendLayout();
       this.tabAccounts.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.mDataGridView1)).BeginInit();
       this.tabDictionaries.SuspendLayout();
+      this.tabInfo.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dgvInfo)).BeginInit();
       this.SuspendLayout();
       // 
       // tabControl1
@@ -187,12 +193,37 @@
       // 
       // tabInfo
       // 
+      this.tabInfo.Controls.Add(this.dgvInfo);
       this.tabInfo.Location = new System.Drawing.Point(4, 22);
       this.tabInfo.Name = "tabInfo";
       this.tabInfo.Size = new System.Drawing.Size(662, 377);
       this.tabInfo.TabIndex = 6;
       this.tabInfo.Text = "Info";
       this.tabInfo.UseVisualStyleBackColor = true;
+      // 
+      // dgvInfo
+      // 
+      this.dgvInfo.AllowUserToAddRows = false;
+      this.dgvInfo.AllowUserToDeleteRows = false;
+      this.dgvInfo.AllowUserToResizeRows = false;
+      this.dgvInfo.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+      this.dgvInfo.BackgroundColor = System.Drawing.SystemColors.Window;
+      this.dgvInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.dgvInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dgvInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column3,
+            this.Column5,
+            this.Column4});
+      this.dgvInfo.EnableHeadersVisualStyles = false;
+      this.dgvInfo.Location = new System.Drawing.Point(8, 15);
+      this.dgvInfo.MultiSelect = false;
+      this.dgvInfo.Name = "dgvInfo";
+      this.dgvInfo.ReadOnly = true;
+      this.dgvInfo.RowHeadersWidth = 12;
+      this.dgvInfo.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+      this.dgvInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+      this.dgvInfo.Size = new System.Drawing.Size(345, 296);
+      this.dgvInfo.TabIndex = 0;
       // 
       // tabAbout
       // 
@@ -202,6 +233,27 @@
       this.tabAbout.TabIndex = 5;
       this.tabAbout.Text = "О программе...";
       this.tabAbout.UseVisualStyleBackColor = true;
+      // 
+      // Column3
+      // 
+      this.Column3.DataPropertyName = "Id";
+      this.Column3.HeaderText = "Id";
+      this.Column3.Name = "Column3";
+      this.Column3.ReadOnly = true;
+      // 
+      // Column5
+      // 
+      this.Column5.DataPropertyName = "Name";
+      this.Column5.HeaderText = "Name";
+      this.Column5.Name = "Column5";
+      this.Column5.ReadOnly = true;
+      // 
+      // Column4
+      // 
+      this.Column4.DataPropertyName = "Value";
+      this.Column4.HeaderText = "Value";
+      this.Column4.Name = "Column4";
+      this.Column4.ReadOnly = true;
       // 
       // Main
       // 
@@ -223,6 +275,8 @@
       ((System.ComponentModel.ISupportInitialize)(this.mDataGridView1)).EndInit();
       this.tabDictionaries.ResumeLayout(false);
       this.tabDictionaries.PerformLayout();
+      this.tabInfo.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.dgvInfo)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -243,6 +297,10 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     private System.Windows.Forms.Label label1;
+    private MDataGridView dgvInfo;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
 
   }
 }

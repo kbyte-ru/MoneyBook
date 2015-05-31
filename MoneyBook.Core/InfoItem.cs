@@ -30,6 +30,11 @@ namespace MoneyBook.Core
     [Column("value", SqlDbType.NVarChar, Size = 30)]
     public string Value { get; set; }
 
+    /// <summary>
+    /// Возвращает имя константы в библиотеке MoneyBook.Core (для удобства).
+    /// </summary>
+    public string Name { get; internal set; }
+
   }
 
 
