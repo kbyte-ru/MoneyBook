@@ -135,11 +135,79 @@ namespace MoneyBook.Core
         client.CommandText = "SELECT COUNT([id_info]) FROM [info] WHERE [id_info] = @id";
         client.Parameters.Add("@id", SqlDbType.SmallInt).Value = Convert.ToInt16(id);
         client.Parameters.Add("@value", SqlDbType.NVarChar, 30).Value = value;
+
         if (Convert.ToInt32(client.ExecuteScalar()) == 0)
         {
           // добавляем
           client.CommandText = "INSERT INTO [info] ([id_info], [value]) VALUES (@id, @value)";
-          // и в текущий экземпляр
+        }
+        else
+        {
+          // обновляем
+          client.CommandText = "UPDATE [info] SET [value] = @value WHERE [id_info] = @id";
+        }
+
+        client.ExecuteNonQuery();
+
+        // в текущий экземпляр
+        if (!this.Items.ContainsKey(id))
+        {
+          this.Items.Add(id, value);
+        }
+        else
+        {
+          this.Items[id] = value;
+        }
+      }
+    }
+
+    /// <summary>
+    /// Добавляет, либо обновляет информацию.
+    /// </summary>
+    /// <param name="items">Коллекция параметров, которые необходимо сохранить.</param>
+    public void Set(Dictionary<InfoId, object> items)
+    {
+      if (items == null || items.Count <= 0)
+      {
+        return;
+      }
+
+      using (var client = new SqlDbCeClient(this.CurrentUser.ConnectionString))
+      {
+        client.Parameters.Add("@id", SqlDbType.SmallInt);
+        client.Parameters.Add("@value", SqlDbType.NVarChar, 30);
+
+        foreach (var id in items.Keys)
+        {
+          client.CommandText = "SELECT COUNT([id_info]) FROM [info] WHERE [id_info] = @id";
+
+          string value = "";
+          if (items[id] != null)
+          {
+            value = items[id].ToString();
+          }
+          if (value.Length > 30)
+          {
+            value = value.Substring(30);
+          }
+
+          client.Parameters["@id"].Value = Convert.ToInt16(id);
+          client.Parameters["@value"].Value = value;
+
+          if (Convert.ToInt32(client.ExecuteScalar()) == 0)
+          {
+            // добавляем
+            client.CommandText = "INSERT INTO [info] ([id_info], [value]) VALUES (@id, @value)";
+          }
+          else
+          {
+            // обновляем
+            client.CommandText = "UPDATE [info] SET [value] = @value WHERE [id_info] = @id";
+          }
+
+          client.ExecuteNonQuery();
+
+          // в текущий экземпляр
           if (!this.Items.ContainsKey(id))
           {
             this.Items.Add(id, value);
@@ -149,12 +217,6 @@ namespace MoneyBook.Core
             this.Items[id] = value;
           }
         }
-        else
-        {
-          // обновляем
-          client.CommandText = "UPDATE [info] SET [value] = @value WHERE [id_info] = @id";
-        }
-        client.ExecuteNonQuery();
       }
     }
 

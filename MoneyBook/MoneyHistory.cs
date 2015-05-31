@@ -128,7 +128,7 @@ namespace MoneyBook.WinApp
       this.ReloadItems();
 
       // запоминаем выбранные параметры
-      this.SaveSettings();
+      // this.SaveSettings();
     }
 
     private void Categories_SelectedIndexChanged(object sender, EventArgs e)
@@ -242,7 +242,7 @@ namespace MoneyBook.WinApp
     /// <summary>
     /// Сохраняет настройки.
     /// </summary>
-    private void SaveSettings()
+    public void SaveSettings()
     {
       if (this.ItemsType == EntryType.None || this.User == null) { return; }
 
@@ -250,25 +250,37 @@ namespace MoneyBook.WinApp
 
       if (this.ItemsType == EntryType.Expense)
       {
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AccountId, ((Account)this.Accounts.SelectedItem).Id);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.CategoryId, ((Category)this.Categories.SelectedItem).Id);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, 0);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountTo, AmountTo.Text);
+        this.User.Info.Set
+        (
+          new Dictionary<InfoId, object>
+          {
+            { InfoId.Settings.Desktop.Expenses.AccountId, ((Account)this.Accounts.SelectedItem).Id },
+            { InfoId.Settings.Desktop.Expenses.CategoryId, ((Category)this.Categories.SelectedItem).Id },
+            { InfoId.Settings.Desktop.Expenses.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id },
+            { InfoId.Settings.Desktop.Expenses.Period, 0 },
+            { InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value },
+            { InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value },
+            { InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text },
+            { InfoId.Settings.Desktop.Expenses.AmountTo, AmountTo.Text }
+          }
+        );
       }
       else if (this.ItemsType == EntryType.Income)
       {
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AccountId, ((Account)this.Accounts.SelectedItem).Id);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.CategoryId, ((Category)this.Categories.SelectedItem).Id);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, 0);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text);
+        this.User.Info.Set
+        (
+          new Dictionary<InfoId, object>
+          {
+            { InfoId.Settings.Desktop.Incomes.AccountId, ((Account)this.Accounts.SelectedItem).Id },
+            { InfoId.Settings.Desktop.Incomes.CategoryId, ((Category)this.Categories.SelectedItem).Id },
+            { InfoId.Settings.Desktop.Incomes.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id },
+            { InfoId.Settings.Desktop.Incomes.Period, 0 },
+            { InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value },
+            { InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value },
+            { InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text },
+            { InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text }
+          }
+        );
       }
 
       //Console.WriteLine(DateTime.Now.Subtract(s));

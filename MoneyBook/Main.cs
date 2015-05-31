@@ -202,6 +202,9 @@ namespace MoneyBook.WinApp
     {
       if (Program.CurrentUser != null)
       {
+        Incomes.SaveSettings();
+        Expenses.SaveSettings();
+
         Program.CurrentUser.Dispose();
         Program.CurrentUser = null;
       }
