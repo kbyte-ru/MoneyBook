@@ -28,6 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -39,6 +40,11 @@
       this.DateFrom = new System.Windows.Forms.DateTimePicker();
       this.DateTo = new System.Windows.Forms.DateTimePicker();
       this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+      this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.DataGridView1 = new MoneyBook.WinApp.MDataGridView();
       this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
       this.ItemCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -83,6 +89,7 @@
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
       this.StatusStrip1.SuspendLayout();
+      this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
       this.ToolStrip3.SuspendLayout();
       this.ToolStrip2.SuspendLayout();
@@ -157,6 +164,48 @@
       this.Column1.Name = "Column1";
       this.Column1.ReadOnly = true;
       // 
+      // contextMenuStrip1
+      // 
+      this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAdd,
+            this.toolStripSeparator8,
+            this.mnuEdit,
+            this.mnuDelete});
+      this.contextMenuStrip1.Name = "contextMenuStrip1";
+      this.contextMenuStrip1.Size = new System.Drawing.Size(174, 98);
+      this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+      // 
+      // mnuAdd
+      // 
+      this.mnuAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
+      this.mnuAdd.Name = "mnuAdd";
+      this.mnuAdd.Size = new System.Drawing.Size(173, 22);
+      this.mnuAdd.Text = "Добавить";
+      this.mnuAdd.Click += new System.EventHandler(this.btnAdd_Click);
+      // 
+      // toolStripSeparator8
+      // 
+      this.toolStripSeparator8.Name = "toolStripSeparator8";
+      this.toolStripSeparator8.Size = new System.Drawing.Size(170, 6);
+      // 
+      // mnuEdit
+      // 
+      this.mnuEdit.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
+      this.mnuEdit.Name = "mnuEdit";
+      this.mnuEdit.ShortcutKeys = System.Windows.Forms.Keys.F2;
+      this.mnuEdit.Size = new System.Drawing.Size(173, 22);
+      this.mnuEdit.Text = "Редактировать";
+      this.mnuEdit.Click += new System.EventHandler(this.btnEdit_Click);
+      // 
+      // mnuDelete
+      // 
+      this.mnuDelete.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
+      this.mnuDelete.Name = "mnuDelete";
+      this.mnuDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+      this.mnuDelete.Size = new System.Drawing.Size(173, 22);
+      this.mnuDelete.Text = "Удалить";
+      this.mnuDelete.Click += new System.EventHandler(this.btnDelete_Click);
+      // 
       // DataGridView1
       // 
       this.DataGridView1.AllowUserToAddRows = false;
@@ -175,6 +224,7 @@
             this.ItemDate,
             this.ItemAmount,
             this.ItemCurrency});
+      this.DataGridView1.ContextMenuStrip = this.contextMenuStrip1;
       this.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.DataGridView1.EnableHeadersVisualStyles = false;
       this.DataGridView1.Location = new System.Drawing.Point(0, 75);
@@ -186,6 +236,9 @@
       this.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.DataGridView1.Size = new System.Drawing.Size(659, 245);
       this.DataGridView1.TabIndex = 15;
+      this.DataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
+      this.DataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellEnter);
+      this.DataGridView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DataGridView1_KeyUp);
       // 
       // ItemIcon
       // 
@@ -301,6 +354,7 @@
       // btnDelete
       // 
       this.btnDelete.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+      this.btnDelete.Enabled = false;
       this.btnDelete.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
       this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.btnDelete.Name = "btnDelete";
@@ -311,6 +365,7 @@
       // btnEdit
       // 
       this.btnEdit.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+      this.btnEdit.Enabled = false;
       this.btnEdit.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
       this.btnEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.btnEdit.Name = "btnEdit";
@@ -555,6 +610,7 @@
       this.Load += new System.EventHandler(this.MoneyHistory_Load);
       this.StatusStrip1.ResumeLayout(false);
       this.StatusStrip1.PerformLayout();
+      this.contextMenuStrip1.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).EndInit();
       this.ToolStrip3.ResumeLayout(false);
       this.ToolStrip3.PerformLayout();
@@ -621,5 +677,10 @@
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+    private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+    private System.Windows.Forms.ToolStripMenuItem mnuAdd;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+    private System.Windows.Forms.ToolStripMenuItem mnuEdit;
+    private System.Windows.Forms.ToolStripMenuItem mnuDelete;
   }
 }

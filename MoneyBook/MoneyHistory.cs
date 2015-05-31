@@ -119,7 +119,29 @@ namespace MoneyBook.WinApp
 
     private void btnDelete_Click(object sender, EventArgs e)
     {
+      // такого быть не должно, но лучше перестраховаться
+      if (DataGridView1.CurrentRow == null || DataGridView1.CurrentRow.Tag == null)
+      {
+        this.UpdateButtons();
+        return;
+      }
 
+      var item = (MoneyItem)DataGridView1.CurrentRow.Tag;
+      var currencyCode = this.User.Accounts[item.AccountId].CurrencyCode;
+
+      // запрос на удаление
+      if (MessageBox.Show(String.Format("Вы действительно хотите удалить запись «{0}» от {3} на сумму {1:##,###,##0.00} {2}?\r\n\r\nВосстановить данные после удаления будет невозможно.\r\n\r\nНажмите «Да», чтобы удалить запись.", item.Title, item.Amount, currencyCode, item.DateEntry.ToShortDateString()), "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+      {
+        return;
+      }
+
+      // удаляем из базы
+      this.User.Delete(item);
+
+      // удаляем из списка
+      DataGridView1.Rows.Remove(DataGridView1.CurrentRow);
+      this.TotalAmountByCurrencies[currencyCode] -= item.Amount;
+      this.UpdateLabels();
     }
 
     private void btnFilter_Click(object sender, EventArgs e)
@@ -169,6 +191,44 @@ namespace MoneyBook.WinApp
         {
           this.Subcategories.SelectedIndex = this.Subcategories.Items.Count - 1;
         }
+      }
+    }
+
+    private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    {
+      btnEdit_Click(sender, null);
+    }
+
+    private void DataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+    {
+      this.UpdateButtons();
+      //btnEdit.Enabled = btnDelete.Enabled = 
+      //mnuEdit.Enabled = mnuDelete.Enabled =
+      //(e.RowIndex >= 0 && DataGridView1.Rows[e.RowIndex].Tag != null);
+    }
+
+    private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+    {
+      this.UpdateButtons();
+    }
+
+    private void DataGridView1_KeyUp(object sender, KeyEventArgs e)
+    {
+      /*if (DataGridView1.CurrentRow != null && DataGridView1.CurrentRow.Tag != null)
+      {
+        if (e.KeyCode == Keys.Delete)
+        {
+          btnDelete_Click(sender, null);
+        }
+        else if (e.KeyCode == Keys.F2)
+        {
+          btnEdit_Click(sender, null);
+        }
+      }*/
+
+      if (e.KeyCode == Keys.F5)
+      {
+        this.ReloadItems();
       }
     }
 
@@ -293,12 +353,12 @@ namespace MoneyBook.WinApp
     {
       if (this.ItemsType == EntryType.Expense)
       {
-        this.btnAdd.Text = "Добавить расход";
+        this.btnAdd.Text = this.mnuAdd.Text = "Добавить расход";
         this.StatusTitle.Text = String.Format("Расходы с {0} по {1}", this.DateFrom.Value.ToShortDateString(), this.DateTo.Value.ToShortDateString());
       }
       else if (this.ItemsType == EntryType.Income)
       {
-        this.btnAdd.Text = "Добавить доход";
+        this.btnAdd.Text = this.mnuAdd.Text = "Добавить доход";
         this.StatusTitle.Text = String.Format("Доходы с {0} по {1}", this.DateFrom.Value.ToShortDateString(), this.DateTo.Value.ToShortDateString());
       }
 
@@ -321,6 +381,16 @@ namespace MoneyBook.WinApp
           this.TotalAmount.Text += " " + this.User.Currencies[key].ShortName;
         }
       }
+    }
+
+    /// <summary>
+    /// Обновляет статус доступности управляющих элементов.
+    /// </summary>
+    private void UpdateButtons()
+    {
+      btnEdit.Enabled = btnDelete.Enabled =
+      mnuEdit.Enabled = mnuDelete.Enabled =
+      (DataGridView1.CurrentRow != null && DataGridView1.CurrentRow.Tag != null);
     }
 
     /// <summary>
@@ -494,9 +564,15 @@ namespace MoneyBook.WinApp
       }
 
       this.UpdateLabels();
+      this.UpdateButtons();
+
+      //btnEdit.Enabled = btnDelete.Enabled =
+      //mnuEdit.Enabled = mnuDelete.Enabled = (DataGridView1.Rows.Count > 0);
     }
 
     #endregion
+
+
 
   }
 
