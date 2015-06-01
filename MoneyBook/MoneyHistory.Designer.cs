@@ -29,9 +29,9 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
       this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
       this.StatusTitle = new System.Windows.Forms.ToolStripStatusLabel();
       this.TotalItems = new System.Windows.Forms.ToolStripStatusLabel();
@@ -41,11 +41,19 @@
       this.DateTo = new System.Windows.Forms.DateTimePicker();
       this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-      this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+      this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.DataGridView1 = new MoneyBook.WinApp.MDataGridView();
+      this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
+      this.ItemCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemSubcategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemAccount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.ItemCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.ToolStrip3 = new MoneyBook.WinApp.MToolStrip();
       this.btnAdd = new System.Windows.Forms.ToolStripButton();
       this.btnReport = new System.Windows.Forms.ToolStripButton();
@@ -55,15 +63,19 @@
       this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
       this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
       this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-      this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodCurrentWeek = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodCurrentMonth = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodCurrentQuarter = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodCurrentYear = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-      this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodMonth = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-      this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodPreviousWeek = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodPreviousMonth = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodPreviousQuarter = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodPreviousYear = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-      this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuPeriodAll = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
       this.AmountFrom = new System.Windows.Forms.ToolStripTextBox();
@@ -80,14 +92,6 @@
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
-      this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
-      this.ItemCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemSubcategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemAccount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.ItemCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.StatusStrip1.SuspendLayout();
       this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
@@ -177,6 +181,11 @@
       this.contextMenuStrip1.Size = new System.Drawing.Size(174, 76);
       this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
       // 
+      // toolStripSeparator8
+      // 
+      this.toolStripSeparator8.Name = "toolStripSeparator8";
+      this.toolStripSeparator8.Size = new System.Drawing.Size(170, 6);
+      // 
       // mnuAdd
       // 
       this.mnuAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
@@ -184,11 +193,6 @@
       this.mnuAdd.Size = new System.Drawing.Size(173, 22);
       this.mnuAdd.Text = "Добавить";
       this.mnuAdd.Click += new System.EventHandler(this.btnAdd_Click);
-      // 
-      // toolStripSeparator8
-      // 
-      this.toolStripSeparator8.Name = "toolStripSeparator8";
-      this.toolStripSeparator8.Size = new System.Drawing.Size(170, 6);
       // 
       // mnuEdit
       // 
@@ -241,6 +245,83 @@
       this.DataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
       this.DataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellEnter);
       this.DataGridView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DataGridView1_KeyUp);
+      this.DataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataGridView1_MouseDown);
+      // 
+      // ItemIcon
+      // 
+      this.ItemIcon.HeaderText = "";
+      this.ItemIcon.MinimumWidth = 18;
+      this.ItemIcon.Name = "ItemIcon";
+      this.ItemIcon.ReadOnly = true;
+      this.ItemIcon.Width = 18;
+      // 
+      // ItemCategory
+      // 
+      this.ItemCategory.HeaderText = "Статья";
+      this.ItemCategory.Name = "ItemCategory";
+      this.ItemCategory.ReadOnly = true;
+      this.ItemCategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemCategory.Width = 90;
+      // 
+      // ItemSubcategory
+      // 
+      this.ItemSubcategory.HeaderText = "Категория";
+      this.ItemSubcategory.Name = "ItemSubcategory";
+      this.ItemSubcategory.ReadOnly = true;
+      this.ItemSubcategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemSubcategory.Width = 90;
+      // 
+      // ItemTitle
+      // 
+      this.ItemTitle.HeaderText = "Наименование";
+      this.ItemTitle.MinimumWidth = 50;
+      this.ItemTitle.Name = "ItemTitle";
+      this.ItemTitle.ReadOnly = true;
+      this.ItemTitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemTitle.Width = 120;
+      // 
+      // ItemAccount
+      // 
+      this.ItemAccount.HeaderText = "Счет";
+      this.ItemAccount.MinimumWidth = 25;
+      this.ItemAccount.Name = "ItemAccount";
+      this.ItemAccount.ReadOnly = true;
+      this.ItemAccount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      // 
+      // ItemDate
+      // 
+      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle4.Format = "dd.MM.yyyy";
+      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle4;
+      this.ItemDate.HeaderText = "Дата";
+      this.ItemDate.MinimumWidth = 25;
+      this.ItemDate.Name = "ItemDate";
+      this.ItemDate.ReadOnly = true;
+      this.ItemDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemDate.Width = 75;
+      // 
+      // ItemAmount
+      // 
+      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle5.Format = "##,###,##0.00";
+      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle5;
+      this.ItemAmount.HeaderText = "Сумма";
+      this.ItemAmount.MinimumWidth = 15;
+      this.ItemAmount.Name = "ItemAmount";
+      this.ItemAmount.ReadOnly = true;
+      this.ItemAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemAmount.Width = 75;
+      // 
+      // ItemCurrency
+      // 
+      dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle6;
+      this.ItemCurrency.HeaderText = "Валюта";
+      this.ItemCurrency.MinimumWidth = 15;
+      this.ItemCurrency.Name = "ItemCurrency";
+      this.ItemCurrency.ReadOnly = true;
+      this.ItemCurrency.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.ItemCurrency.Width = 50;
       // 
       // ToolStrip3
       // 
@@ -338,71 +419,117 @@
       // 
       this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
       this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2,
+            this.mnuPeriodCurrentWeek,
+            this.mnuPeriodCurrentMonth,
+            this.mnuPeriodCurrentQuarter,
+            this.mnuPeriodCurrentYear,
             this.toolStripSeparator5,
-            this.toolStripMenuItem3,
+            this.mnuPeriodMonth,
             this.toolStripSeparator6,
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5,
+            this.mnuPeriodPreviousWeek,
+            this.mnuPeriodPreviousMonth,
+            this.mnuPeriodPreviousQuarter,
+            this.mnuPeriodPreviousYear,
             this.toolStripSeparator7,
-            this.toolStripMenuItem6});
+            this.mnuPeriodAll});
       this.toolStripDropDownButton1.Image = global::MoneyBook.WinApp.Properties.Resources.calendar_select_days;
       this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
       this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
-      this.toolStripDropDownButton1.Text = "toolStripButton1";
+      this.toolStripDropDownButton1.Text = "Выбрать период";
       // 
-      // toolStripMenuItem1
+      // mnuPeriodCurrentWeek
       // 
-      this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-      this.toolStripMenuItem1.Size = new System.Drawing.Size(192, 22);
-      this.toolStripMenuItem1.Text = "Текущий месяц";
+      this.mnuPeriodCurrentWeek.Name = "mnuPeriodCurrentWeek";
+      this.mnuPeriodCurrentWeek.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodCurrentWeek.Tag = "w";
+      this.mnuPeriodCurrentWeek.Text = "Текущая неделя";
+      this.mnuPeriodCurrentWeek.Click += new System.EventHandler(this.Period_Click);
       // 
-      // toolStripMenuItem2
+      // mnuPeriodCurrentMonth
       // 
-      this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-      this.toolStripMenuItem2.Size = new System.Drawing.Size(192, 22);
-      this.toolStripMenuItem2.Text = "Текущий год";
+      this.mnuPeriodCurrentMonth.Name = "mnuPeriodCurrentMonth";
+      this.mnuPeriodCurrentMonth.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodCurrentMonth.Tag = "m";
+      this.mnuPeriodCurrentMonth.Text = "Текущий месяц";
+      this.mnuPeriodCurrentMonth.Click += new System.EventHandler(this.Period_Click);
+      // 
+      // mnuPeriodCurrentQuarter
+      // 
+      this.mnuPeriodCurrentQuarter.Name = "mnuPeriodCurrentQuarter";
+      this.mnuPeriodCurrentQuarter.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodCurrentQuarter.Tag = "q";
+      this.mnuPeriodCurrentQuarter.Text = "Текущий квартал";
+      this.mnuPeriodCurrentQuarter.Click += new System.EventHandler(this.Period_Click);
+      // 
+      // mnuPeriodCurrentYear
+      // 
+      this.mnuPeriodCurrentYear.Name = "mnuPeriodCurrentYear";
+      this.mnuPeriodCurrentYear.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodCurrentYear.Tag = "y";
+      this.mnuPeriodCurrentYear.Text = "Текущий год";
+      this.mnuPeriodCurrentYear.Click += new System.EventHandler(this.Period_Click);
       // 
       // toolStripSeparator5
       // 
       this.toolStripSeparator5.Name = "toolStripSeparator5";
-      this.toolStripSeparator5.Size = new System.Drawing.Size(189, 6);
+      this.toolStripSeparator5.Size = new System.Drawing.Size(191, 6);
       // 
-      // toolStripMenuItem3
+      // mnuPeriodMonth
       // 
-      this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-      this.toolStripMenuItem3.Size = new System.Drawing.Size(192, 22);
-      this.toolStripMenuItem3.Text = "Месяц текущего года";
+      this.mnuPeriodMonth.Name = "mnuPeriodMonth";
+      this.mnuPeriodMonth.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodMonth.Text = "Месяц текущего года";
       // 
       // toolStripSeparator6
       // 
       this.toolStripSeparator6.Name = "toolStripSeparator6";
-      this.toolStripSeparator6.Size = new System.Drawing.Size(189, 6);
+      this.toolStripSeparator6.Size = new System.Drawing.Size(191, 6);
       // 
-      // toolStripMenuItem4
+      // mnuPeriodPreviousWeek
       // 
-      this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-      this.toolStripMenuItem4.Size = new System.Drawing.Size(192, 22);
-      this.toolStripMenuItem4.Text = "Предыдущий месяц";
+      this.mnuPeriodPreviousWeek.Name = "mnuPeriodPreviousWeek";
+      this.mnuPeriodPreviousWeek.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodPreviousWeek.Tag = "w-1";
+      this.mnuPeriodPreviousWeek.Text = "Предыдущая неделя";
+      this.mnuPeriodPreviousWeek.Click += new System.EventHandler(this.Period_Click);
       // 
-      // toolStripMenuItem5
+      // mnuPeriodPreviousMonth
       // 
-      this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-      this.toolStripMenuItem5.Size = new System.Drawing.Size(192, 22);
-      this.toolStripMenuItem5.Text = "Предыдущий год";
+      this.mnuPeriodPreviousMonth.Name = "mnuPeriodPreviousMonth";
+      this.mnuPeriodPreviousMonth.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodPreviousMonth.Tag = "m-1";
+      this.mnuPeriodPreviousMonth.Text = "Предыдущий месяц";
+      this.mnuPeriodPreviousMonth.Click += new System.EventHandler(this.Period_Click);
+      // 
+      // mnuPeriodPreviousQuarter
+      // 
+      this.mnuPeriodPreviousQuarter.Name = "mnuPeriodPreviousQuarter";
+      this.mnuPeriodPreviousQuarter.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodPreviousQuarter.Tag = "q-1";
+      this.mnuPeriodPreviousQuarter.Text = "Предыдущий квартал";
+      this.mnuPeriodPreviousQuarter.Click += new System.EventHandler(this.Period_Click);
+      // 
+      // mnuPeriodPreviousYear
+      // 
+      this.mnuPeriodPreviousYear.Name = "mnuPeriodPreviousYear";
+      this.mnuPeriodPreviousYear.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodPreviousYear.Tag = "y-1";
+      this.mnuPeriodPreviousYear.Text = "Предыдущий год";
+      this.mnuPeriodPreviousYear.Click += new System.EventHandler(this.Period_Click);
       // 
       // toolStripSeparator7
       // 
       this.toolStripSeparator7.Name = "toolStripSeparator7";
-      this.toolStripSeparator7.Size = new System.Drawing.Size(189, 6);
+      this.toolStripSeparator7.Size = new System.Drawing.Size(191, 6);
       // 
-      // toolStripMenuItem6
+      // mnuPeriodAll
       // 
-      this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-      this.toolStripMenuItem6.Size = new System.Drawing.Size(192, 22);
-      this.toolStripMenuItem6.Text = "Весь период";
+      this.mnuPeriodAll.Name = "mnuPeriodAll";
+      this.mnuPeriodAll.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodAll.Tag = "all";
+      this.mnuPeriodAll.Text = "Весь период";
+      this.mnuPeriodAll.Click += new System.EventHandler(this.Period_Click);
       // 
       // toolStripSeparator1
       // 
@@ -531,82 +658,6 @@
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(150, 25);
       // 
-      // ItemIcon
-      // 
-      this.ItemIcon.HeaderText = "";
-      this.ItemIcon.MinimumWidth = 18;
-      this.ItemIcon.Name = "ItemIcon";
-      this.ItemIcon.ReadOnly = true;
-      this.ItemIcon.Width = 18;
-      // 
-      // ItemCategory
-      // 
-      this.ItemCategory.HeaderText = "Статья";
-      this.ItemCategory.Name = "ItemCategory";
-      this.ItemCategory.ReadOnly = true;
-      this.ItemCategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemCategory.Width = 90;
-      // 
-      // ItemSubcategory
-      // 
-      this.ItemSubcategory.HeaderText = "Категория";
-      this.ItemSubcategory.Name = "ItemSubcategory";
-      this.ItemSubcategory.ReadOnly = true;
-      this.ItemSubcategory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemSubcategory.Width = 90;
-      // 
-      // ItemTitle
-      // 
-      this.ItemTitle.HeaderText = "Наименование";
-      this.ItemTitle.MinimumWidth = 50;
-      this.ItemTitle.Name = "ItemTitle";
-      this.ItemTitle.ReadOnly = true;
-      this.ItemTitle.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemTitle.Width = 120;
-      // 
-      // ItemAccount
-      // 
-      this.ItemAccount.HeaderText = "Счет";
-      this.ItemAccount.MinimumWidth = 25;
-      this.ItemAccount.Name = "ItemAccount";
-      this.ItemAccount.ReadOnly = true;
-      this.ItemAccount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      // 
-      // ItemDate
-      // 
-      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle1.Format = "dd.MM.yyyy";
-      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle1;
-      this.ItemDate.HeaderText = "Дата";
-      this.ItemDate.MinimumWidth = 25;
-      this.ItemDate.Name = "ItemDate";
-      this.ItemDate.ReadOnly = true;
-      this.ItemDate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemDate.Width = 75;
-      // 
-      // ItemAmount
-      // 
-      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle2.Format = "##,###,##0.00";
-      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle2;
-      this.ItemAmount.HeaderText = "Сумма";
-      this.ItemAmount.MinimumWidth = 15;
-      this.ItemAmount.Name = "ItemAmount";
-      this.ItemAmount.ReadOnly = true;
-      this.ItemAmount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemAmount.Width = 75;
-      // 
-      // ItemCurrency
-      // 
-      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle3;
-      this.ItemCurrency.HeaderText = "Валюта";
-      this.ItemCurrency.MinimumWidth = 15;
-      this.ItemCurrency.Name = "ItemCurrency";
-      this.ItemCurrency.ReadOnly = true;
-      this.ItemCurrency.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-      this.ItemCurrency.Width = 50;
-      // 
       // MoneyHistory
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -674,15 +725,15 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     private MDataGridView DataGridView1;
     private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentMonth;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentYear;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodMonth;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousMonth;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousYear;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodAll;
     private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     private System.Windows.Forms.ToolStripMenuItem mnuAdd;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
@@ -696,5 +747,9 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn ItemDate;
     private System.Windows.Forms.DataGridViewTextBoxColumn ItemAmount;
     private System.Windows.Forms.DataGridViewTextBoxColumn ItemCurrency;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentWeek;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentQuarter;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousWeek;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousQuarter;
   }
 }

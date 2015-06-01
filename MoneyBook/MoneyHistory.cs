@@ -100,6 +100,22 @@ namespace MoneyBook.WinApp
 
       // загружаем данные
       this.ReloadItems();
+
+      // список месяцев до текущего
+      var baseDate = new DateTime(DateTime.Now.Year, 1, 1);
+      for (int i = 1; i <= DateTime.Now.Month; i++)
+      {
+        // добавляем
+        this.mnuPeriodMonth.DropDownItems.Add
+        (
+          new ToolStripMenuItem(baseDate.AddMonths(i - 1).ToString("MMMM")) 
+          { 
+            Tag = String.Format("m-{0}", DateTime.Now.Month - i) 
+          }
+        );
+        // обработчик клика
+        this.mnuPeriodMonth.DropDownItems[this.mnuPeriodMonth.DropDownItems.Count - 1].Click += Period_Click;
+      }
     }
     
     private void btnAdd_Click(object sender, EventArgs e)
@@ -232,6 +248,20 @@ namespace MoneyBook.WinApp
       }
     }
 
+    private void DataGridView1_MouseDown(object sender, MouseEventArgs e)
+    {
+      if (e.Button == System.Windows.Forms.MouseButtons.Right)
+      {
+        var hit = DataGridView1.HitTest(e.X, e.Y);
+        if (hit.RowIndex != -1)
+        {
+          DataGridView1.ClearSelection();
+          DataGridView1.Rows[hit.RowIndex].Selected = true;
+          DataGridView1.CurrentCell = DataGridView1.Rows[hit.RowIndex].Cells[0];
+        }
+      }
+    }
+
     private bool AmountKeyIsClipboard = false;
     private bool AmountIsKeyPress = false;
 
@@ -340,6 +370,12 @@ namespace MoneyBook.WinApp
         textBox.Text = value.Value.ToString();
         textBox.TextChanged += this.Amount_TextChanged;
       }
+    }
+
+    private void Period_Click(object sender, EventArgs e)
+    {
+      var period = ((ToolStripMenuItem)sender).Tag.ToString();
+      MessageBox.Show(period);
     }
 
     #endregion
