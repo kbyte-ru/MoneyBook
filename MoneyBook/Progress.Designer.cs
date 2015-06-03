@@ -44,7 +44,7 @@
       this.progressBar1.Location = new System.Drawing.Point(21, 59);
       this.progressBar1.Name = "progressBar1";
       this.progressBar1.Size = new System.Drawing.Size(331, 24);
-      this.progressBar1.TabIndex = 0;
+      this.progressBar1.TabIndex = 2;
       // 
       // lblAction
       // 
@@ -73,7 +73,7 @@
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
       this.tableLayoutPanel1.Size = new System.Drawing.Size(375, 143);
-      this.tableLayoutPanel1.TabIndex = 2;
+      this.tableLayoutPanel1.TabIndex = 0;
       // 
       // lblDetails
       // 
@@ -81,7 +81,7 @@
       this.lblDetails.Location = new System.Drawing.Point(21, 86);
       this.lblDetails.Name = "lblDetails";
       this.lblDetails.Size = new System.Drawing.Size(329, 26);
-      this.lblDetails.TabIndex = 2;
+      this.lblDetails.TabIndex = 3;
       this.lblDetails.Text = "Конкретно сейчас делаю конкретно вот такую вот непонятную, но очень конкретную за" +
     "дачу";
       // 
@@ -95,7 +95,7 @@
       this.flowLayoutPanel1.Name = "flowLayoutPanel1";
       this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
       this.flowLayoutPanel1.Size = new System.Drawing.Size(375, 39);
-      this.flowLayoutPanel1.TabIndex = 3;
+      this.flowLayoutPanel1.TabIndex = 1;
       this.flowLayoutPanel1.Visible = false;
       // 
       // btnCancel

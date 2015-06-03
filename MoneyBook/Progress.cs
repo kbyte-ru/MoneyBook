@@ -24,7 +24,7 @@ namespace MoneyBook.WinApp
       }
       set
       {
-        this.SetTitlte(value);
+        this.SetText(this, value);
       }
     }
 
@@ -39,7 +39,7 @@ namespace MoneyBook.WinApp
       }
       set
       {
-        this.SetLabel(lblAction, value);
+        this.SetText(lblAction, value);
       }
     }
 
@@ -54,7 +54,7 @@ namespace MoneyBook.WinApp
       }
       set
       {
-        this.SetLabel(lblDetails, value);
+        this.SetText(lblDetails, value);
       }
     }
 
@@ -130,26 +130,22 @@ namespace MoneyBook.WinApp
       this.AllowCancel = false;
     }
 
-    private void SetTitlte(string value)
+    private void SetText(Control ctrl, string value)
     {
       if (this.InvokeRequired)
       {
-        this.Invoke(new Action<string>(this.SetTitlte), value);
+        this.Invoke(new Action<Control, string>(this.SetText), ctrl, value);
         return;
       }
 
-      base.Text = value;
-    }
-
-    private void SetLabel(Label lbl, string value)
-    {
-      if (this.InvokeRequired)
+      if (ctrl.GetType() == this.GetType())
       {
-        this.Invoke(new Action<Label, string>(this.SetLabel), lbl, value);
-        return;
+        base.Text = value;
       }
-
-      lbl.Text = value;
+      else
+      {
+        ctrl.Text = value;
+      }
     }
 
     private void SetProgress(string key, int value)
