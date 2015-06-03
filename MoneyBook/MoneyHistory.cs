@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MoneyBook.Core;
+using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace MoneyBook.WinApp
 {
@@ -15,6 +17,8 @@ namespace MoneyBook.WinApp
   {
 
     #region ..поля и свойства, поля и свойства..
+
+    private Regex PeriodParser = new Regex(@"^(?<interval>(d|w|m|q|y))(?<value>[0-9\-]*)$", RegexOptions.IgnoreCase);
 
     private User _User = null;
 
@@ -374,8 +378,53 @@ namespace MoneyBook.WinApp
 
     private void Period_Click(object sender, EventArgs e)
     {
-      var period = ((ToolStripMenuItem)sender).Tag.ToString();
-      MessageBox.Show(period);
+      var period = this.PeriodParser.Match(((ToolStripMenuItem)sender).Tag.ToString());
+      var value = Convertion.ToInt32(period.Groups["value"].Value, 0);
+
+      DateTime d = DateTime.Now;
+
+      switch (period.Groups["interval"].Value.ToLower())
+      {
+        case "d": // день
+          this.DateFrom.Value = this.DateTo.Value = DateTime.Now.AddDays(value);
+          break;
+
+        case "w": // неделя
+          // телепортируемся в нужную неделю
+          d = DateTime.Now.AddDays(value * 7);
+          // определяем первый день недели
+          DateTime firstDay = d.AddDays(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - d.DayOfWeek);
+          // устанавливаем фильтры
+          this.DateFrom.Value = firstDay;
+          this.DateTo.Value = firstDay.AddDays(6);
+          break;
+
+        case "m": // месяц
+          d = DateTime.Now.AddMonths(value);
+          this.DateFrom.Value = new DateTime(d.Year, d.Month, 1);
+          this.DateTo.Value = this.DateFrom.Value.AddMonths(1).AddDays(-1);
+          break;
+
+        case "q": // квартал
+          // текущий квартал
+          int quarter = (DateTime.Now.Month - 1) / 3 + 1;  
+          // перый день текущего квартала
+          d = new DateTime(DateTime.Now.Year, (quarter - 1) * 3 + 1, 1);
+          // смещаемся на нужное число кварталов
+          d = d.AddMonths(value * 3);
+          // квартал новой даты
+          quarter = (d.Month - 1) / 3 + 1;
+          // передаем в фильтры
+          this.DateFrom.Value = new DateTime(d.Year, (quarter - 1) * 3 + 1, 1);
+          this.DateTo.Value = this.DateFrom.Value.AddMonths(3).AddDays(-1);
+          break;
+
+        case "y": // год
+          d = DateTime.Now.AddYears(value);
+          this.DateFrom.Value = new DateTime(d.Year, 1, 1);
+          this.DateTo.Value = this.DateFrom.Value.AddYears(1).AddDays(-1); // мало ли чего :)
+          break;
+      }
     }
 
     #endregion

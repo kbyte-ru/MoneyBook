@@ -29,9 +29,9 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
       this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
       this.StatusTitle = new System.Windows.Forms.ToolStripStatusLabel();
       this.TotalItems = new System.Windows.Forms.ToolStripStatusLabel();
@@ -41,8 +41,8 @@
       this.DateTo = new System.Windows.Forms.DateTimePicker();
       this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-      this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
       this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
       this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.DataGridView1 = new MoneyBook.WinApp.MDataGridView();
@@ -181,11 +181,6 @@
       this.contextMenuStrip1.Size = new System.Drawing.Size(174, 76);
       this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
       // 
-      // toolStripSeparator8
-      // 
-      this.toolStripSeparator8.Name = "toolStripSeparator8";
-      this.toolStripSeparator8.Size = new System.Drawing.Size(170, 6);
-      // 
       // mnuAdd
       // 
       this.mnuAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
@@ -193,6 +188,11 @@
       this.mnuAdd.Size = new System.Drawing.Size(173, 22);
       this.mnuAdd.Text = "Добавить";
       this.mnuAdd.Click += new System.EventHandler(this.btnAdd_Click);
+      // 
+      // toolStripSeparator8
+      // 
+      this.toolStripSeparator8.Name = "toolStripSeparator8";
+      this.toolStripSeparator8.Size = new System.Drawing.Size(170, 6);
       // 
       // mnuEdit
       // 
@@ -290,9 +290,9 @@
       // 
       // ItemDate
       // 
-      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle4.Format = "dd.MM.yyyy";
-      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle4;
+      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle1.Format = "dd.MM.yyyy";
+      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle1;
       this.ItemDate.HeaderText = "Дата";
       this.ItemDate.MinimumWidth = 25;
       this.ItemDate.Name = "ItemDate";
@@ -302,9 +302,9 @@
       // 
       // ItemAmount
       // 
-      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle5.Format = "##,###,##0.00";
-      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle5;
+      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle2.Format = "##,###,##0.00";
+      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle2;
       this.ItemAmount.HeaderText = "Сумма";
       this.ItemAmount.MinimumWidth = 15;
       this.ItemAmount.Name = "ItemAmount";
@@ -314,8 +314,8 @@
       // 
       // ItemCurrency
       // 
-      dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle6;
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle3;
       this.ItemCurrency.HeaderText = "Валюта";
       this.ItemCurrency.MinimumWidth = 15;
       this.ItemCurrency.Name = "ItemCurrency";

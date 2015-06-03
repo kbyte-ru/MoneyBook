@@ -16,6 +16,7 @@ namespace MoneyBook.WinApp
       this.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
       this.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
       this.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+      this.ShowItemToolTips = false;
     }
 
   }
