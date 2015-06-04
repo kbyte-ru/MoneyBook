@@ -25,12 +25,24 @@ namespace MoneyBook.WinApp
     [STAThread]
     static void Main()
     {
+      Program.ProfileBasePath = Path.Combine(Application.StartupPath, "Users");
+
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-
-      Program.ProfileBasePath = Path.Combine(Application.StartupPath, "Users");
-      
+      Application.ApplicationExit += Program.OnApplicationExit;      
       Application.Run(new Main());
     }
+
+    static void OnApplicationExit(object sender, EventArgs e)
+    {
+      if (Program.CurrentUser != null)
+      {
+        //Incomes.SaveSettings();
+        //Expenses.SaveSettings();
+        Program.CurrentUser.Flush();
+        //Program.CurrentUser = null;
+      }
+    }
+
   }
 }

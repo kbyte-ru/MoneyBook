@@ -115,6 +115,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.btnCancel;
       this.ClientSize = new System.Drawing.Size(375, 182);
+      this.ControlBox = false;
       this.Controls.Add(this.tableLayoutPanel1);
       this.Controls.Add(this.flowLayoutPanel1);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

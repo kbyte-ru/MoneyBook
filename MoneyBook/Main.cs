@@ -200,16 +200,8 @@ namespace MoneyBook.WinApp
 
     private void Main_FormClosed(object sender, FormClosedEventArgs e)
     {
-      if (Program.CurrentUser != null)
-      {
-        Incomes.SaveSettings();
-        Expenses.SaveSettings();
 
-        Program.CurrentUser.Dispose();
-        Program.CurrentUser = null;
-      }
     }
-
 
   }
 

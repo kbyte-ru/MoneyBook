@@ -189,10 +189,7 @@ namespace MoneyBook.Core
 
       if (disposing)
       {
-        // обновление информации
-        long totalTime = 0;
-        long.TryParse(this.Info[InfoId.Stat.TotalTime], out totalTime);
-        this.Info.Set(InfoId.Stat.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds));
+        this.Flush();
       }
 
       this.IsDisposed = true;
@@ -696,6 +693,17 @@ namespace MoneyBook.Core
         client.CommandText = "SELECT * FROM [currencies] ORDER BY [priority] ASC";
         return client.GetEntities<string, Currency>();
       }
+    }
+
+    public void Flush()
+    {
+      // обновление информации
+      long totalTime = 0;
+      long.TryParse(this.Info[InfoId.Stat.TotalTime], out totalTime);
+      this.Info.Set(InfoId.Stat.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds));
+     
+      // время начала сессии
+      this.SessionDate = DateTime.Now;
     }
 
     #endregion

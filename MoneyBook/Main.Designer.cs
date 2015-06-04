@@ -32,30 +32,30 @@
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabExpenses = new System.Windows.Forms.TabPage();
+      this.Expenses = new MoneyBook.WinApp.MoneyHistory();
       this.tabIncomes = new System.Windows.Forms.TabPage();
+      this.Incomes = new MoneyBook.WinApp.MoneyHistory();
       this.tabAccounts = new System.Windows.Forms.TabPage();
+      this.mDataGridView1 = new MoneyBook.WinApp.MDataGridView();
+      this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.tabDictionaries = new System.Windows.Forms.TabPage();
       this.label1 = new System.Windows.Forms.Label();
       this.tabSettings = new System.Windows.Forms.TabPage();
       this.tabInfo = new System.Windows.Forms.TabPage();
-      this.tabAbout = new System.Windows.Forms.TabPage();
-      this.iconList = new System.Windows.Forms.ImageList(this.components);
-      this.Expenses = new MoneyBook.WinApp.MoneyHistory();
-      this.Incomes = new MoneyBook.WinApp.MoneyHistory();
-      this.mDataGridView1 = new MoneyBook.WinApp.MDataGridView();
-      this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.dgvInfo = new MoneyBook.WinApp.MDataGridView();
       this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.tabAbout = new System.Windows.Forms.TabPage();
+      this.iconList = new System.Windows.Forms.ImageList(this.components);
       this.tabControl1.SuspendLayout();
       this.tabExpenses.SuspendLayout();
       this.tabIncomes.SuspendLayout();
       this.tabAccounts.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.mDataGridView1)).BeginInit();
       this.tabDictionaries.SuspendLayout();
       this.tabInfo.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.mDataGridView1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.dgvInfo)).BeginInit();
       this.SuspendLayout();
       // 
@@ -89,6 +89,17 @@
       this.tabExpenses.Text = "Расходы";
       this.tabExpenses.UseVisualStyleBackColor = true;
       // 
+      // Expenses
+      // 
+      this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
+      this.Expenses.Location = new System.Drawing.Point(3, 3);
+      this.Expenses.Name = "Expenses";
+      this.Expenses.Size = new System.Drawing.Size(656, 370);
+      this.Expenses.TabIndex = 0;
+      this.Expenses.User = null;
+      // 
       // tabIncomes
       // 
       this.tabIncomes.Controls.Add(this.Incomes);
@@ -101,6 +112,17 @@
       this.tabIncomes.Text = "Доходы";
       this.tabIncomes.UseVisualStyleBackColor = true;
       // 
+      // Incomes
+      // 
+      this.Incomes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Incomes.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
+      this.Incomes.Location = new System.Drawing.Point(3, 3);
+      this.Incomes.Name = "Incomes";
+      this.Incomes.Size = new System.Drawing.Size(656, 370);
+      this.Incomes.TabIndex = 0;
+      this.Incomes.User = null;
+      // 
       // tabAccounts
       // 
       this.tabAccounts.Controls.Add(this.mDataGridView1);
@@ -111,6 +133,41 @@
       this.tabAccounts.TabIndex = 2;
       this.tabAccounts.Text = "Счета";
       this.tabAccounts.UseVisualStyleBackColor = true;
+      // 
+      // mDataGridView1
+      // 
+      this.mDataGridView1.AllowUserToAddRows = false;
+      this.mDataGridView1.AllowUserToDeleteRows = false;
+      this.mDataGridView1.AllowUserToResizeRows = false;
+      this.mDataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+      this.mDataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
+      this.mDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.mDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.mDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2});
+      this.mDataGridView1.EnableHeadersVisualStyles = false;
+      this.mDataGridView1.Location = new System.Drawing.Point(8, 20);
+      this.mDataGridView1.MultiSelect = false;
+      this.mDataGridView1.Name = "mDataGridView1";
+      this.mDataGridView1.ReadOnly = true;
+      this.mDataGridView1.RowHeadersWidth = 12;
+      this.mDataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+      this.mDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+      this.mDataGridView1.Size = new System.Drawing.Size(240, 150);
+      this.mDataGridView1.TabIndex = 0;
+      // 
+      // Column1
+      // 
+      this.Column1.HeaderText = "Column1";
+      this.Column1.Name = "Column1";
+      this.Column1.ReadOnly = true;
+      // 
+      // Column2
+      // 
+      this.Column2.HeaderText = "Column2";
+      this.Column2.Name = "Column2";
+      this.Column2.ReadOnly = true;
       // 
       // tabDictionaries
       // 
@@ -153,85 +210,6 @@
       this.tabInfo.TabIndex = 6;
       this.tabInfo.Text = "Info";
       this.tabInfo.UseVisualStyleBackColor = true;
-      // 
-      // tabAbout
-      // 
-      this.tabAbout.ImageIndex = 6;
-      this.tabAbout.Location = new System.Drawing.Point(4, 23);
-      this.tabAbout.Name = "tabAbout";
-      this.tabAbout.Size = new System.Drawing.Size(662, 376);
-      this.tabAbout.TabIndex = 5;
-      this.tabAbout.Text = "О программе...";
-      this.tabAbout.UseVisualStyleBackColor = true;
-      // 
-      // iconList
-      // 
-      this.iconList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconList.ImageStream")));
-      this.iconList.TransparentColor = System.Drawing.Color.Transparent;
-      this.iconList.Images.SetKeyName(0, "coins_delete.png");
-      this.iconList.Images.SetKeyName(1, "coins_add.png");
-      this.iconList.Images.SetKeyName(2, "entity.png");
-      this.iconList.Images.SetKeyName(3, "category.png");
-      this.iconList.Images.SetKeyName(4, "gear_in.png");
-      this.iconList.Images.SetKeyName(5, "application_terminal.png");
-      this.iconList.Images.SetKeyName(6, "information_frame.png");
-      // 
-      // Expenses
-      // 
-      this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
-      this.Expenses.Location = new System.Drawing.Point(3, 3);
-      this.Expenses.Name = "Expenses";
-      this.Expenses.Size = new System.Drawing.Size(656, 370);
-      this.Expenses.TabIndex = 0;
-      this.Expenses.User = null;
-      // 
-      // Incomes
-      // 
-      this.Incomes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.Incomes.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
-      this.Incomes.Location = new System.Drawing.Point(3, 3);
-      this.Incomes.Name = "Incomes";
-      this.Incomes.Size = new System.Drawing.Size(656, 370);
-      this.Incomes.TabIndex = 0;
-      this.Incomes.User = null;
-      // 
-      // mDataGridView1
-      // 
-      this.mDataGridView1.AllowUserToAddRows = false;
-      this.mDataGridView1.AllowUserToDeleteRows = false;
-      this.mDataGridView1.AllowUserToResizeRows = false;
-      this.mDataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-      this.mDataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
-      this.mDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.mDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.mDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2});
-      this.mDataGridView1.EnableHeadersVisualStyles = false;
-      this.mDataGridView1.Location = new System.Drawing.Point(8, 20);
-      this.mDataGridView1.MultiSelect = false;
-      this.mDataGridView1.Name = "mDataGridView1";
-      this.mDataGridView1.ReadOnly = true;
-      this.mDataGridView1.RowHeadersWidth = 12;
-      this.mDataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-      this.mDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.mDataGridView1.Size = new System.Drawing.Size(240, 150);
-      this.mDataGridView1.TabIndex = 0;
-      // 
-      // Column1
-      // 
-      this.Column1.HeaderText = "Column1";
-      this.Column1.Name = "Column1";
-      this.Column1.ReadOnly = true;
-      // 
-      // Column2
-      // 
-      this.Column2.HeaderText = "Column2";
-      this.Column2.Name = "Column2";
-      this.Column2.ReadOnly = true;
       // 
       // dgvInfo
       // 
@@ -282,6 +260,28 @@
       this.Column4.ReadOnly = true;
       this.Column4.Width = 275;
       // 
+      // tabAbout
+      // 
+      this.tabAbout.ImageIndex = 6;
+      this.tabAbout.Location = new System.Drawing.Point(4, 23);
+      this.tabAbout.Name = "tabAbout";
+      this.tabAbout.Size = new System.Drawing.Size(662, 376);
+      this.tabAbout.TabIndex = 5;
+      this.tabAbout.Text = "О программе...";
+      this.tabAbout.UseVisualStyleBackColor = true;
+      // 
+      // iconList
+      // 
+      this.iconList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconList.ImageStream")));
+      this.iconList.TransparentColor = System.Drawing.Color.Transparent;
+      this.iconList.Images.SetKeyName(0, "coins_delete.png");
+      this.iconList.Images.SetKeyName(1, "coins_add.png");
+      this.iconList.Images.SetKeyName(2, "entity.png");
+      this.iconList.Images.SetKeyName(3, "category.png");
+      this.iconList.Images.SetKeyName(4, "gear_in.png");
+      this.iconList.Images.SetKeyName(5, "application_terminal.png");
+      this.iconList.Images.SetKeyName(6, "information_frame.png");
+      // 
       // Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -299,10 +299,10 @@
       this.tabExpenses.ResumeLayout(false);
       this.tabIncomes.ResumeLayout(false);
       this.tabAccounts.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.mDataGridView1)).EndInit();
       this.tabDictionaries.ResumeLayout(false);
       this.tabDictionaries.PerformLayout();
       this.tabInfo.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.mDataGridView1)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.dgvInfo)).EndInit();
       this.ResumeLayout(false);
 

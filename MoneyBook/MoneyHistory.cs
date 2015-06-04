@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using MoneyBook.Core;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace MoneyBook.WinApp
 {
@@ -647,12 +648,14 @@ namespace MoneyBook.WinApp
     /// </summary>
     public void ReloadItems()
     {
-      this.DataGridView1.Rows.Clear();
-      this.TotalAmountByCurrencies.Clear();
-
       var u = this.User;
 
       if (this.ItemsType == EntryType.None || u == null) { return; }
+
+      this.Enabled = false;
+
+      this.DataGridView1.Rows.Clear();
+      this.TotalAmountByCurrencies.Clear();
 
       int categoryId = ((Category)this.Subcategories.SelectedItem).Id;
 
@@ -761,6 +764,7 @@ namespace MoneyBook.WinApp
       this.UpdateLabels();
       this.UpdateButtons();
 
+      this.Enabled = true;
       //btnEdit.Enabled = btnDelete.Enabled =
       //mnuEdit.Enabled = mnuDelete.Enabled = (DataGridView1.Rows.Count > 0);
     }
