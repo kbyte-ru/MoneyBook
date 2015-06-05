@@ -10,6 +10,7 @@ using MoneyBook.Core;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace MoneyBook.WinApp
 {
@@ -20,6 +21,11 @@ namespace MoneyBook.WinApp
     #region ..поля и свойства, поля и свойства..
 
     private Regex PeriodParser = new Regex(@"^(?<interval>(d|w|m|q|y))(?<value>[0-9\-]*)$", RegexOptions.IgnoreCase);
+
+    /// <summary>
+    /// Представляет очередь задач.
+    /// </summary>
+    private ConcurrentQueue<Action> Tasks = new ConcurrentQueue<Action>();
 
     private User _User = null;
 
@@ -38,9 +44,10 @@ namespace MoneyBook.WinApp
         _User = value;
         if (reloadNeed)
         {
-          this.ReloadDictionaries();
-          this.LoadSettings();
-          this.ReloadItems();
+          this.AddTask(this.ReloadDictionaries);
+          this.AddTask(this.LoadSettings);
+          this.AddTask(this.ReloadItems);
+          this.ExecuteAllTasks();
         }
       }
     }
@@ -62,8 +69,9 @@ namespace MoneyBook.WinApp
         _ItemsType = value;
         if (reloadNeed)
         {
-          this.LoadSettings();
-          this.ReloadItems();
+          this.AddTask(this.LoadSettings);
+          this.AddTask(this.ReloadItems);
+          this.ExecuteAllTasks();
         }
       }
     }
@@ -101,10 +109,7 @@ namespace MoneyBook.WinApp
     private void MoneyHistory_Load(object sender, EventArgs e)
     {
       // восстанавливаем ранее выбранные параметры
-      this.LoadSettings();
-
-      // загружаем данные
-      this.ReloadItems();
+      //this.LoadSettings();
 
       // список месяцев до текущего
       var baseDate = new DateTime(DateTime.Now.Year, 1, 1);
@@ -121,6 +126,9 @@ namespace MoneyBook.WinApp
         // обработчик клика
         this.mnuPeriodMonth.DropDownItems[this.mnuPeriodMonth.DropDownItems.Count - 1].Click += Period_Click;
       }
+
+      // загружаем данные
+      //this.ReloadItems();
     }
     
     private void btnAdd_Click(object sender, EventArgs e)
@@ -168,7 +176,8 @@ namespace MoneyBook.WinApp
     private void btnFilter_Click(object sender, EventArgs e)
     {
       // загружаем данные
-      this.ReloadItems();
+      this.AddTask(this.ReloadItems);
+      this.ExecuteAllTasks();
 
       // запоминаем выбранные параметры
       // this.SaveSettings();
@@ -249,7 +258,8 @@ namespace MoneyBook.WinApp
 
       if (e.KeyCode == Keys.F5)
       {
-        this.ReloadItems();
+        this.AddTask(this.ReloadItems);
+        this.ExecuteAllTasks();
       }
     }
 
@@ -436,7 +446,18 @@ namespace MoneyBook.WinApp
     /// </summary>
     private void LoadSettings()
     {
+      /*if (this.InvokeRequired)
+      {
+        this.Invoke(new Action(LoadSettings));
+        return;
+      }*/
+
       if (this.ItemsType == EntryType.None || this.User == null) { return; }
+
+      this.SafeInvoke(() =>
+      {
+        this.Accounts.Enabled = this.Categories.Enabled = this.Subcategories.Enabled = false;
+      });
 
       int selectedAccountId = 0;
       int selectedCategoryId = 0;
@@ -467,32 +488,37 @@ namespace MoneyBook.WinApp
         //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text);
       }
 
-      for (int i = 0; i < this.Accounts.Items.Count; i++)
+      this.SafeInvoke(() =>
       {
-        if (((Account)this.Accounts.Items[i]).Id == selectedAccountId)
+        for (int i = 0; i < this.Accounts.Items.Count; i++)
         {
-          this.Accounts.SelectedIndex = i;
-          break;
+          if (((Account)this.Accounts.Items[i]).Id == selectedAccountId)
+          {
+            this.Accounts.SelectedIndex = i;
+            break;
+          }
         }
-      }
 
-      for (int i = 0; i < this.Categories.Items.Count; i++)
-      {
-        if (((Category)this.Categories.Items[i]).Id == selectedCategoryId)
+        for (int i = 0; i < this.Categories.Items.Count; i++)
         {
-          this.Categories.SelectedIndex = i;
-          break;
+          if (((Category)this.Categories.Items[i]).Id == selectedCategoryId)
+          {
+            this.Categories.SelectedIndex = i;
+            break;
+          }
         }
-      }
 
-      for (int i = 0; i < this.Subcategories.Items.Count; i++)
-      {
-        if (((Category)this.Subcategories.Items[i]).Id == selectedSubcategoryId)
+        for (int i = 0; i < this.Subcategories.Items.Count; i++)
         {
-          this.Subcategories.SelectedIndex = i;
-          break;
+          if (((Category)this.Subcategories.Items[i]).Id == selectedSubcategoryId)
+          {
+            this.Subcategories.SelectedIndex = i;
+            break;
+          }
         }
-      }
+
+        this.Accounts.Enabled = this.Categories.Enabled = this.Subcategories.Enabled = true;
+      });
     }
 
     /// <summary>
@@ -594,9 +620,15 @@ namespace MoneyBook.WinApp
     /// </summary>
     public void ReloadDictionaries()
     {
+      if (this.InvokeRequired)
+      {
+        this.Invoke(new Action(ReloadDictionaries));
+        return;
+      }
+
       var selectedAccountId = 0;
       var selectedMoneyItemId = 0;
-
+     
       if (this.Accounts.SelectedItem != null)
       {
         selectedAccountId = ((Account)this.Accounts.SelectedItem).Id;
@@ -648,31 +680,52 @@ namespace MoneyBook.WinApp
     /// </summary>
     public void ReloadItems()
     {
-      var u = this.User;
+      if (this.ItemsType == EntryType.None || this.User == null) { return; }
+      
+      int accountId = 0, categoryId = 0;
+      DateTime dateFrom = DateTime.Now, dateTo = DateTime.Now;
+      decimal? amountFrom = null, amountTo = null;
 
-      if (this.ItemsType == EntryType.None || u == null) { return; }
+      this.SafeInvoke(() => { 
+        accountId = ((Account)this.Accounts.SelectedItem).Id;
+        categoryId = ((Category)this.Subcategories.SelectedItem).Id;
+        if (categoryId <= 0)
+        {
+          categoryId = ((Category)this.Categories.SelectedItem).Id;
+        }
+        dateFrom = this.DateFrom.Value;
+        dateTo = this.DateTo.Value;
+        amountFrom = Convertion.ToDecimal(this.AmountFrom.Text, null);
+        amountTo = Convertion.ToDecimal(this.AmountTo.Text, null);
+      });
 
-      this.Enabled = false;
+      this.ReloadItems_Task(accountId, categoryId, dateFrom, dateTo, amountFrom, amountTo);
+    }
 
-      this.DataGridView1.Rows.Clear();
-      this.TotalAmountByCurrencies.Clear();
-
-      int categoryId = ((Category)this.Subcategories.SelectedItem).Id;
-
-      if (categoryId <= 0)
+    private void ReloadItems_Task(int accountId, int categoryId, DateTime dateFrom, DateTime dateTo, decimal? amountFrom, decimal? amountTo)
+    {
+      this.SafeInvoke(() =>
       {
-        categoryId = ((Category)this.Categories.SelectedItem).Id;
-      }
+        this.Enabled = false;
+
+        //this.Cursor = Cursors.WaitCursor;
+        this.DataGridView1.SuspendLayout();
+
+        this.DataGridView1.Rows.Clear();
+        this.TotalAmountByCurrencies.Clear();
+      });
+
+      var u = this.User;
 
       var items = u.GetMoneyItems
       (
         type: this.ItemsType,
-        accountId: ((Account)this.Accounts.SelectedItem).Id,
+        accountId: accountId,
         categoryId: categoryId,
-        dateFrom: this.DateFrom.Value,
-        dateTo: this.DateTo.Value,
-        amountFrom: Convertion.ToDecimal(this.AmountFrom.Text, null),
-        amountTo: Convertion.ToDecimal(this.AmountTo.Text, null)
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        amountFrom: amountFrom,
+        amountTo: amountTo
       );
 
       foreach (var item in items)
@@ -750,7 +803,9 @@ namespace MoneyBook.WinApp
         row.DefaultCellStyle.Font = new Font(this.DataGridView1.Font, category.FontStyle);
 
         // добавляем строку
-        this.DataGridView1.Rows.Add(row);
+        this.SafeInvoke(() => this.DataGridView1.Rows.Add(row));
+
+        System.Threading.Thread.Sleep(300); // note: проверка работы потоков
 
         // общая сумма
         if (!this.TotalAmountByCurrencies.ContainsKey(account.CurrencyCode))
@@ -761,12 +816,59 @@ namespace MoneyBook.WinApp
         this.TotalAmountByCurrencies[account.CurrencyCode] += item.Amount;
       }
 
-      this.UpdateLabels();
-      this.UpdateButtons();
+      this.SafeInvoke(() =>
+      {
+        this.UpdateLabels();
+        this.UpdateButtons();
 
-      this.Enabled = true;
+        this.Enabled = true;
+
+        this.DataGridView1.ResumeLayout();
+      });
+
+      //this.Cursor = Cursors.Default;
       //btnEdit.Enabled = btnDelete.Enabled =
       //mnuEdit.Enabled = mnuDelete.Enabled = (DataGridView1.Rows.Count > 0);
+    }
+
+    /// <summary>
+    /// Добавляет задачу в очередь.
+    /// </summary>
+    /// <param name="task"></param>
+    private void AddTask(Action task)
+    {
+      this.Tasks.Enqueue(task);
+    }
+
+    /// <summary>
+    /// Выполняет все задачи, находящиеся в очереди.
+    /// </summary>
+    private void ExecuteAllTasks()
+    {
+      Task.Factory.StartNew(() =>
+      {
+        Action action = null;
+        while (this.Tasks.TryDequeue(out action))
+        {
+          action();
+        }
+      });
+    }
+
+    private void SafeInvoke(Action action)
+    {
+      if (this.InvokeRequired)
+      {
+        this.Invoke(new Action<Action>(SafeInvoke), action);
+        return;
+      }
+
+      if (this.IsDisposed)
+      {
+        return;
+      }
+
+      action();
     }
 
     #endregion

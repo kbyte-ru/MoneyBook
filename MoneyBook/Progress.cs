@@ -123,10 +123,13 @@ namespace MoneyBook.WinApp
     /// </summary>
     public Action CancelCallback { get; set; }
 
-    public Progress(Form owner)
+    public Progress()
     {
       InitializeComponent();
+    }
 
+    public Progress(Form owner) : this()
+    {
       this.Owner = owner;
       this.StartPosition = FormStartPosition.CenterParent;
       this.AllowCancel = false;
