@@ -43,10 +43,7 @@ namespace MoneyBook.WinApp
         _User = value;
         if (reloadNeed)
         {
-          TaskManager.Add(this.ReloadDictionaries);
-          TaskManager.Add(this.LoadSettings);
-          TaskManager.Add(this.ReloadItems);
-          TaskManager.ExecuteAll();
+          this.Init();
         }
       }
     }
@@ -68,10 +65,7 @@ namespace MoneyBook.WinApp
         _ItemsType = value;
         if (reloadNeed)
         {
-          TaskManager.Add(this.UpdateLabels);
-          TaskManager.Add(this.LoadSettings);
-          TaskManager.Add(this.ReloadItems);
-          TaskManager.ExecuteAll();
+          this.Init();
         }
       }
     }
@@ -130,7 +124,7 @@ namespace MoneyBook.WinApp
       }
 
       // восстанавливаем ранее выбранные параметры
-      this.LoadSettings();
+      //this.LoadSettings();
 
       // загружаем данные
       //this.ReloadItems();
@@ -457,12 +451,26 @@ namespace MoneyBook.WinApp
     #endregion
     #region ..методы..
 
+    private void Init()
+    {
+      if (this.ItemsType == EntryType.None || this.User == null) { return; }
+
+      TaskManager.Add(this.UpdateLabels);
+      TaskManager.Add(this.ReloadDictionaries);
+      TaskManager.Add(this.LoadSettings);
+      //TaskManager.Add(this.ReloadItems);
+
+      TaskManager.ExecuteAll();
+    }
+
     /// <summary>
     /// Загружает и применяет настройки пользователя.
     /// </summary>
     private void LoadSettings()
     {
       if (this.ItemsType == EntryType.None || this.User == null) { return; }
+
+      Console.WriteLine("{0} > LoadSettings", this.ItemsType);
 
       this.SafeInvoke(() =>
       {
@@ -551,6 +559,9 @@ namespace MoneyBook.WinApp
         //this.Accounts.Enabled = this.Categories.Enabled = this.Subcategories.Enabled = true;
         ToolStrip1.Enabled = ToolStrip2.Enabled = ToolStrip3.Enabled = true;
       });
+
+      // загружаем записи
+      this.ReloadItems();
     }
 
     /// <summary>
@@ -593,6 +604,14 @@ namespace MoneyBook.WinApp
     /// </summary>
     private void UpdateLabels()
     {
+      if (this.InvokeRequired)
+      {
+        this.Invoke(new Action(UpdateLabels));
+        return;
+      }
+
+      Console.WriteLine("{0} > UpdateLabels", this.ItemsType);
+
       if (this.ItemsType == EntryType.Expense)
       {
         this.btnAdd.Text = this.mnuAdd.Text = "Добавить расход";
@@ -659,11 +678,16 @@ namespace MoneyBook.WinApp
     /// </summary>
     public void ReloadDictionaries()
     {
+      Console.WriteLine("{0} > ReloadDictionaries", this.ItemsType);
+
       if (this.InvokeRequired)
       {
+        //System.Threading.Thread.Sleep(10000);
         this.Invoke(new Action(ReloadDictionaries));
         return;
       }
+
+      Console.WriteLine("{0} > ReloadDictionaries2", this.ItemsType);
 
       var selectedAccountId = 0;
       var selectedMoneyItemId = 0;
@@ -720,7 +744,9 @@ namespace MoneyBook.WinApp
     public void ReloadItems()
     {
       if (this.ItemsType == EntryType.None || this.User == null) { return; }
-      
+
+      Console.WriteLine("{0} > ReloadItems", this.ItemsType);
+
       int accountId = 0, categoryId = 0;
       DateTime dateFrom = DateTime.Now, dateTo = DateTime.Now;
       decimal? amountFrom = null, amountTo = null;
