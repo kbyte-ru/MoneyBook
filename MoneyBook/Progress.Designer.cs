@@ -34,7 +34,6 @@
       // ProgressBar1
       // 
       this.ProgressBar1.ActionName = "";
-      this.ProgressBar1.AllowCancel = false;
       this.ProgressBar1.CancelCallback = null;
       this.ProgressBar1.DetailedInfo = "";
       this.ProgressBar1.Dock = System.Windows.Forms.DockStyle.Fill;

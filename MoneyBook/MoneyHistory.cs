@@ -20,6 +20,11 @@ namespace MoneyBook.WinApp
 
     #region ..поля и свойства, поля и свойства..
 
+    /// <summary>
+    /// Необходимо отмена текущего процесса.
+    /// </summary>
+    private bool Cancellation = false;
+
     private Regex PeriodParser = new Regex(@"^(?<interval>(d|w|m|q|y))(?<value>[0-9\-]*)$", RegexOptions.IgnoreCase);
 
     /// <summary>
@@ -69,6 +74,7 @@ namespace MoneyBook.WinApp
         _ItemsType = value;
         if (reloadNeed)
         {
+          this.AddTask(this.UpdateLabels);
           this.AddTask(this.LoadSettings);
           this.AddTask(this.ReloadItems);
           this.ExecuteAllTasks();
@@ -101,6 +107,11 @@ namespace MoneyBook.WinApp
       this.Subcategories.ComboBox.DisplayMember = "Name";
 
       this.TotalAmountByCurrencies = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
+
+      this.ProgressBar1.CancelCallback = () =>
+      {
+        this.Cancellation = true;
+      };
     }
     
     #endregion
@@ -170,7 +181,7 @@ namespace MoneyBook.WinApp
       // удаляем из списка
       DataGridView1.Rows.Remove(DataGridView1.CurrentRow);
       this.TotalAmountByCurrencies[currencyCode] -= item.Amount;
-      this.UpdateLabels();
+      this.UpdateStatus();
     }
 
     private void btnFilter_Click(object sender, EventArgs e)
@@ -575,18 +586,37 @@ namespace MoneyBook.WinApp
     }
 
     /// <summary>
-    /// Устанавливает надписи в соответствии с параметрами текущего списка данных.
+    /// Устанавливает надписи в зависимости от параметров списка.
     /// </summary>
     private void UpdateLabels()
     {
       if (this.ItemsType == EntryType.Expense)
       {
         this.btnAdd.Text = this.mnuAdd.Text = "Добавить расход";
-        this.StatusTitle.Text = String.Format("Расходы с {0} по {1}", this.DateFrom.Value.ToShortDateString(), this.DateTo.Value.ToShortDateString());
       }
       else if (this.ItemsType == EntryType.Income)
       {
         this.btnAdd.Text = this.mnuAdd.Text = "Добавить доход";
+      }
+    }
+
+    /// <summary>
+    /// Обновляет строку статуса статус.
+    /// </summary>
+    private void UpdateStatus()
+    {
+      if (this.InvokeRequired)
+      {
+        this.Invoke(new Action(UpdateStatus));
+        return;
+      }
+
+      if (this.ItemsType == EntryType.Expense)
+      {
+        this.StatusTitle.Text = String.Format("Расходы с {0} по {1}", this.DateFrom.Value.ToShortDateString(), this.DateTo.Value.ToShortDateString());
+      }
+      else if (this.ItemsType == EntryType.Income)
+      {
         this.StatusTitle.Text = String.Format("Доходы с {0} по {1}", this.DateFrom.Value.ToShortDateString(), this.DateTo.Value.ToShortDateString());
       }
 
@@ -710,6 +740,8 @@ namespace MoneyBook.WinApp
 
     private void ReloadItems_Task(int accountId, int categoryId, DateTime dateFrom, DateTime dateTo, decimal? amountFrom, decimal? amountTo)
     {
+      int selectedItemId = 0;
+
       this.SafeInvoke(() =>
       {
         this.DataGridView1.Enabled = this.StatusStrip1.Enabled = 
@@ -718,12 +750,17 @@ namespace MoneyBook.WinApp
         //this.Cursor = Cursors.WaitCursor;
         this.DataGridView1.SuspendLayout();
 
+        if (this.DataGridView1.CurrentRow != null)
+        {
+          selectedItemId = ((MoneyItem)this.DataGridView1.CurrentRow.Tag).Id;
+        }
         this.DataGridView1.Rows.Clear();
         this.TotalAmountByCurrencies.Clear();
+        this.UpdateStatus();
 
-        this.ProgressBar1.ProgressValue = 0;
-        this.ProgressBar1.ActionName = "Загрузка данных...";
-        this.ProgressBar1.Visible = true;
+        this.ProgressBar1.Run("Загрузка данных...", "", 0);
+
+        this.Cancellation = false;
       });
 
       var u = this.User;
@@ -741,8 +778,32 @@ namespace MoneyBook.WinApp
 
       this.ProgressBar1.ProgressMaximum = items.Count;
 
+      int detailStep = 0;
+
+      if (this.ProgressBar1.ProgressMaximum >= 500 && this.ProgressBar1.ProgressMaximum < 1000)
+      {
+        detailStep = 2;
+      }
+      else if (this.ProgressBar1.ProgressMaximum >= 1000 && this.ProgressBar1.ProgressMaximum < 2000)
+      {
+        detailStep = 5;
+      }
+      else if (this.ProgressBar1.ProgressMaximum >= 2000 && this.ProgressBar1.ProgressMaximum < 5000)
+      {
+        detailStep = 10;
+      }
+      else if (this.ProgressBar1.ProgressMaximum >= 5000)
+      {
+        detailStep = 100;
+      }
+
       foreach (var item in items)
       {
+        if (this.Cancellation)
+        {
+          break;
+        }
+
         var row = new DataGridViewRow();
 
         int iconId = 0;
@@ -818,7 +879,13 @@ namespace MoneyBook.WinApp
         // добавляем строку
         this.SafeInvoke(() => this.DataGridView1.Rows.Add(row));
 
-        System.Threading.Thread.Sleep(300); // note: проверка работы потоков
+        // если эта запись была выбрана до обновления, выбираем её снова
+        /*if (selectedItemId == item.Id)
+        {
+          this.SafeInvoke(() => this.DataGridView1.CurrentCell = this.DataGridView1.Rows[this.DataGridView1.RowCount - 1].Cells[0]);
+        }*/
+
+        // System.Threading.Thread.Sleep(100); // note: проверка работы потоков
 
         // общая сумма
         if (!this.TotalAmountByCurrencies.ContainsKey(account.CurrencyCode))
@@ -829,19 +896,34 @@ namespace MoneyBook.WinApp
         this.TotalAmountByCurrencies[account.CurrencyCode] += item.Amount;
 
         this.ProgressBar1.ProgressValue++;
+
+        if (this.ProgressBar1.ProgressValue > 0 && (this.ProgressBar1.ProgressValue % 100) == 0)
+        {
+          this.UpdateStatus();
+        }
+
+        if (detailStep == 0 || (this.ProgressBar1.ProgressValue % detailStep) == 0)
+        {
+          this.ProgressBar1.DetailedInfo = String.Format("Получено {0:##,###,##0} из {1:##,###,##0} записей.", this.ProgressBar1.ProgressValue, this.ProgressBar1.ProgressMaximum);
+        }
       }
 
-      this.ProgressBar1.ProgressValue = this.ProgressBar1.ProgressMaximum;
+      // this.ProgressBar1.ActionName = "Пересчет...";
+
+      /*if (this.ProgressBar1.Visible)
+      {
+        System.Threading.Thread.Sleep(1000);
+      }*/
 
       this.SafeInvoke(() =>
       {
-        this.UpdateLabels();
+        this.UpdateStatus();
         this.UpdateButtons();
 
         this.DataGridView1.Enabled = this.StatusStrip1.Enabled =
         this.ToolStrip1.Enabled = this.ToolStrip2.Enabled = this.ToolStrip3.Enabled = true;
 
-        this.ProgressBar1.Visible = false;
+        this.ProgressBar1.End();
 
         this.DataGridView1.ResumeLayout();
       });

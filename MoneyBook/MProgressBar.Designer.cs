@@ -36,6 +36,8 @@
       this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
       this.btnCancel = new System.Windows.Forms.Button();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
+      this.timer2 = new System.Windows.Forms.Timer(this.components);
+      this.timer3 = new System.Windows.Forms.Timer(this.components);
       this.tableLayoutPanel1.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
       this.SuspendLayout();
@@ -52,9 +54,10 @@
       // 
       this.lblAction.AutoSize = true;
       this.lblAction.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.lblAction.Location = new System.Drawing.Point(22, 51);
+      this.lblAction.Location = new System.Drawing.Point(22, 47);
       this.lblAction.Name = "lblAction";
-      this.lblAction.Size = new System.Drawing.Size(343, 13);
+      this.lblAction.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+      this.lblAction.Size = new System.Drawing.Size(343, 17);
       this.lblAction.TabIndex = 1;
       this.lblAction.Text = "Выполняю какую-то операцию";
       // 
@@ -82,14 +85,14 @@
       this.lblDetails.AutoSize = true;
       this.lblDetails.Location = new System.Drawing.Point(22, 94);
       this.lblDetails.Name = "lblDetails";
-      this.lblDetails.Size = new System.Drawing.Size(332, 26);
+      this.lblDetails.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
+      this.lblDetails.Size = new System.Drawing.Size(332, 30);
       this.lblDetails.TabIndex = 3;
       this.lblDetails.Text = "Конкретно сейчас делаю конкретно вот такую вот непонятную, но очень конкретную за" +
     "дачу";
       // 
       // flowLayoutPanel1
       // 
-      this.flowLayoutPanel1.BackColor = System.Drawing.Color.White;
       this.flowLayoutPanel1.Controls.Add(this.btnCancel);
       this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
@@ -98,7 +101,6 @@
       this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
       this.flowLayoutPanel1.Size = new System.Drawing.Size(388, 39);
       this.flowLayoutPanel1.TabIndex = 3;
-      this.flowLayoutPanel1.Visible = false;
       // 
       // btnCancel
       // 
@@ -109,11 +111,21 @@
       this.btnCancel.TabIndex = 0;
       this.btnCancel.Text = "Отмена";
       this.btnCancel.UseVisualStyleBackColor = true;
+      this.btnCancel.Visible = false;
       this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
       // 
       // timer1
       // 
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+      // 
+      // timer2
+      // 
+      this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+      // 
+      // timer3
+      // 
+      this.timer3.Interval = 500;
+      this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
       // 
       // MProgressBar
       // 
@@ -140,5 +152,7 @@
     private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     private System.Windows.Forms.Button btnCancel;
     private System.Windows.Forms.Timer timer1;
+    private System.Windows.Forms.Timer timer2;
+    private System.Windows.Forms.Timer timer3;
   }
 }

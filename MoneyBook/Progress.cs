@@ -104,21 +104,6 @@ namespace MoneyBook.WinApp
     }
 
     /// <summary>
-    /// Задает или получает значение, указывающее на возможность отмены выполняемой операции.
-    /// </summary>
-    public bool AllowCancel
-    {
-      get
-      {
-        return ProgressBar1.AllowCancel;
-      }
-      set
-      {
-        ProgressBar1.AllowCancel = value;
-      }
-    }
-
-    /// <summary>
     /// Метод, который будет вызван при отмене операции пользователем.
     /// </summary>
     public Action CancelCallback
@@ -142,7 +127,6 @@ namespace MoneyBook.WinApp
     {
       this.Owner = owner;
       this.StartPosition = FormStartPosition.CenterParent;
-      this.AllowCancel = false;
     }
 
     private void SetText(string value)

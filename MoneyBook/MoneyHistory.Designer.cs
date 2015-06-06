@@ -45,6 +45,7 @@
       this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
       this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
+      this.ProgressBar1 = new MoneyBook.WinApp.MProgressBar();
       this.DataGridView1 = new MoneyBook.WinApp.MDataGridView();
       this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
       this.ItemCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,7 +93,6 @@
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
-      this.ProgressBar1 = new MoneyBook.WinApp.MProgressBar();
       this.StatusStrip1.SuspendLayout();
       this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
@@ -212,6 +212,24 @@
       this.mnuDelete.Size = new System.Drawing.Size(173, 22);
       this.mnuDelete.Text = "Удалить";
       this.mnuDelete.Click += new System.EventHandler(this.btnDelete_Click);
+      // 
+      // ProgressBar1
+      // 
+      this.ProgressBar1.ActionName = "";
+      this.ProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.ProgressBar1.CancelCallback = null;
+      this.ProgressBar1.CancelDelay = 3000;
+      this.ProgressBar1.CancelText = "Вы действительно хотите прервать операцию?";
+      this.ProgressBar1.DetailedInfo = "";
+      this.ProgressBar1.Location = new System.Drawing.Point(167, 122);
+      this.ProgressBar1.Name = "ProgressBar1";
+      this.ProgressBar1.ProgressMaximum = 100;
+      this.ProgressBar1.ProgressMinimum = 0;
+      this.ProgressBar1.ProgressValue = 0;
+      this.ProgressBar1.ShowDelay = 1000;
+      this.ProgressBar1.Size = new System.Drawing.Size(333, 142);
+      this.ProgressBar1.TabIndex = 16;
+      this.ProgressBar1.Visible = false;
       // 
       // DataGridView1
       // 
@@ -661,23 +679,6 @@
             "<Все>"});
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(150, 25);
-      // 
-      // ProgressBar1
-      // 
-      this.ProgressBar1.ActionName = "";
-      this.ProgressBar1.AllowCancel = false;
-      this.ProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.ProgressBar1.CancelCallback = null;
-      this.ProgressBar1.CancelDelay = 3000;
-      this.ProgressBar1.DetailedInfo = "";
-      this.ProgressBar1.Location = new System.Drawing.Point(167, 122);
-      this.ProgressBar1.Name = "ProgressBar1";
-      this.ProgressBar1.ProgressMaximum = 100;
-      this.ProgressBar1.ProgressMinimum = 0;
-      this.ProgressBar1.ProgressValue = 0;
-      this.ProgressBar1.Size = new System.Drawing.Size(333, 142);
-      this.ProgressBar1.TabIndex = 16;
-      this.ProgressBar1.Visible = false;
       // 
       // MoneyHistory
       // 

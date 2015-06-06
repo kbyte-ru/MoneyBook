@@ -12,6 +12,8 @@ namespace MoneyBook.WinApp
   public partial class MProgressBar : UserControl
   {
 
+    #region ..свойства..
+
     /// <summary>
     /// Название выполняемой операции.
     /// </summary>
@@ -87,25 +89,10 @@ namespace MoneyBook.WinApp
       }
     }
 
-    /// <summary>
-    /// Задает или получает значение, указывающее на возможность отмены выполняемой операции.
-    /// </summary>
-    public bool AllowCancel
-    {
-      get
-      {
-        return flowLayoutPanel1.Visible;
-      }
-      set
-      {
-        flowLayoutPanel1.Visible = value;
-      }
-    }
-
     private int _CancelDelay = 0;
 
     /// <summary>
-    /// Время в миллисекундах, через которое следует показать кнопку "Отмена".
+    /// Время в миллисекундах, через которое следует показать кнопку "Отмена". Ноль - не использовать отмену.
     /// </summary>
     public int CancelDelay
     {
@@ -116,6 +103,25 @@ namespace MoneyBook.WinApp
       set
       {
         _CancelDelay = value;
+        this.Init();
+      }
+    }
+
+    private int _ShowDelay = 0;
+
+    /// <summary>
+    /// Время в миллисекундах, через которое должен появиться элемент.
+    /// </summary>
+    public int ShowDelay
+    {
+      get
+      {
+        return _ShowDelay;
+      }
+      set
+      {
+        _ShowDelay = value;
+        this.Init();
       }
     }
 
@@ -123,14 +129,25 @@ namespace MoneyBook.WinApp
     /// Метод, который будет вызван при отмене операции пользователем.
     /// </summary>
     public Action CancelCallback { get; set; }
-    
+
+    /// <summary>
+    /// Текст запроса отмены операции.
+    /// </summary>
+    public string CancelText { get; set; }
+
+    #endregion
+    #region ..конструктор..
+
     public MProgressBar()
     {
       InitializeComponent();
 
-      this.AllowCancel = false;
       lblAction.Text = lblDetails.Text = "";
+      this.CancelText = "Вы действительно хотите прервать операцию?";
     }
+
+    #endregion
+    #region ..методы..
 
     private void SetText(Control ctrl, string value)
     {
@@ -167,25 +184,23 @@ namespace MoneyBook.WinApp
 
     private void MProgressBar_Load(object sender, EventArgs e)
     {
-      if (this.CancelCallback != null && this.CancelDelay > 0)
-      {
-        timer1.Interval = this.CancelDelay;
-        timer1.Enabled = true;
-      }
+      this.Init();
     }
 
     private void btnCancel_Click(object sender, EventArgs e)
     {
-      if (MessageBox.Show("Вы действительно хотите прервать операцию?", "Отмена операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+      if (!String.IsNullOrEmpty(this.CancelText) && MessageBox.Show(this.CancelText, "Отмена", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
       {
         return;
       }
 
       this.ActionName = "Отмена операции...";
+      this.DetailedInfo = "";
 
       if (this.CancelCallback != null)
       {
         this.CancelCallback();
+        btnCancel.Enabled = false;
       }
       else
       {
@@ -195,13 +210,78 @@ namespace MoneyBook.WinApp
 
     private void timer1_Tick(object sender, EventArgs e)
     {
-      if (this.CancelCallback != null)
+      if (this.CancelCallback != null && this.ProgressValue < this.ProgressMaximum / 2)
       {
-        flowLayoutPanel1.Visible = true;
+        this.btnCancel.Visible = true;
       }
       timer1.Enabled = false;
     }
 
+    private void timer2_Tick(object sender, EventArgs e)
+    {
+      if (this.ProgressValue < this.ProgressMaximum / 2)
+      {
+        this.Visible = true;
+      }
+      timer2.Enabled = false;
+    }
+
+    private void timer3_Tick(object sender, EventArgs e)
+    {
+      timer1.Enabled = timer2.Enabled = timer3.Enabled = false;
+      this.Hide();
+    }
+
+    /// <summary>
+    /// Инициализирует и отображает progress.
+    /// </summary>
+    /// <param name="actionName">Название действия.</param>
+    /// <param name="detailedInfo">Дополнительная информация.</param>
+    /// <param name="max">Максимальное значение progress-а.</param>
+    internal void Run(string actionName = null, string detailedInfo = null, int max = 0)
+    {
+      this.ProgressValue = 0;
+      this.ActionName = actionName;
+      this.DetailedInfo = detailedInfo;
+      this.ProgressMaximum = max;
+
+      this.btnCancel.Visible = false;
+      this.btnCancel.Enabled = true;
+
+      this.Init();
+
+      if (this.ShowDelay <= 0)
+      {
+        this.Visible = true;
+      }
+    }
+  
+    internal void End()
+    {
+      this.ProgressValue = this.ProgressMaximum;
+      timer3.Enabled = true;
+    }
+
+    private void Init()
+    {
+      if (this.CancelCallback != null && this.CancelDelay > 0)
+      {
+        timer1.Interval = this.CancelDelay;
+        timer1.Enabled = true;
+      }
+
+      if (this.ShowDelay > 0)
+      {
+        timer2.Interval = this.ShowDelay;
+        timer2.Enabled = true;
+      }
+
+      timer3.Enabled = false;
+    }
+
+    #endregion    
+
+    
 
   }
 }
