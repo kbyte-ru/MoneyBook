@@ -388,7 +388,8 @@ namespace MoneyBook.WinApp
 
     private void Period_Click(object sender, EventArgs e)
     {
-      var period = this.PeriodParser.Match(((ToolStripMenuItem)sender).Tag.ToString());
+      var item = (ToolStripMenuItem)sender;
+      var period = this.PeriodParser.Match(item.Tag.ToString());
       var value = Convertion.ToInt32(period.Groups["value"].Value, 0);
 
       DateTime d = DateTime.Now;
@@ -439,6 +440,21 @@ namespace MoneyBook.WinApp
           this.DateFrom.Value = new DateTime(1900, 1, 1);
           this.DateTo.Value = DateTime.Now;
           break;
+      }
+
+      // todo: придумать и написать внятный комментарий к этому блоку кода
+      // здесь все работает так, как задумано :)
+      if (value == 0)
+      {
+        foreach (var m in ddbPeriod.DropDownItems)
+        {
+          if (m.GetType() == typeof(ToolStripMenuItem))
+          {
+            ((ToolStripMenuItem)m).Checked = false;
+          }
+        }
+        item.Checked = true;
+        ddbPeriod.Tag = item.Tag.ToString();
       }
     }
 
@@ -546,7 +562,7 @@ namespace MoneyBook.WinApp
 
         if (!String.IsNullOrEmpty(period))
         {
-          foreach (var m in toolStripDropDownButton1.DropDownItems)
+          foreach (var m in ddbPeriod.DropDownItems)
           {
             if (m.GetType() == typeof(ToolStripMenuItem) && ((ToolStripMenuItem)m).Tag != null && ((ToolStripMenuItem)m).Tag.ToString().Equals(period, StringComparison.OrdinalIgnoreCase))
             {
@@ -578,7 +594,7 @@ namespace MoneyBook.WinApp
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AccountId, ((Account)this.Accounts.SelectedItem).Id, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.CategoryId, ((Category)this.Categories.SelectedItem).Id, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, 0, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, ddbPeriod.Tag.ToString(), true);
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text, true);
@@ -589,7 +605,7 @@ namespace MoneyBook.WinApp
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AccountId, ((Account)this.Accounts.SelectedItem).Id, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.CategoryId, ((Category)this.Categories.SelectedItem).Id, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, 0, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, ddbPeriod.Tag.ToString(), true);
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text, true);

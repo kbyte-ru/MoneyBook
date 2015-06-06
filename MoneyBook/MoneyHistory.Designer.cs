@@ -63,7 +63,7 @@
       this.ToolStrip2 = new MoneyBook.WinApp.MToolStrip();
       this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
       this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
-      this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+      this.ddbPeriod = new System.Windows.Forms.ToolStripDropDownButton();
       this.mnuPeriodCurrentWeek = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuPeriodCurrentMonth = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuPeriodCurrentQuarter = new System.Windows.Forms.ToolStripMenuItem();
@@ -407,7 +407,7 @@
       this.ToolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel3,
             this.toolStripLabel4,
-            this.toolStripDropDownButton1,
+            this.ddbPeriod,
             this.toolStripSeparator1,
             this.toolStripLabel5,
             this.AmountFrom,
@@ -436,10 +436,10 @@
       this.toolStripLabel4.Size = new System.Drawing.Size(24, 22);
       this.toolStripLabel4.Text = "по:";
       // 
-      // toolStripDropDownButton1
+      // ddbPeriod
       // 
-      this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+      this.ddbPeriod.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.ddbPeriod.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuPeriodCurrentWeek,
             this.mnuPeriodCurrentMonth,
             this.mnuPeriodCurrentQuarter,
@@ -453,11 +453,12 @@
             this.mnuPeriodPreviousYear,
             this.toolStripSeparator7,
             this.mnuPeriodAll});
-      this.toolStripDropDownButton1.Image = global::MoneyBook.WinApp.Properties.Resources.calendar_select_days;
-      this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-      this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
-      this.toolStripDropDownButton1.Text = "Выбрать период";
+      this.ddbPeriod.Image = global::MoneyBook.WinApp.Properties.Resources.calendar_select_days;
+      this.ddbPeriod.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.ddbPeriod.Name = "ddbPeriod";
+      this.ddbPeriod.Size = new System.Drawing.Size(29, 22);
+      this.ddbPeriod.Tag = "m";
+      this.ddbPeriod.Text = "Выбрать период";
       // 
       // mnuPeriodCurrentWeek
       // 
@@ -748,7 +749,7 @@
     private System.Windows.Forms.ToolStripButton btnEdit;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     private MDataGridView DataGridView1;
-    private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+    private System.Windows.Forms.ToolStripDropDownButton ddbPeriod;
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentMonth;
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentYear;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
