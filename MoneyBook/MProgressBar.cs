@@ -228,8 +228,8 @@ namespace MoneyBook.WinApp
 
     private void timer3_Tick(object sender, EventArgs e)
     {
-      timer1.Enabled = timer2.Enabled = timer3.Enabled = false;
       this.Hide();
+      timer1.Enabled = false;
     }
 
     /// <summary>
@@ -259,6 +259,7 @@ namespace MoneyBook.WinApp
     internal void End()
     {
       this.ProgressValue = this.ProgressMaximum;
+      timer2.Enabled = timer3.Enabled = false;
       timer3.Enabled = true;
     }
 
