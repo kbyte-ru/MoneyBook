@@ -24,7 +24,7 @@ namespace MoneyBook.WinApp
       }
       set
       {
-        this.SetText(this, value);
+        this.SetText(value);
       }
     }
 
@@ -35,11 +35,11 @@ namespace MoneyBook.WinApp
     {
       get
       {
-        return lblAction.Text;
+        return ProgressBar1.ActionName;
       }
       set
       {
-        this.SetText(lblAction, value);
+        ProgressBar1.ActionName = value;
       }
     }
 
@@ -50,11 +50,11 @@ namespace MoneyBook.WinApp
     {
       get
       {
-        return lblDetails.Text;
+        return ProgressBar1.DetailedInfo;
       }
       set
       {
-        this.SetText(lblDetails, value);
+        ProgressBar1.DetailedInfo = value;
       }
     }
 
@@ -65,11 +65,11 @@ namespace MoneyBook.WinApp
     {
       get
       {
-        return progressBar1.Maximum;
+        return ProgressBar1.ProgressMaximum;
       }
       set
       {
-        this.SetProgress("max", value);
+        ProgressBar1.ProgressMaximum = value;
       }
     }
 
@@ -80,11 +80,11 @@ namespace MoneyBook.WinApp
     {
       get
       {
-        return progressBar1.Minimum;
+        return ProgressBar1.ProgressMinimum;
       }
       set
       {
-        this.SetProgress("min", value);
+        ProgressBar1.ProgressMinimum = value;
       }
     }
 
@@ -95,11 +95,11 @@ namespace MoneyBook.WinApp
     {
       get
       {
-        return progressBar1.Value;
+        return ProgressBar1.ProgressValue;
       }
       set
       {
-        this.SetProgress("value", value);
+        ProgressBar1.ProgressValue = value;
       }
     }
 
@@ -110,18 +110,28 @@ namespace MoneyBook.WinApp
     {
       get
       {
-        return flowLayoutPanel1.Visible;
+        return ProgressBar1.AllowCancel;
       }
       set
       {
-        flowLayoutPanel1.Visible = value;
+        ProgressBar1.AllowCancel = value;
       }
     }
 
     /// <summary>
     /// Метод, который будет вызван при отмене операции пользователем.
     /// </summary>
-    public Action CancelCallback { get; set; }
+    public Action CancelCallback
+    {
+      get
+      {
+        return ProgressBar1.CancelCallback;
+      }
+      set
+      {
+        ProgressBar1.CancelCallback = value;
+      }
+    }
 
     public Progress()
     {
@@ -133,64 +143,17 @@ namespace MoneyBook.WinApp
       this.Owner = owner;
       this.StartPosition = FormStartPosition.CenterParent;
       this.AllowCancel = false;
-      lblAction.Text = lblDetails.Text = "";
     }
 
-    private void SetText(Control ctrl, string value)
+    private void SetText(string value)
     {
       if (this.InvokeRequired)
       {
-        this.Invoke(new Action<Control, string>(this.SetText), ctrl, value);
+        this.Invoke(new Action<string>(this.SetText), value);
         return;
       }
 
-      if (ctrl.GetType() == this.GetType())
-      {
-        base.Text = value;
-      }
-      else
-      {
-        ctrl.Text = value;
-      }
-    }
-
-    private void SetProgress(string key, int value)
-    {
-      if (this.InvokeRequired)
-      {
-        this.Invoke(new Action<string, int>(this.SetProgress), key, value);
-        return;
-      }
-
-      if (key == "max")
-      {
-        progressBar1.Maximum = value;
-      }
-      else if (key == "min")
-      {
-        progressBar1.Minimum = value;
-      }
-      else if (key == "value")
-      {
-        progressBar1.Value = value;
-      }
-    }
-
-    private void btnCancel_Click(object sender, EventArgs e)
-    {
-      if (MessageBox.Show("Вы действительно хотите прервать операцию?", "Отмена операции", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
-      {
-        return;
-      }
-
-      this.ActionName = "Отмена операции...";
-      
-      if (this.CancelCallback != null)
-      {
-        this.CancelCallback();
-      }
-
-      this.Close();
+      base.Text = value;
     }
 
   }

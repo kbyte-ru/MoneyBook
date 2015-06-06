@@ -438,6 +438,12 @@ namespace MoneyBook.WinApp
       }
     }
 
+    private void MoneyHistory_Resize(object sender, EventArgs e)
+    {
+      ProgressBar1.Left = (this.Width - ProgressBar1.Width) / 2;
+      ProgressBar1.Top = (this.Height - ProgressBar1.Height) / 2;
+    }
+
     #endregion
     #region ..методы..
 
@@ -706,13 +712,18 @@ namespace MoneyBook.WinApp
     {
       this.SafeInvoke(() =>
       {
-        this.Enabled = false;
+        this.DataGridView1.Enabled = this.StatusStrip1.Enabled = 
+        this.ToolStrip1.Enabled = this.ToolStrip2.Enabled = this.ToolStrip3.Enabled = false;
 
         //this.Cursor = Cursors.WaitCursor;
         this.DataGridView1.SuspendLayout();
 
         this.DataGridView1.Rows.Clear();
         this.TotalAmountByCurrencies.Clear();
+
+        this.ProgressBar1.ProgressValue = 0;
+        this.ProgressBar1.ActionName = "Загрузка данных...";
+        this.ProgressBar1.Visible = true;
       });
 
       var u = this.User;
@@ -727,6 +738,8 @@ namespace MoneyBook.WinApp
         amountFrom: amountFrom,
         amountTo: amountTo
       );
+
+      this.ProgressBar1.ProgressMaximum = items.Count;
 
       foreach (var item in items)
       {
@@ -814,14 +827,21 @@ namespace MoneyBook.WinApp
         }
 
         this.TotalAmountByCurrencies[account.CurrencyCode] += item.Amount;
+
+        this.ProgressBar1.ProgressValue++;
       }
+
+      this.ProgressBar1.ProgressValue = this.ProgressBar1.ProgressMaximum;
 
       this.SafeInvoke(() =>
       {
         this.UpdateLabels();
         this.UpdateButtons();
 
-        this.Enabled = true;
+        this.DataGridView1.Enabled = this.StatusStrip1.Enabled =
+        this.ToolStrip1.Enabled = this.ToolStrip2.Enabled = this.ToolStrip3.Enabled = true;
+
+        this.ProgressBar1.Visible = false;
 
         this.DataGridView1.ResumeLayout();
       });
@@ -872,7 +892,7 @@ namespace MoneyBook.WinApp
     }
 
     #endregion
-    
+        
   }
 
 }

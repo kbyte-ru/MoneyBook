@@ -92,6 +92,7 @@
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
+      this.ProgressBar1 = new MoneyBook.WinApp.MProgressBar();
       this.StatusStrip1.SuspendLayout();
       this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
@@ -336,6 +337,7 @@
       this.ToolStrip3.Location = new System.Drawing.Point(0, 50);
       this.ToolStrip3.Name = "ToolStrip3";
       this.ToolStrip3.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+      this.ToolStrip3.ShowItemToolTips = false;
       this.ToolStrip3.Size = new System.Drawing.Size(659, 25);
       this.ToolStrip3.TabIndex = 14;
       this.ToolStrip3.Text = "mToolStrip1";
@@ -399,6 +401,7 @@
       this.ToolStrip2.Location = new System.Drawing.Point(0, 25);
       this.ToolStrip2.Name = "ToolStrip2";
       this.ToolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+      this.ToolStrip2.ShowItemToolTips = false;
       this.ToolStrip2.Size = new System.Drawing.Size(659, 25);
       this.ToolStrip2.TabIndex = 11;
       this.ToolStrip2.Text = "mToolStrip1";
@@ -601,6 +604,7 @@
       this.ToolStrip1.Location = new System.Drawing.Point(0, 0);
       this.ToolStrip1.Name = "ToolStrip1";
       this.ToolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+      this.ToolStrip1.ShowItemToolTips = false;
       this.ToolStrip1.Size = new System.Drawing.Size(659, 25);
       this.ToolStrip1.TabIndex = 10;
       this.ToolStrip1.Text = "ToolStrip1";
@@ -658,11 +662,29 @@
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(150, 25);
       // 
+      // ProgressBar1
+      // 
+      this.ProgressBar1.ActionName = "";
+      this.ProgressBar1.AllowCancel = false;
+      this.ProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.ProgressBar1.CancelCallback = null;
+      this.ProgressBar1.CancelDelay = 3000;
+      this.ProgressBar1.DetailedInfo = "";
+      this.ProgressBar1.Location = new System.Drawing.Point(167, 122);
+      this.ProgressBar1.Name = "ProgressBar1";
+      this.ProgressBar1.ProgressMaximum = 100;
+      this.ProgressBar1.ProgressMinimum = 0;
+      this.ProgressBar1.ProgressValue = 0;
+      this.ProgressBar1.Size = new System.Drawing.Size(333, 142);
+      this.ProgressBar1.TabIndex = 16;
+      this.ProgressBar1.Visible = false;
+      // 
       // MoneyHistory
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Controls.Add(this.ProgressBar1);
       this.Controls.Add(this.DataGridView1);
       this.Controls.Add(this.ToolStrip3);
       this.Controls.Add(this.DateTo);
@@ -673,6 +695,7 @@
       this.Name = "MoneyHistory";
       this.Size = new System.Drawing.Size(659, 342);
       this.Load += new System.EventHandler(this.MoneyHistory_Load);
+      this.Resize += new System.EventHandler(this.MoneyHistory_Resize);
       this.StatusStrip1.ResumeLayout(false);
       this.StatusStrip1.PerformLayout();
       this.contextMenuStrip1.ResumeLayout(false);
@@ -751,5 +774,6 @@
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentQuarter;
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousWeek;
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousQuarter;
+    private MProgressBar ProgressBar1;
   }
 }

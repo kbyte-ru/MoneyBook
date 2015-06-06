@@ -69,6 +69,12 @@
     <Compile Include="MoneyHistory.Designer.cs">
       <DependentUpon>MoneyHistory.cs</DependentUpon>
     </Compile>
+    <Compile Include="MProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MProgressBar.Designer.cs">
+      <DependentUpon>MProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="MToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -96,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MoneyHistory.resx">
       <DependentUpon>MoneyHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MProgressBar.resx">
+      <DependentUpon>MProgressBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Progress.resx">
       <DependentUpon>Progress.cs</DependentUpon>
