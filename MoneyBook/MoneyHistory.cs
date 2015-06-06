@@ -24,7 +24,7 @@ namespace MoneyBook.WinApp
     /// </summary>
     private bool Cancellation = false;
 
-    private Regex PeriodParser = new Regex(@"^(?<interval>(d|w|m|q|y))(?<value>[0-9\-]*)$", RegexOptions.IgnoreCase);
+    private Regex PeriodParser = new Regex(@"^(?<interval>(d|w|m|q|y|all))(?<value>[0-9\-]*)$", RegexOptions.IgnoreCase);
 
     private User _User = null;
 
@@ -113,9 +113,6 @@ namespace MoneyBook.WinApp
 
     private void MoneyHistory_Load(object sender, EventArgs e)
     {
-      // восстанавливаем ранее выбранные параметры
-      //this.LoadSettings();
-
       // список месяцев до текущего
       var baseDate = new DateTime(DateTime.Now.Year, 1, 1);
       for (int i = 1; i <= DateTime.Now.Month; i++)
@@ -131,6 +128,9 @@ namespace MoneyBook.WinApp
         // обработчик клика
         this.mnuPeriodMonth.DropDownItems[this.mnuPeriodMonth.DropDownItems.Count - 1].Click += Period_Click;
       }
+
+      // восстанавливаем ранее выбранные параметры
+      this.LoadSettings();
 
       // загружаем данные
       //this.ReloadItems();
@@ -440,6 +440,11 @@ namespace MoneyBook.WinApp
           this.DateFrom.Value = new DateTime(d.Year, 1, 1);
           this.DateTo.Value = this.DateFrom.Value.AddYears(1).AddDays(-1); // мало ли чего :)
           break;
+
+        case "all":
+          this.DateFrom.Value = new DateTime(1900, 1, 1);
+          this.DateTo.Value = DateTime.Now;
+          break;
       }
     }
 
@@ -457,46 +462,44 @@ namespace MoneyBook.WinApp
     /// </summary>
     private void LoadSettings()
     {
-      /*if (this.InvokeRequired)
-      {
-        this.Invoke(new Action(LoadSettings));
-        return;
-      }*/
-
       if (this.ItemsType == EntryType.None || this.User == null) { return; }
 
       this.SafeInvoke(() =>
       {
-        this.Accounts.Enabled = this.Categories.Enabled = this.Subcategories.Enabled = false;
+        //this.Accounts.Enabled = this.Categories.Enabled = this.Subcategories.Enabled = false;
+        ToolStrip1.Enabled = ToolStrip2.Enabled = ToolStrip3.Enabled = false;
       });
 
       int selectedAccountId = 0;
       int selectedCategoryId = 0;
       int selectedSubcategoryId = 0;
+      DateTime dateForm = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+      DateTime dateTo = dateForm.AddMonths(1).AddDays(-1);
+      decimal? amountFrom = null;
+      decimal? amountTo = null;
+      string period = "m";
 
       if (this.ItemsType == EntryType.Expense)
       {
         selectedAccountId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Expenses.AccountId]);
         selectedCategoryId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Expenses.CategoryId]);
         selectedSubcategoryId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Expenses.SubcategoryId]);
-
-        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, 0);
-        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value);
-        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value);
-        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text);
-        //this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountTo, AmountTo.Text);
+        dateForm = Convertion.ToDateTime(this.User.Info[InfoId.Settings.Desktop.Expenses.DateForm], dateForm);
+        dateTo = Convertion.ToDateTime(this.User.Info[InfoId.Settings.Desktop.Expenses.DateTo], dateTo);
+        amountFrom = Convertion.ToDecimal(this.User.Info[InfoId.Settings.Desktop.Expenses.AmountFrom], null);
+        amountTo = Convertion.ToDecimal(this.User.Info[InfoId.Settings.Desktop.Expenses.AmountTo], null);
+        period = this.User.Info[InfoId.Settings.Desktop.Expenses.Period];
       }
       else if (this.ItemsType == EntryType.Income)
       {
         selectedAccountId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Incomes.AccountId]);
         selectedCategoryId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Incomes.CategoryId]);
         selectedSubcategoryId = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.Incomes.SubcategoryId]);
-
-        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, 0);
-        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value);
-        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value);
-        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text);
-        //this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text);
+        dateForm = Convertion.ToDateTime(this.User.Info[InfoId.Settings.Desktop.Incomes.DateForm], dateForm);
+        dateTo = Convertion.ToDateTime(this.User.Info[InfoId.Settings.Desktop.Incomes.DateTo], dateTo);
+        amountFrom = Convertion.ToDecimal(this.User.Info[InfoId.Settings.Desktop.Incomes.AmountFrom], null);
+        amountTo = Convertion.ToDecimal(this.User.Info[InfoId.Settings.Desktop.Incomes.AmountTo], null);
+        period = this.User.Info[InfoId.Settings.Desktop.Incomes.Period];
       }
 
       this.SafeInvoke(() =>
@@ -528,7 +531,25 @@ namespace MoneyBook.WinApp
           }
         }
 
-        this.Accounts.Enabled = this.Categories.Enabled = this.Subcategories.Enabled = true;
+        this.DateFrom.Value = dateForm;
+        this.DateTo.Value = dateTo;
+        this.AmountFrom.Text = amountFrom.HasValue ? amountFrom.Value.ToString() : "";
+        this.AmountTo.Text = amountTo.HasValue ? amountTo.Value.ToString() : "";
+
+        if (!String.IsNullOrEmpty(period))
+        {
+          foreach (var m in toolStripDropDownButton1.DropDownItems)
+          {
+            if (m.GetType() == typeof(ToolStripMenuItem) && ((ToolStripMenuItem)m).Tag != null && ((ToolStripMenuItem)m).Tag.ToString().Equals(period, StringComparison.OrdinalIgnoreCase))
+            {
+              Period_Click(m, null);
+              break;
+            }
+          }
+        }
+
+        //this.Accounts.Enabled = this.Categories.Enabled = this.Subcategories.Enabled = true;
+        ToolStrip1.Enabled = ToolStrip2.Enabled = ToolStrip3.Enabled = true;
       });
     }
 
@@ -543,37 +564,25 @@ namespace MoneyBook.WinApp
 
       if (this.ItemsType == EntryType.Expense)
       {
-        this.User.Info.Set
-        (
-          new Dictionary<InfoId, object>
-          {
-            { InfoId.Settings.Desktop.Expenses.AccountId, ((Account)this.Accounts.SelectedItem).Id },
-            { InfoId.Settings.Desktop.Expenses.CategoryId, ((Category)this.Categories.SelectedItem).Id },
-            { InfoId.Settings.Desktop.Expenses.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id },
-            { InfoId.Settings.Desktop.Expenses.Period, 0 },
-            { InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value },
-            { InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value },
-            { InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text },
-            { InfoId.Settings.Desktop.Expenses.AmountTo, AmountTo.Text }
-          }
-        );
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AccountId, ((Account)this.Accounts.SelectedItem).Id, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.CategoryId, ((Category)this.Categories.SelectedItem).Id, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, 0, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountTo, AmountTo.Text, true);
       }
       else if (this.ItemsType == EntryType.Income)
       {
-        this.User.Info.Set
-        (
-          new Dictionary<InfoId, object>
-          {
-            { InfoId.Settings.Desktop.Incomes.AccountId, ((Account)this.Accounts.SelectedItem).Id },
-            { InfoId.Settings.Desktop.Incomes.CategoryId, ((Category)this.Categories.SelectedItem).Id },
-            { InfoId.Settings.Desktop.Incomes.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id },
-            { InfoId.Settings.Desktop.Incomes.Period, 0 },
-            { InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value },
-            { InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value },
-            { InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text },
-            { InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text }
-          }
-        );
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AccountId, ((Account)this.Accounts.SelectedItem).Id, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.CategoryId, ((Category)this.Categories.SelectedItem).Id, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, 0, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text, true);
       }
 
       //Console.WriteLine(DateTime.Now.Subtract(s));

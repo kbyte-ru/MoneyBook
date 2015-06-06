@@ -24,6 +24,11 @@ namespace MoneyBook.Core
     private User CurrentUser = null;
 
     /// <summary>
+    /// Идентификаторы записей, которые следует сохранить в базу при вызове метода <see cref="Flush"/>.
+    /// </summary>
+    private List<InfoId> ToSave = null;
+
+    /// <summary>
     /// Коллекция записей.
     /// </summary>
     private Dictionary<InfoId, string> Items = null;
@@ -54,6 +59,7 @@ namespace MoneyBook.Core
     /// <param name="u">Экземпляр пользователя, для которого необходима работа с информацией о базе.</param>
     internal Info(User u)
     {
+      this.ToSave = new List<InfoId>();
       this.Items = new Dictionary<InfoId, string>();
       this.CurrentUser = u;
     }
@@ -82,9 +88,9 @@ namespace MoneyBook.Core
     /// </summary>
     /// <param name="id">Идентификатор записи (см. список констант).</param>
     /// <param name="value">Значение, не более 20 символов.</param>
-    public void Set(InfoId id, DateTime value)
+    public void Set(InfoId id, DateTime value, bool nodb = false)
     {
-      this.Set(id, value.ToString());
+      this.Set(id, value.ToString(), nodb);
     }
 
     /// <summary>
@@ -92,9 +98,10 @@ namespace MoneyBook.Core
     /// </summary>
     /// <param name="id">Идентификатор записи (см. список констант).</param>
     /// <param name="value">Значение, не более 20 символов.</param>
-    public void Set(InfoId id, long value)
+    /// <param name="nodb">Позволяет запретить запись данных в базу. По умолчанию значение <c>false</c> - данные в базу записываются сразу.</param>
+    public void Set(InfoId id, long value, bool nodb = false)
     {
-      this.Set(id, value.ToString());
+      this.Set(id, value.ToString(), nodb);
     }
 
     /// <summary>
@@ -102,9 +109,10 @@ namespace MoneyBook.Core
     /// </summary>
     /// <param name="id">Идентификатор записи (см. список констант).</param>
     /// <param name="value">Значение, не более 20 символов.</param>
-    public void Set(InfoId id, int value)
+    /// <param name="nodb">Позволяет запретить запись данных в базу. По умолчанию значение <c>false</c> - данные в базу записываются сразу.</param>
+    public void Set(InfoId id, int value, bool nodb = false)
     {
-      this.Set(id, value.ToString());
+      this.Set(id, value.ToString(), nodb);
     }
 
     /// <summary>
@@ -112,9 +120,10 @@ namespace MoneyBook.Core
     /// </summary>
     /// <param name="id">Идентификатор записи (см. список констант).</param>
     /// <param name="value">Значение, не более 20 символов.</param>
-    public void Set(InfoId id, Version value)
+    /// <param name="nodb">Позволяет запретить запись данных в базу. По умолчанию значение <c>false</c> - данные в базу записываются сразу.</param>
+    public void Set(InfoId id, Version value, bool nodb = false)
     {
-      this.Set(id, value.ToString());
+      this.Set(id, value.ToString(), nodb);
     }
 
     /// <summary>
@@ -122,12 +131,38 @@ namespace MoneyBook.Core
     /// </summary>
     /// <param name="id">Идентификатор записи (см. список констант).</param>
     /// <param name="value">Значение, не более 30 символов.</param>
-    public void Set(InfoId id, string value)
+    /// <param name="nodb">Позволяет запретить запись данных в базу. По умолчанию значение <c>false</c> - данные в базу записываются сразу.</param>
+    /// <remarks>
+    /// <para>
+    /// Если значение параметра <paramref name="nodb"/> равно <c>true</c>, то запись изменений в базу будет произведена только при вызове метода <see cref="Flush"/>.
+    /// </para>
+    /// </remarks>
+    public void Set(InfoId id, string value, bool nodb = false)
     {
       if (!String.IsNullOrEmpty(value) && value.Length > 30)
       {
         //throw new ArgumentOutOfRangeException(value);
         value = value.Substring(30);
+      }
+
+      // добавляем или меняем
+      if (!this.Items.ContainsKey(id))
+      {
+        this.Items.Add(id, value);
+      }
+      else
+      {
+        this.Items[id] = value;
+      }
+
+      // если запрещено сохранение в базу, выходим
+      if (nodb)
+      {
+        if (!this.ToSave.Contains(id))
+        {
+          this.ToSave.Add(id);
+        }
+        return;
       }
 
       using (var client = new SqlDbCeClient(this.CurrentUser.ConnectionString))
@@ -148,16 +183,6 @@ namespace MoneyBook.Core
         }
 
         client.ExecuteNonQuery();
-
-        // в текущий экземпляр
-        if (!this.Items.ContainsKey(id))
-        {
-          this.Items.Add(id, value);
-        }
-        else
-        {
-          this.Items[id] = value;
-        }
       }
     }
 
@@ -165,7 +190,13 @@ namespace MoneyBook.Core
     /// Добавляет, либо обновляет информацию.
     /// </summary>
     /// <param name="items">Коллекция параметров, которые необходимо сохранить.</param>
-    public void Set(Dictionary<InfoId, object> items)
+    /// <param name="nodb">Позволяет запретить запись данных в базу. По умолчанию значение <c>false</c> - данные в базу записываются сразу.</param>
+    /// <remarks>
+    /// <para>
+    /// Если значение параметра <paramref name="nodb"/> равно <c>true</c>, то запись изменений в базу будет произведена только при вызове метода <see cref="Flush"/>.
+    /// </para>
+    /// </remarks>
+    public void Set(Dictionary<InfoId, object> items, bool nodb = false)
     {
       if (items == null || items.Count <= 0)
       {
@@ -179,9 +210,8 @@ namespace MoneyBook.Core
 
         foreach (var id in items.Keys)
         {
-          client.CommandText = "SELECT COUNT([id_info]) FROM [info] WHERE [id_info] = @id";
-
           string value = "";
+
           if (items[id] != null)
           {
             value = items[id].ToString();
@@ -191,21 +221,33 @@ namespace MoneyBook.Core
             value = value.Substring(30);
           }
 
-          client.Parameters["@id"].Value = Convert.ToInt16(id);
-          client.Parameters["@value"].Value = value;
-
-          if (Convert.ToInt32(client.ExecuteScalar()) == 0)
+          if (!nodb)
           {
-            // добавляем
-            client.CommandText = "INSERT INTO [info] ([id_info], [value]) VALUES (@id, @value)";
+            client.CommandText = "SELECT COUNT([id_info]) FROM [info] WHERE [id_info] = @id";
+
+            client.Parameters["@id"].Value = Convert.ToInt16(id);
+            client.Parameters["@value"].Value = value;
+
+            if (Convert.ToInt32(client.ExecuteScalar()) == 0)
+            {
+              // добавляем
+              client.CommandText = "INSERT INTO [info] ([id_info], [value]) VALUES (@id, @value)";
+            }
+            else
+            {
+              // обновляем
+              client.CommandText = "UPDATE [info] SET [value] = @value WHERE [id_info] = @id";
+            }
+
+            client.ExecuteNonQuery();
           }
           else
           {
-            // обновляем
-            client.CommandText = "UPDATE [info] SET [value] = @value WHERE [id_info] = @id";
+            if (!this.ToSave.Contains(id))
+            {
+              this.ToSave.Add(id);
+            }
           }
-
-          client.ExecuteNonQuery();
 
           // в текущий экземпляр
           if (!this.Items.ContainsKey(id))
@@ -221,7 +263,7 @@ namespace MoneyBook.Core
     }
 
     /// <summary>
-    /// Возвращает все записи.
+    /// Возвращает все записи из базы данных.
     /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public List<InfoItem> GetAllInfo()
@@ -268,6 +310,29 @@ namespace MoneyBook.Core
       {
         this.GetAllConstants(t.Name, st, list);
       }
+    }
+    
+    /// <summary>
+    /// Выполняет запись данных в базу и освобождает ресурсы.
+    /// </summary>
+    public void Flush()
+    {
+      if (this.ToSave.Count > 0)
+      {
+        var itemsToSave = new Dictionary<InfoId, object>();
+        foreach (var id in this.Items.Keys)
+        {
+          if (this.ToSave.Contains(id))
+          {
+            itemsToSave.Add(id, this.Items[id]);
+          }
+        }
+
+        this.Set(itemsToSave, false);
+        this.ToSave.Clear();
+      }
+
+      this.Items.Clear();
     }
 
     #endregion

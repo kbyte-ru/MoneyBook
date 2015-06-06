@@ -27,7 +27,7 @@ namespace MoneyBook.Core
     /// <summary>
     /// Признак того, что ресурсы были освобождены.
     /// </summary>
-    private bool IsDisposed = false;
+    public bool IsDisposed = false;
 
     /// <summary>
     /// Перечень свойств, в которых следует отслеживать изменения.
@@ -700,7 +700,9 @@ namespace MoneyBook.Core
       // обновление информации
       long totalTime = 0;
       long.TryParse(this.Info[InfoId.Stat.TotalTime], out totalTime);
-      this.Info.Set(InfoId.Stat.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds));
+      this.Info.Set(InfoId.Stat.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds), true);
+
+      this.Info.Flush();
      
       // время начала сессии
       this.SessionDate = DateTime.Now;

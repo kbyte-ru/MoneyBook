@@ -255,7 +255,20 @@ namespace MoneyBook.WinApp
         this.Visible = true;
       }
     }
-  
+
+    /// <summary>
+    /// Увеличивает значение <see cref="ProgressValue"/> на 1.
+    /// </summary>
+    internal void Next()
+    {
+      if (this.ProgressValue + 1 > this.ProgressMaximum)
+      {
+        return;
+      }
+
+      this.ProgressValue++;
+    }
+
     internal void End()
     {
       this.ProgressValue = this.ProgressMaximum;
@@ -283,6 +296,7 @@ namespace MoneyBook.WinApp
     #endregion    
 
     
+
 
   }
 }

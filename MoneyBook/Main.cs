@@ -200,7 +200,8 @@ namespace MoneyBook.WinApp
 
     private void Main_FormClosed(object sender, FormClosedEventArgs e)
     {
-
+      Incomes.SaveSettings();
+      Expenses.SaveSettings();
     }
 
   }

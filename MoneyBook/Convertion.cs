@@ -98,7 +98,155 @@ namespace MoneyBook.WinApp
     {
       return Convertion.ToDecimal(value, null).GetValueOrDefault();
     }
-    
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    /// <param name="dateSeparator">The string that separates the components of a date, that is, the year, month, and day.</param>
+    /// <param name="timeSeparator">The string that separates the components of time, that is, the hour, minutes, and seconds.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime? ToDateTime(object value, string formatDateTime, string dateSeparator, string timeSeparator, DateTime? @default)
+    {
+      if (!Convertion.HasValue(value)) { return @default; }
+      if (String.IsNullOrEmpty(formatDateTime)) { formatDateTime = Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern; } // "dd.MM.yyyy HH:mm:ss"
+      if (String.IsNullOrEmpty(dateSeparator)) { dateSeparator = Thread.CurrentThread.CurrentCulture.DateTimeFormat.DateSeparator; } // "."
+      if (String.IsNullOrEmpty(timeSeparator)) { timeSeparator = Thread.CurrentThread.CurrentCulture.DateTimeFormat.TimeSeparator; } // ":"
+      var f = new CultureInfo(Thread.CurrentThread.CurrentCulture.Name, true);
+      f.DateTimeFormat.FullDateTimePattern = formatDateTime;
+      f.DateTimeFormat.ShortDatePattern = formatDateTime;
+      f.DateTimeFormat.DateSeparator = dateSeparator;
+      f.DateTimeFormat.TimeSeparator = timeSeparator;
+      DateTime result;
+      if (!DateTime.TryParse(value.ToString(), f, DateTimeStyles.NoCurrentDateDefault, out result))
+      {
+        return @default;
+      }
+      return result;
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    /// <param name="dateSeparator">The string that separates the components of a date, that is, the year, month, and day.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime? ToDateTime(object value, string formatDateTime, string dateSeparator, DateTime? @default)
+    {
+      return Convertion.ToDateTime(value, formatDateTime, dateSeparator, null, @default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime? ToDateTime(object value, string formatDateTime, DateTime? @default)
+    {
+      return Convertion.ToDateTime(value, formatDateTime, null, null, @default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    public static DateTime? ToDateTime(object value, DateTime? @default)
+    {
+      return Convertion.ToDateTime(value, null, null, null, @default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    /// <param name="dateSeparator">The string that separates the components of a date, that is, the year, month, and day.</param>
+    /// <param name="timeSeparator">The string that separates the components of time, that is, the hour, minutes, and seconds.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime ToDateTime(object value, string formatDateTime, string dateSeparator, string timeSeparator, DateTime @default)
+    {
+      return Convertion.ToDateTime(value, formatDateTime, dateSeparator, timeSeparator, (DateTime?)@default).GetValueOrDefault(@default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="dateSeparator">The string that separates the components of a date, that is, the year, month, and day.</param>
+    /// <param name="timeSeparator">The string that separates the components of time, that is, the hour, minutes, and seconds.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime ToDateTime(object value, string formatDateTime, string dateSeparator, string timeSeparator)
+    {
+      return Convertion.ToDateTime(value, formatDateTime, dateSeparator, timeSeparator, null).GetValueOrDefault();
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    /// <param name="dateSeparator">The string that separates the components of a date, that is, the year, month, and day.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime ToDateTime(object value, string formatDateTime, string dateSeparator, DateTime @default)
+    {
+      return Convertion.ToDateTime(value, formatDateTime, dateSeparator, null, (DateTime?)@default).GetValueOrDefault(@default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="dateSeparator">The string that separates the components of a date, that is, the year, month, and day.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime ToDateTime(object value, string formatDateTime, string dateSeparator)
+    {
+      return Convertion.ToDateTime(value, formatDateTime, dateSeparator, null, null).GetValueOrDefault();
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime ToDateTime(object value, string formatDateTime, DateTime @default)
+    {
+      return Convertion.ToDateTime(value, formatDateTime, null, null, (DateTime?)@default).GetValueOrDefault(@default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="formatDateTime">The format string for a date and time value.</param>
+    public static DateTime ToDateTime(object value, string formatDateTime)
+    {
+      return Convertion.ToDateTime(value, formatDateTime, null, null, null).GetValueOrDefault();
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    public static DateTime ToDateTime(object value, DateTime @default)
+    {
+      return Convertion.ToDateTime(value, null, null, null, (DateTime?)@default).GetValueOrDefault(@default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to a <see cref="System.DateTime"/> object.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    public static DateTime ToDateTime(object value)
+    {
+      return Convertion.ToDateTime(value, null, null, null, null).GetValueOrDefault();
+    }
+
     /// <summary>
     /// Checks in the specified value has data or is empty.
     /// </summary>

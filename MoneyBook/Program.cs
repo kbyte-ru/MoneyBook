@@ -37,8 +37,6 @@ namespace MoneyBook.WinApp
     {
       if (Program.CurrentUser != null)
       {
-        //Incomes.SaveSettings();
-        //Expenses.SaveSettings();
         Program.CurrentUser.Flush();
         //Program.CurrentUser = null;
       }
