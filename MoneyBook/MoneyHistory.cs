@@ -10,7 +10,6 @@ using MoneyBook.Core;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
 
 namespace MoneyBook.WinApp
 {
@@ -26,11 +25,6 @@ namespace MoneyBook.WinApp
     private bool Cancellation = false;
 
     private Regex PeriodParser = new Regex(@"^(?<interval>(d|w|m|q|y))(?<value>[0-9\-]*)$", RegexOptions.IgnoreCase);
-
-    /// <summary>
-    /// Представляет очередь задач.
-    /// </summary>
-    private ConcurrentQueue<Action> Tasks = new ConcurrentQueue<Action>();
 
     private User _User = null;
 
@@ -49,10 +43,10 @@ namespace MoneyBook.WinApp
         _User = value;
         if (reloadNeed)
         {
-          this.AddTask(this.ReloadDictionaries);
-          this.AddTask(this.LoadSettings);
-          this.AddTask(this.ReloadItems);
-          this.ExecuteAllTasks();
+          TaskManager.Add(this.ReloadDictionaries);
+          TaskManager.Add(this.LoadSettings);
+          TaskManager.Add(this.ReloadItems);
+          TaskManager.ExecuteAll();
         }
       }
     }
@@ -74,10 +68,10 @@ namespace MoneyBook.WinApp
         _ItemsType = value;
         if (reloadNeed)
         {
-          this.AddTask(this.UpdateLabels);
-          this.AddTask(this.LoadSettings);
-          this.AddTask(this.ReloadItems);
-          this.ExecuteAllTasks();
+          TaskManager.Add(this.UpdateLabels);
+          TaskManager.Add(this.LoadSettings);
+          TaskManager.Add(this.ReloadItems);
+          TaskManager.ExecuteAll();
         }
       }
     }
@@ -187,8 +181,8 @@ namespace MoneyBook.WinApp
     private void btnFilter_Click(object sender, EventArgs e)
     {
       // загружаем данные
-      this.AddTask(this.ReloadItems);
-      this.ExecuteAllTasks();
+      TaskManager.Add(this.ReloadItems);
+      TaskManager.ExecuteAll();
 
       // запоминаем выбранные параметры
       // this.SaveSettings();
@@ -269,8 +263,8 @@ namespace MoneyBook.WinApp
 
       if (e.KeyCode == Keys.F5)
       {
-        this.AddTask(this.ReloadItems);
-        this.ExecuteAllTasks();
+        TaskManager.Add(this.ReloadItems);
+        TaskManager.ExecuteAll();
       }
     }
 
@@ -931,30 +925,6 @@ namespace MoneyBook.WinApp
       //this.Cursor = Cursors.Default;
       //btnEdit.Enabled = btnDelete.Enabled =
       //mnuEdit.Enabled = mnuDelete.Enabled = (DataGridView1.Rows.Count > 0);
-    }
-
-    /// <summary>
-    /// Добавляет задачу в очередь.
-    /// </summary>
-    /// <param name="task"></param>
-    private void AddTask(Action task)
-    {
-      this.Tasks.Enqueue(task);
-    }
-
-    /// <summary>
-    /// Выполняет все задачи, находящиеся в очереди.
-    /// </summary>
-    private void ExecuteAllTasks()
-    {
-      Task.Factory.StartNew(() =>
-      {
-        Action action = null;
-        while (this.Tasks.TryDequeue(out action))
-        {
-          action();
-        }
-      });
     }
 
     private void SafeInvoke(Action action)
