@@ -20,6 +20,11 @@ namespace MoneyBook.WinApp
     #region ..поля и свойства, поля и свойства..
 
     /// <summary>
+    /// Менеджер задач.
+    /// </summary>
+    private TaskManager TaskManager = new TaskManager();
+
+    /// <summary>
     /// Необходимо отмена текущего процесса.
     /// </summary>
     private bool Cancellation = false;
@@ -404,7 +409,7 @@ namespace MoneyBook.WinApp
           // телепортируемся в нужную неделю
           d = DateTime.Now.AddDays(value * 7);
           // определяем первый день недели
-          DateTime firstDay = d.AddDays(CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - d.DayOfWeek);
+          DateTime firstDay = d.AddDays(-((d.DayOfWeek - CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek + 7) % 7));
           // устанавливаем фильтры
           this.DateFrom.Value = firstDay;
           this.DateTo.Value = firstDay.AddDays(6);
@@ -594,22 +599,22 @@ namespace MoneyBook.WinApp
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AccountId, ((Account)this.Accounts.SelectedItem).Id, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.CategoryId, ((Category)this.Categories.SelectedItem).Id, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Expenses.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, ddbPeriod.Tag.ToString(), true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateForm, DateFrom.Value, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateTo, DateTo.Value, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountFrom, AmountFrom.Text, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountTo, AmountTo.Text, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.Period, this.ddbPeriod.Tag.ToString(), true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateForm, this.DateFrom.Value.Ticks, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.DateTo, this.DateTo.Value.Ticks, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountFrom, this.AmountFrom.Text, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Expenses.AmountTo, this.AmountTo.Text, true);
       }
       else if (this.ItemsType == EntryType.Income)
       {
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AccountId, ((Account)this.Accounts.SelectedItem).Id, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.CategoryId, ((Category)this.Categories.SelectedItem).Id, true);
         this.User.Info.Set(InfoId.Settings.Desktop.Incomes.SubcategoryId, ((Category)this.Subcategories.SelectedItem).Id, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, ddbPeriod.Tag.ToString(), true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateForm, DateFrom.Value, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateTo, DateTo.Value, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountFrom, AmountFrom.Text, true);
-        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountTo, AmountTo.Text, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.Period, this.ddbPeriod.Tag.ToString(), true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateForm, this.DateFrom.Value.Ticks, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.DateTo, this.DateTo.Value.Ticks, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountFrom, this.AmountFrom.Text, true);
+        this.User.Info.Set(InfoId.Settings.Desktop.Incomes.AmountTo, this.AmountTo.Text, true);
       }
 
       //Console.WriteLine(DateTime.Now.Subtract(s));

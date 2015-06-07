@@ -12,48 +12,48 @@ namespace MoneyBook.WinApp
   /// <summary>
   /// «Управлятель» задачами.
   /// </summary>
-  static class TaskManager
+  class TaskManager
   {
 
     /// <summary>
     /// Представляет очередь задач.
     /// </summary>
-    private static ConcurrentQueue<Action> Items = new ConcurrentQueue<Action>(); // volatile
+    private ConcurrentQueue<Action> Items = new ConcurrentQueue<Action>(); // volatile
     
     /// <summary>
     /// Признак выполнения заданий, находящихся в очереди.
     /// </summary>
-    private static bool Executing = false; // volatile
+    private bool Executing = false; // volatile
 
     /// <summary>
     /// Добавляет задачу в очередь.
     /// </summary>
     /// <param name="task"></param>
-    public static void Add(Action task)
+    public void Add(Action task)
     {
-      TaskManager.Items.Enqueue(task);
+      this.Items.Enqueue(task);
     }
 
     /// <summary>
     /// Выполняет все задачи, находящиеся в очереди.
     /// </summary>
-    public static void ExecuteAll()
+    public void ExecuteAll()
     {
-      if (TaskManager.Executing) { return; }
+      if (this.Executing) { return; }
 
-      TaskManager.Executing = true;
+      this.Executing = true;
 
       Task.Factory.StartNew(() =>
       {
         Console.WriteLine("ExecuteAll start");
 
         Action action = null;
-        while (TaskManager.Items.TryDequeue(out action))
+        while (this.Items.TryDequeue(out action))
         {
           action();
         }
 
-        TaskManager.Executing = false;
+        this.Executing = false;
         Console.WriteLine("ExecuteAll complete");
       });
     }
