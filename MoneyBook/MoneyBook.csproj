@@ -63,6 +63,12 @@
     <Compile Include="MDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="MoneyEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MoneyEditor.Designer.cs">
+      <DependentUpon>MoneyEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="MoneyHistory.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -100,6 +106,9 @@
     <Compile Include="TaskManager.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MoneyEditor.resx">
+      <DependentUpon>MoneyEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MoneyHistory.resx">
       <DependentUpon>MoneyHistory.cs</DependentUpon>

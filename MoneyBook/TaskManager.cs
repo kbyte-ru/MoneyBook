@@ -18,12 +18,12 @@ namespace MoneyBook.WinApp
     /// <summary>
     /// Представляет очередь задач.
     /// </summary>
-    private ConcurrentQueue<Action> Items = new ConcurrentQueue<Action>(); // volatile
+    private ConcurrentQueue<Action> Items = new ConcurrentQueue<Action>();
     
     /// <summary>
     /// Признак выполнения заданий, находящихся в очереди.
     /// </summary>
-    private bool Executing = false; // volatile
+    private bool Executing = false;
 
     /// <summary>
     /// Добавляет задачу в очередь.
