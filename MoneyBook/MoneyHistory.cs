@@ -137,7 +137,9 @@ namespace MoneyBook.WinApp
     
     private void btnAdd_Click(object sender, EventArgs e)
     {
-
+      var editor = new MoneyEditor(new MoneyItem { EntryType = this.ItemsType });
+      editor.Owner = this.ParentForm;
+      editor.ShowDialog();
     }
 
     private void btnReport_Click(object sender, EventArgs e)
@@ -147,7 +149,16 @@ namespace MoneyBook.WinApp
 
     private void btnEdit_Click(object sender, EventArgs e)
     {
+      // такого быть не должно, но лучше перестраховаться
+      if (DataGridView1.CurrentRow == null || DataGridView1.CurrentRow.Tag == null)
+      {
+        this.UpdateButtons();
+        return;
+      }
 
+      var editor = new MoneyEditor((MoneyItem)DataGridView1.CurrentRow.Tag);
+      editor.Owner = this.ParentForm;
+      editor.ShowDialog();
     }
 
     private void btnDelete_Click(object sender, EventArgs e)

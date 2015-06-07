@@ -41,7 +41,7 @@
       this.Subcategories = new System.Windows.Forms.ComboBox();
       this.Title = new System.Windows.Forms.TextBox();
       this.Amount = new System.Windows.Forms.TextBox();
-      this.DateCreated = new System.Windows.Forms.DateTimePicker();
+      this.DateEntry = new System.Windows.Forms.DateTimePicker();
       this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
       this.CurrancyName = new System.Windows.Forms.Label();
       this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -78,7 +78,7 @@
       this.tableLayoutPanel1.Controls.Add(this.Categories, 1, 1);
       this.tableLayoutPanel1.Controls.Add(this.Subcategories, 1, 2);
       this.tableLayoutPanel1.Controls.Add(this.Title, 1, 3);
-      this.tableLayoutPanel1.Controls.Add(this.DateCreated, 1, 5);
+      this.tableLayoutPanel1.Controls.Add(this.DateEntry, 1, 5);
       this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
       this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 4);
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -167,6 +167,7 @@
       this.Accounts.Name = "Accounts";
       this.Accounts.Size = new System.Drawing.Size(306, 21);
       this.Accounts.TabIndex = 4;
+      this.Accounts.SelectedIndexChanged += new System.EventHandler(this.Accounts_SelectedIndexChanged);
       // 
       // Categories
       // 
@@ -177,6 +178,7 @@
       this.Categories.Name = "Categories";
       this.Categories.Size = new System.Drawing.Size(306, 21);
       this.Categories.TabIndex = 5;
+      this.Categories.SelectedIndexChanged += new System.EventHandler(this.Categories_SelectedIndexChanged);
       // 
       // Subcategories
       // 
@@ -203,29 +205,29 @@
       this.Amount.Location = new System.Drawing.Point(3, 3);
       this.Amount.MaxLength = 50;
       this.Amount.Name = "Amount";
-      this.Amount.Size = new System.Drawing.Size(147, 20);
+      this.Amount.Size = new System.Drawing.Size(94, 20);
       this.Amount.TabIndex = 8;
       // 
-      // DateCreated
+      // DateEntry
       // 
-      this.DateCreated.Dock = System.Windows.Forms.DockStyle.Left;
-      this.DateCreated.Location = new System.Drawing.Point(128, 143);
-      this.DateCreated.Name = "DateCreated";
-      this.DateCreated.Size = new System.Drawing.Size(166, 20);
-      this.DateCreated.TabIndex = 9;
+      this.DateEntry.Dock = System.Windows.Forms.DockStyle.Left;
+      this.DateEntry.Location = new System.Drawing.Point(128, 143);
+      this.DateEntry.Name = "DateEntry";
+      this.DateEntry.Size = new System.Drawing.Size(170, 20);
+      this.DateEntry.TabIndex = 9;
       // 
       // tableLayoutPanel2
       // 
       this.tableLayoutPanel2.ColumnCount = 2;
-      this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-      this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+      this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+      this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
       this.tableLayoutPanel2.Controls.Add(this.Amount, 0, 0);
       this.tableLayoutPanel2.Controls.Add(this.CurrancyName, 1, 0);
       this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tableLayoutPanel2.Location = new System.Drawing.Point(128, 110);
       this.tableLayoutPanel2.Name = "tableLayoutPanel2";
       this.tableLayoutPanel2.RowCount = 1;
-      this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+      this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
       this.tableLayoutPanel2.Size = new System.Drawing.Size(306, 27);
       this.tableLayoutPanel2.TabIndex = 1;
       // 
@@ -233,7 +235,7 @@
       // 
       this.CurrancyName.AutoSize = true;
       this.CurrancyName.Dock = System.Windows.Forms.DockStyle.Left;
-      this.CurrancyName.Location = new System.Drawing.Point(156, 0);
+      this.CurrancyName.Location = new System.Drawing.Point(103, 0);
       this.CurrancyName.Name = "CurrancyName";
       this.CurrancyName.Size = new System.Drawing.Size(30, 27);
       this.CurrancyName.TabIndex = 9;
@@ -316,6 +318,7 @@
       // 
       // btnCancel
       // 
+      this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
       this.btnCancel.Location = new System.Drawing.Point(124, 3);
       this.btnCancel.Name = "btnCancel";
       this.btnCancel.Size = new System.Drawing.Size(86, 27);
@@ -359,6 +362,7 @@
       this.Name = "MoneyEditor";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Редактировать";
+      this.Load += new System.EventHandler(this.MoneyEditor_Load);
       this.tableLayoutPanel1.ResumeLayout(false);
       this.tableLayoutPanel1.PerformLayout();
       this.tableLayoutPanel2.ResumeLayout(false);
@@ -387,7 +391,7 @@
     private System.Windows.Forms.ComboBox Subcategories;
     private System.Windows.Forms.TextBox Title;
     private System.Windows.Forms.TextBox Amount;
-    private System.Windows.Forms.DateTimePicker DateCreated;
+    private System.Windows.Forms.DateTimePicker DateEntry;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     private System.Windows.Forms.Label CurrancyName;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
