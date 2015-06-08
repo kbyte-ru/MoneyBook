@@ -54,7 +54,7 @@ CREATE TABLE [items] (
 	[id_icons] int DEFAULT(0) NOT NULL, 
 	[entry_type] tinyint NOT NULL, 
 	[title] nvarchar(100) NOT NULL, 
-	[description] nvarchar(4000) NOT NULL, 
+	[description] nvarchar(3800) NOT NULL, 
 	[amount] money NOT NULL, 
 	[date_entry] datetime NOT NULL,
 	[date_updated] datetime NULL, 
