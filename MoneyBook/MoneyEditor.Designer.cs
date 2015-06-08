@@ -30,23 +30,23 @@
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MoneyEditor));
       this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-      this.label1 = new System.Windows.Forms.Label();
-      this.label2 = new System.Windows.Forms.Label();
-      this.label3 = new System.Windows.Forms.Label();
+      this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+      this.Amount = new System.Windows.Forms.TextBox();
+      this.CurrancyName = new System.Windows.Forms.Label();
       this.label4 = new System.Windows.Forms.Label();
+      this.label3 = new System.Windows.Forms.Label();
+      this.label2 = new System.Windows.Forms.Label();
+      this.label1 = new System.Windows.Forms.Label();
       this.label5 = new System.Windows.Forms.Label();
       this.label6 = new System.Windows.Forms.Label();
       this.Accounts = new System.Windows.Forms.ComboBox();
       this.Categories = new System.Windows.Forms.ComboBox();
       this.Subcategories = new System.Windows.Forms.ComboBox();
       this.Title = new System.Windows.Forms.TextBox();
-      this.Amount = new System.Windows.Forms.TextBox();
       this.DateEntry = new System.Windows.Forms.DateTimePicker();
-      this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-      this.CurrancyName = new System.Windows.Forms.Label();
       this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-      this.label7 = new System.Windows.Forms.Label();
       this.Description = new System.Windows.Forms.TextBox();
+      this.label7 = new System.Windows.Forms.Label();
       this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
       this.btnDelete = new System.Windows.Forms.Button();
       this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -92,27 +92,56 @@
       this.tableLayoutPanel1.Size = new System.Drawing.Size(437, 166);
       this.tableLayoutPanel1.TabIndex = 0;
       // 
-      // label1
+      // tableLayoutPanel2
       // 
-      this.label1.AutoSize = true;
-      this.label1.Dock = System.Windows.Forms.DockStyle.Left;
-      this.label1.Location = new System.Drawing.Point(3, 0);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(33, 27);
-      this.label1.TabIndex = 0;
-      this.label1.Text = "Счёт:";
-      this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.tableLayoutPanel2.ColumnCount = 2;
+      this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+      this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel2.Controls.Add(this.Amount, 0, 0);
+      this.tableLayoutPanel2.Controls.Add(this.CurrancyName, 1, 0);
+      this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tableLayoutPanel2.Location = new System.Drawing.Point(128, 110);
+      this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+      this.tableLayoutPanel2.RowCount = 1;
+      this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel2.Size = new System.Drawing.Size(306, 27);
+      this.tableLayoutPanel2.TabIndex = 1;
       // 
-      // label2
+      // Amount
       // 
-      this.label2.AutoSize = true;
-      this.label2.Dock = System.Windows.Forms.DockStyle.Left;
-      this.label2.Location = new System.Drawing.Point(3, 27);
-      this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(45, 27);
-      this.label2.TabIndex = 1;
-      this.label2.Text = "Статья:";
-      this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.Amount.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Amount.Location = new System.Drawing.Point(3, 3);
+      this.Amount.MaxLength = 50;
+      this.Amount.Name = "Amount";
+      this.Amount.Size = new System.Drawing.Size(94, 20);
+      this.Amount.TabIndex = 8;
+      this.Amount.TextChanged += new System.EventHandler(this.Amount_TextChanged);
+      this.Amount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Amount_KeyDown);
+      this.Amount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Amount_KeyPress);
+      this.Amount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Amount_KeyUp);
+      this.Amount.Leave += new System.EventHandler(this.Amount_Leave);
+      // 
+      // CurrancyName
+      // 
+      this.CurrancyName.AutoSize = true;
+      this.CurrancyName.Dock = System.Windows.Forms.DockStyle.Left;
+      this.CurrancyName.Location = new System.Drawing.Point(103, 0);
+      this.CurrancyName.Name = "CurrancyName";
+      this.CurrancyName.Size = new System.Drawing.Size(30, 27);
+      this.CurrancyName.TabIndex = 9;
+      this.CurrancyName.Text = "RUB";
+      this.CurrancyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Dock = System.Windows.Forms.DockStyle.Left;
+      this.label4.Location = new System.Drawing.Point(3, 81);
+      this.label4.Name = "label4";
+      this.label4.Size = new System.Drawing.Size(86, 26);
+      this.label4.TabIndex = 1;
+      this.label4.Text = "Наименование:";
+      this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // label3
       // 
@@ -125,16 +154,27 @@
       this.label3.Text = "Категория:";
       this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
-      // label4
+      // label2
       // 
-      this.label4.AutoSize = true;
-      this.label4.Dock = System.Windows.Forms.DockStyle.Left;
-      this.label4.Location = new System.Drawing.Point(3, 81);
-      this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(86, 26);
-      this.label4.TabIndex = 1;
-      this.label4.Text = "Наименование:";
-      this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.label2.AutoSize = true;
+      this.label2.Dock = System.Windows.Forms.DockStyle.Left;
+      this.label2.Location = new System.Drawing.Point(3, 27);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(45, 27);
+      this.label2.TabIndex = 1;
+      this.label2.Text = "Статья:";
+      this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+      this.label1.Location = new System.Drawing.Point(3, 0);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(33, 27);
+      this.label1.TabIndex = 0;
+      this.label1.Text = "Счёт:";
+      this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // label5
       // 
@@ -199,48 +239,15 @@
       this.Title.Size = new System.Drawing.Size(306, 20);
       this.Title.TabIndex = 7;
       // 
-      // Amount
-      // 
-      this.Amount.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.Amount.Location = new System.Drawing.Point(3, 3);
-      this.Amount.MaxLength = 50;
-      this.Amount.Name = "Amount";
-      this.Amount.Size = new System.Drawing.Size(94, 20);
-      this.Amount.TabIndex = 8;
-      // 
       // DateEntry
       // 
+      this.DateEntry.CustomFormat = "dd.MM.yyyy";
       this.DateEntry.Dock = System.Windows.Forms.DockStyle.Left;
+      this.DateEntry.Format = System.Windows.Forms.DateTimePickerFormat.Short;
       this.DateEntry.Location = new System.Drawing.Point(128, 143);
       this.DateEntry.Name = "DateEntry";
-      this.DateEntry.Size = new System.Drawing.Size(170, 20);
+      this.DateEntry.Size = new System.Drawing.Size(97, 20);
       this.DateEntry.TabIndex = 9;
-      // 
-      // tableLayoutPanel2
-      // 
-      this.tableLayoutPanel2.ColumnCount = 2;
-      this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-      this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-      this.tableLayoutPanel2.Controls.Add(this.Amount, 0, 0);
-      this.tableLayoutPanel2.Controls.Add(this.CurrancyName, 1, 0);
-      this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.tableLayoutPanel2.Location = new System.Drawing.Point(128, 110);
-      this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-      this.tableLayoutPanel2.RowCount = 1;
-      this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-      this.tableLayoutPanel2.Size = new System.Drawing.Size(306, 27);
-      this.tableLayoutPanel2.TabIndex = 1;
-      // 
-      // CurrancyName
-      // 
-      this.CurrancyName.AutoSize = true;
-      this.CurrancyName.Dock = System.Windows.Forms.DockStyle.Left;
-      this.CurrancyName.Location = new System.Drawing.Point(103, 0);
-      this.CurrancyName.Name = "CurrancyName";
-      this.CurrancyName.Size = new System.Drawing.Size(30, 27);
-      this.CurrancyName.TabIndex = 9;
-      this.CurrancyName.Text = "RUB";
-      this.CurrancyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // tableLayoutPanel4
       // 
@@ -254,9 +261,20 @@
       this.tableLayoutPanel4.RowCount = 3;
       this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
       this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-      this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+      this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
       this.tableLayoutPanel4.Size = new System.Drawing.Size(437, 207);
       this.tableLayoutPanel4.TabIndex = 1;
+      // 
+      // Description
+      // 
+      this.Description.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Description.Location = new System.Drawing.Point(3, 24);
+      this.Description.MaxLength = 3800;
+      this.Description.Multiline = true;
+      this.Description.Name = "Description";
+      this.Description.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+      this.Description.Size = new System.Drawing.Size(431, 176);
+      this.Description.TabIndex = 1;
       // 
       // label7
       // 
@@ -267,17 +285,6 @@
       this.label7.Size = new System.Drawing.Size(80, 21);
       this.label7.TabIndex = 0;
       this.label7.Text = "Комментарий:";
-      // 
-      // Description
-      // 
-      this.Description.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.Description.Location = new System.Drawing.Point(3, 24);
-      this.Description.MaxLength = 4000;
-      this.Description.Multiline = true;
-      this.Description.Name = "Description";
-      this.Description.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.Description.Size = new System.Drawing.Size(431, 160);
-      this.Description.TabIndex = 1;
       // 
       // tableLayoutPanel3
       // 
@@ -304,6 +311,7 @@
       this.btnDelete.TabIndex = 0;
       this.btnDelete.Text = "Удалить";
       this.btnDelete.UseVisualStyleBackColor = true;
+      this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
       // 
       // flowLayoutPanel1
       // 
@@ -325,6 +333,7 @@
       this.btnCancel.TabIndex = 0;
       this.btnCancel.Text = "Отмена";
       this.btnCancel.UseVisualStyleBackColor = true;
+      this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
       // 
       // btnSave
       // 
@@ -334,6 +343,7 @@
       this.btnSave.TabIndex = 1;
       this.btnSave.Text = "Сохранить";
       this.btnSave.UseVisualStyleBackColor = true;
+      this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
       // 
       // panel1
       // 
@@ -348,7 +358,6 @@
       // 
       // MoneyEditor
       // 
-      this.AcceptButton = this.btnSave;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.btnCancel;

@@ -139,7 +139,11 @@ namespace MoneyBook.WinApp
     {
       var editor = new MoneyEditor(new MoneyItem { EntryType = this.ItemsType });
       editor.Owner = this.ParentForm;
-      editor.ShowDialog();
+
+      if (editor.ShowDialog() == DialogResult.OK)
+      {
+        // TODO: Проверяем возможность вставки записи в текущий список (по фильтрам)
+      }
     }
 
     private void btnReport_Click(object sender, EventArgs e)
@@ -158,7 +162,29 @@ namespace MoneyBook.WinApp
 
       var editor = new MoneyEditor((MoneyItem)DataGridView1.CurrentRow.Tag);
       editor.Owner = this.ParentForm;
-      editor.ShowDialog();
+
+      if (editor.ShowDialog() == DialogResult.OK)
+      {
+        // обновляем строку 
+        this.UpdateRow(this.DataGridView1.CurrentRow, editor.MoneyItem);
+
+        // вычитаем старую сумму
+        if (this.TotalAmountByCurrencies.ContainsKey(editor.PrevCurrencyCode))
+        {
+          this.TotalAmountByCurrencies[editor.PrevCurrencyCode] -= editor.PrevAmount;
+        }
+
+        // добавленом новую сумма
+        if (!this.TotalAmountByCurrencies.ContainsKey(this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode))
+        {
+          this.TotalAmountByCurrencies.Add(this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode, 0);
+        }
+
+        this.TotalAmountByCurrencies[this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode] += editor.MoneyItem.Amount;
+
+        // обновляем статус
+        this.UpdateStatus();
+      }
     }
 
     private void btnDelete_Click(object sender, EventArgs e)
@@ -865,77 +891,7 @@ namespace MoneyBook.WinApp
           break;
         }
 
-        var row = new DataGridViewRow();
-
-        int iconId = 0;
-        Account account = u.Accounts[item.AccountId];
-        Category category = u.Categories[item.CategoryId];
-        Category parentCategory = null;
-
-        if (category.ParentId > 0)
-        {
-          parentCategory = u.Categories[category.ParentId];
-        }
-
-        if (item.IconId > 0)
-        {
-          // иконка записи
-          iconId = item.IconId;
-        }
-        else
-        {
-          if (category.IconId > 0)
-          {
-            // иконка категории
-            iconId = category.IconId;
-          }
-          else
-          {
-            // иконка статьи
-            if (parentCategory != null)
-            {
-              iconId = parentCategory.IconId;
-            }
-          }
-        }
-        
-        var iconCell = new DataGridViewImageCell();
-
-        if (iconId > 0)
-        {
-          iconCell.Value = u.GetIcon(iconId);
-        }
-        else
-        {
-          if (item.EntryType == EntryType.Expense)
-          {
-            iconCell.Value = Properties.Resources.item_еxpense;
-          }
-          else if (item.EntryType == EntryType.Income)
-          {
-            iconCell.Value = Properties.Resources.item_income;
-          }
-          else
-          {
-            iconCell.Value = Properties.Resources.item;
-          }
-        }
-        
-        row.Cells.Add(iconCell);
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = (parentCategory != null ? parentCategory.Name : category.Name) });
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = (parentCategory != null ? category.Name : "") });
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = item.Title });
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = account.Name });
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = item.DateEntry });
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = item.Amount });
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = account.CurrencyCode }); //u.Currencies[account.CurrencyCode].ShortName
-
-        row.Tag = item;
-
-        // стили
-        row.DefaultCellStyle.BackColor = category.BackColor;
-        row.DefaultCellStyle.ForeColor = category.ForeColor;
-        row.DefaultCellStyle.Font = new Font(this.DataGridView1.Font, category.FontStyle);
+        var row = this.CreateRow(item);
 
         // добавляем строку
         this.SafeInvoke(() => this.DataGridView1.Rows.Add(row));
@@ -949,12 +905,12 @@ namespace MoneyBook.WinApp
         // System.Threading.Thread.Sleep(100); // note: проверка работы потоков
 
         // общая сумма
-        if (!this.TotalAmountByCurrencies.ContainsKey(account.CurrencyCode))
+        if (!this.TotalAmountByCurrencies.ContainsKey(row.Cells[7].Tag.ToString()))
         {
-          this.TotalAmountByCurrencies.Add(account.CurrencyCode, 0);
+          this.TotalAmountByCurrencies.Add(row.Cells[7].Tag.ToString(), 0);
         }
 
-        this.TotalAmountByCurrencies[account.CurrencyCode] += item.Amount;
+        this.TotalAmountByCurrencies[row.Cells[7].Tag.ToString()] += item.Amount;
 
         this.ProgressBar1.ProgressValue++;
 
@@ -992,6 +948,156 @@ namespace MoneyBook.WinApp
       //this.Cursor = Cursors.Default;
       //btnEdit.Enabled = btnDelete.Enabled =
       //mnuEdit.Enabled = mnuDelete.Enabled = (DataGridView1.Rows.Count > 0);
+    }
+
+    private DataGridViewRow CreateRow(MoneyItem item)
+    {
+      var row = new DataGridViewRow();
+
+      int iconId = 0;
+      Account account = this.User.Accounts[item.AccountId];
+      Category category = this.User.Categories[item.CategoryId];
+      Category parentCategory = null;
+
+      if (category.ParentId > 0)
+      {
+        parentCategory = this.User.Categories[category.ParentId];
+      }
+
+      if (item.IconId > 0)
+      {
+        // иконка записи
+        iconId = item.IconId;
+      }
+      else
+      {
+        if (category.IconId > 0)
+        {
+          // иконка категории
+          iconId = category.IconId;
+        }
+        else
+        {
+          // иконка статьи
+          if (parentCategory != null)
+          {
+            iconId = parentCategory.IconId;
+          }
+        }
+      }
+
+      var iconCell = new DataGridViewImageCell();
+
+      if (iconId > 0)
+      {
+        iconCell.Value = this.User.GetIcon(iconId);
+      }
+      else
+      {
+        if (item.EntryType == EntryType.Expense)
+        {
+          iconCell.Value = Properties.Resources.item_еxpense;
+        }
+        else if (item.EntryType == EntryType.Income)
+        {
+          iconCell.Value = Properties.Resources.item_income;
+        }
+        else
+        {
+          iconCell.Value = Properties.Resources.item;
+        }
+      }
+
+      row.Cells.Add(iconCell);
+      row.Cells.Add(new DataGridViewTextBoxCell { Value = (parentCategory != null ? parentCategory.Name : category.Name) });
+      row.Cells.Add(new DataGridViewTextBoxCell { Value = (parentCategory != null ? category.Name : "") });
+      row.Cells.Add(new DataGridViewTextBoxCell { Value = item.Title });
+      row.Cells.Add(new DataGridViewTextBoxCell { Value = account.Name });
+      row.Cells.Add(new DataGridViewTextBoxCell { Value = item.DateEntry });
+      row.Cells.Add(new DataGridViewTextBoxCell { Value = item.Amount });
+      row.Cells.Add(new DataGridViewTextBoxCell { Value = account.CurrencyCode, Tag = account.CurrencyCode }); //u.Currencies[account.CurrencyCode].ShortName
+
+      row.Tag = item;
+
+      // стили
+      row.DefaultCellStyle.BackColor = category.BackColor;
+      row.DefaultCellStyle.ForeColor = category.ForeColor;
+      row.DefaultCellStyle.Font = new Font(this.DataGridView1.Font, category.FontStyle);
+
+      return row;
+    }
+
+    private void UpdateRow(DataGridViewRow row, MoneyItem item)
+    {
+      int iconId = 0;
+      Account account = this.User.Accounts[item.AccountId];
+      Category category = this.User.Categories[item.CategoryId];
+      Category parentCategory = null;
+
+      if (category.ParentId > 0)
+      {
+        parentCategory = this.User.Categories[category.ParentId];
+      }
+
+      if (item.IconId > 0)
+      {
+        // иконка записи
+        iconId = item.IconId;
+      }
+      else
+      {
+        if (category.IconId > 0)
+        {
+          // иконка категории
+          iconId = category.IconId;
+        }
+        else
+        {
+          // иконка статьи
+          if (parentCategory != null)
+          {
+            iconId = parentCategory.IconId;
+          }
+        }
+      }
+
+      var iconCell = new DataGridViewImageCell();
+
+      if (iconId > 0)
+      {
+        iconCell.Value = this.User.GetIcon(iconId);
+      }
+      else
+      {
+        if (item.EntryType == EntryType.Expense)
+        {
+          iconCell.Value = Properties.Resources.item_еxpense;
+        }
+        else if (item.EntryType == EntryType.Income)
+        {
+          iconCell.Value = Properties.Resources.item_income;
+        }
+        else
+        {
+          iconCell.Value = Properties.Resources.item;
+        }
+      }
+
+      row.Cells[0] = iconCell;
+      row.Cells[1] = new DataGridViewTextBoxCell { Value = (parentCategory != null ? parentCategory.Name : category.Name) };
+      row.Cells[2] = new DataGridViewTextBoxCell { Value = (parentCategory != null ? category.Name : "") };
+      row.Cells[3] = new DataGridViewTextBoxCell { Value = item.Title };
+      row.Cells[4] = new DataGridViewTextBoxCell { Value = account.Name };
+      row.Cells[5] = new DataGridViewTextBoxCell { Value = item.DateEntry };
+      row.Cells[6] = new DataGridViewTextBoxCell { Value = item.Amount };
+      row.Cells[7] = new DataGridViewTextBoxCell { Value = account.CurrencyCode, Tag = account.CurrencyCode };
+
+      row.Tag = item;
+
+      // стили
+      row.DefaultCellStyle.BackColor = category.BackColor;
+      row.DefaultCellStyle.ForeColor = category.ForeColor;
+      row.DefaultCellStyle.Font = new Font(this.DataGridView1.Font, category.FontStyle);
     }
 
     private void SafeInvoke(Action action)
