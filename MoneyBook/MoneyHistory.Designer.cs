@@ -29,9 +29,9 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
       this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
       this.StatusTitle = new System.Windows.Forms.ToolStripStatusLabel();
       this.TotalItems = new System.Windows.Forms.ToolStripStatusLabel();
@@ -93,6 +93,7 @@
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
+      this.mnuPeriodCurrentDay = new System.Windows.Forms.ToolStripMenuItem();
       this.StatusStrip1.SuspendLayout();
       this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
@@ -310,9 +311,9 @@
       // 
       // ItemDate
       // 
-      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle1.Format = "dd.MM.yyyy";
-      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle1;
+      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle4.Format = "dd.MM.yyyy";
+      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle4;
       this.ItemDate.HeaderText = "Дата";
       this.ItemDate.MinimumWidth = 25;
       this.ItemDate.Name = "ItemDate";
@@ -322,9 +323,9 @@
       // 
       // ItemAmount
       // 
-      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle2.Format = "##,###,##0.00";
-      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle2;
+      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle5.Format = "##,###,##0.00";
+      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle5;
       this.ItemAmount.HeaderText = "Сумма";
       this.ItemAmount.MinimumWidth = 15;
       this.ItemAmount.Name = "ItemAmount";
@@ -334,8 +335,8 @@
       // 
       // ItemCurrency
       // 
-      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle3;
+      dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle6;
       this.ItemCurrency.HeaderText = "Валюта";
       this.ItemCurrency.MinimumWidth = 15;
       this.ItemCurrency.Name = "ItemCurrency";
@@ -441,6 +442,7 @@
       // 
       this.ddbPeriod.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
       this.ddbPeriod.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuPeriodCurrentDay,
             this.mnuPeriodCurrentWeek,
             this.mnuPeriodCurrentMonth,
             this.mnuPeriodCurrentQuarter,
@@ -682,6 +684,14 @@
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(150, 25);
       // 
+      // mnuPeriodCurrentDay
+      // 
+      this.mnuPeriodCurrentDay.Name = "mnuPeriodCurrentDay";
+      this.mnuPeriodCurrentDay.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodCurrentDay.Tag = "d";
+      this.mnuPeriodCurrentDay.Text = "Текущий день";
+      this.mnuPeriodCurrentDay.Click += new System.EventHandler(this.Period_Click);
+      // 
       // MoneyHistory
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -778,5 +788,6 @@
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousQuarter;
     private MProgressBar ProgressBar1;
     private MToolStrip ToolStrip1;
+    private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentDay;
   }
 }

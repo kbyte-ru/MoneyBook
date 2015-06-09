@@ -189,6 +189,8 @@ namespace MoneyBook.WinApp
           // вставляем строку
           DataGridView1.Rows.Insert(index, row);
 
+          DataGridView1.CurrentCell = DataGridView1.Rows[index].Cells[0];
+
           // добавляем сумму
           if (!this.TotalAmountByCurrencies.ContainsKey(this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode))
           {
