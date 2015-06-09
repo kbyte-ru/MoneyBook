@@ -139,10 +139,67 @@ namespace MoneyBook.WinApp
     {
       var editor = new MoneyEditor(new MoneyItem { EntryType = this.ItemsType });
       editor.Owner = this.ParentForm;
+      var result = editor.ShowDialog();
 
-      if (editor.ShowDialog() == DialogResult.OK)
+      if (result == DialogResult.OK)
       {
-        // TODO: Проверяем возможность вставки записи в текущий список (по фильтрам)
+        // проверяем возможность вставки записи в текущий список (по фильтрам)
+        bool canAdd = (((Account)this.Accounts.SelectedItem).Id == 0 || ((Account)this.Accounts.SelectedItem).Id == editor.MoneyItem.AccountId);
+        if (canAdd) 
+        { 
+          canAdd = ((Category)this.Categories.SelectedItem).Id == 0;
+          
+          if (!canAdd)
+          {
+            canAdd = (this.User.Categories[editor.MoneyItem.CategoryId].ParentId == 0 && ((Category)this.Categories.SelectedItem).Id == editor.MoneyItem.CategoryId) ||
+                     (this.User.Categories[editor.MoneyItem.CategoryId].ParentId != 0 && ((Category)this.Subcategories.SelectedItem).Id == editor.MoneyItem.CategoryId) ||
+                     (this.User.Categories[editor.MoneyItem.CategoryId].ParentId != 0 && ((Category)this.Subcategories.SelectedItem).Id == 0 && ((Category)this.Categories.SelectedItem).Id == this.User.Categories[editor.MoneyItem.CategoryId].ParentId);
+          }
+        }
+
+        if (canAdd)
+        {
+          canAdd = editor.MoneyItem.DateEntry.Date >= this.DateFrom.Value.Date && editor.MoneyItem.DateEntry.Date <= this.DateTo.Value.Date;
+        }
+
+        if (canAdd && Convertion.ToDecimal(this.AmountFrom.Text, null).HasValue)
+        {
+          canAdd = editor.MoneyItem.Amount >= Convertion.ToDecimal(this.AmountFrom.Text, null).Value;
+        }
+
+        if (canAdd && Convertion.ToDecimal(this.AmountTo.Text, null).HasValue)
+        {
+          canAdd = editor.MoneyItem.Amount <= Convertion.ToDecimal(this.AmountTo.Text, null).Value;
+        }
+
+        if (canAdd)
+        {
+          // создаем строку
+          var row = this.CreateRow(editor.MoneyItem);
+          // определяем место, в которое можно вставить строку
+          int index = 0;
+          for (int i = 0; i < DataGridView1.Rows.Count; i++)
+          {
+            index = i;
+            if (((MoneyItem)DataGridView1.Rows[i].Tag).DateEntry.Date <= editor.MoneyItem.DateEntry.Date)
+            {
+              break;
+            }
+          }
+          // вставляем строку
+          DataGridView1.Rows.Insert(index, row);
+
+          // добавляем сумму
+          if (!this.TotalAmountByCurrencies.ContainsKey(this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode))
+          {
+            this.TotalAmountByCurrencies.Add(this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode, 0);
+          }
+
+          this.TotalAmountByCurrencies[this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode] += editor.MoneyItem.Amount;
+
+          // обновляем статус
+          this.UpdateStatus();
+        }
       }
     }
 
@@ -162,8 +219,9 @@ namespace MoneyBook.WinApp
 
       var editor = new MoneyEditor((MoneyItem)DataGridView1.CurrentRow.Tag);
       editor.Owner = this.ParentForm;
+      var result = editor.ShowDialog();
 
-      if (editor.ShowDialog() == DialogResult.OK)
+      if (result == DialogResult.OK)
       {
         // обновляем строку 
         this.UpdateRow(this.DataGridView1.CurrentRow, editor.MoneyItem);
@@ -174,7 +232,7 @@ namespace MoneyBook.WinApp
           this.TotalAmountByCurrencies[editor.PrevCurrencyCode] -= editor.PrevAmount;
         }
 
-        // добавленом новую сумма
+        // добавляем новую сумму
         if (!this.TotalAmountByCurrencies.ContainsKey(this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode))
         {
           this.TotalAmountByCurrencies.Add(this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode, 0);
@@ -183,6 +241,14 @@ namespace MoneyBook.WinApp
         this.TotalAmountByCurrencies[this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode] += editor.MoneyItem.Amount;
 
         // обновляем статус
+        this.UpdateStatus();
+      }
+      else if (result == DialogResult.Abort)
+      {
+        // запись была удалена
+        // удаляем из списка
+        DataGridView1.Rows.Remove(DataGridView1.CurrentRow);
+        this.TotalAmountByCurrencies[this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode] -= editor.MoneyItem.Amount;
         this.UpdateStatus();
       }
     }
@@ -281,6 +347,15 @@ namespace MoneyBook.WinApp
     private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
     {
       this.UpdateButtons();
+    }
+
+    private void DataGridView1_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.KeyCode == Keys.Enter && DataGridView1.CurrentRow != null && DataGridView1.CurrentRow.Tag != null)
+      {
+        e.SuppressKeyPress = true;
+        btnEdit_Click(sender, null);
+      }
     }
 
     private void DataGridView1_KeyUp(object sender, KeyEventArgs e)
@@ -1102,7 +1177,7 @@ namespace MoneyBook.WinApp
 
     private void SafeInvoke(Action action)
     {
-      if (this.InvokeRequired)
+      if (this.InvokeRequired && !this.IsDisposed)
       {
         this.Invoke(new Action<Action>(SafeInvoke), action);
         return;

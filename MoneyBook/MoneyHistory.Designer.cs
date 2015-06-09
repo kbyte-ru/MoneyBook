@@ -263,6 +263,7 @@
       this.DataGridView1.TabIndex = 15;
       this.DataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
       this.DataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellEnter);
+      this.DataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView1_KeyDown);
       this.DataGridView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DataGridView1_KeyUp);
       this.DataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataGridView1_MouseDown);
       // 
@@ -729,7 +730,6 @@
     internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator3;
     internal System.Windows.Forms.ToolStripLabel ToolStripLabel13;
     internal System.Windows.Forms.ToolStripComboBox Subcategories;
-    internal MToolStrip ToolStrip1;
     private MToolStrip ToolStrip2;
     private System.Windows.Forms.ToolStripLabel toolStripLabel3;
     private System.Windows.Forms.ToolStripLabel toolStripLabel4;
@@ -777,5 +777,6 @@
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousWeek;
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodPreviousQuarter;
     private MProgressBar ProgressBar1;
+    private MToolStrip ToolStrip1;
   }
 }

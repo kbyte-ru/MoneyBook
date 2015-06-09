@@ -105,7 +105,7 @@
       this.tableLayoutPanel2.RowCount = 1;
       this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
       this.tableLayoutPanel2.Size = new System.Drawing.Size(306, 27);
-      this.tableLayoutPanel2.TabIndex = 1;
+      this.tableLayoutPanel2.TabIndex = 14;
       // 
       // Amount
       // 
@@ -114,7 +114,7 @@
       this.Amount.MaxLength = 50;
       this.Amount.Name = "Amount";
       this.Amount.Size = new System.Drawing.Size(94, 20);
-      this.Amount.TabIndex = 8;
+      this.Amount.TabIndex = 14;
       this.Amount.TextChanged += new System.EventHandler(this.Amount_TextChanged);
       this.Amount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Amount_KeyDown);
       this.Amount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Amount_KeyPress);
@@ -128,7 +128,7 @@
       this.CurrancyName.Location = new System.Drawing.Point(103, 0);
       this.CurrancyName.Name = "CurrancyName";
       this.CurrancyName.Size = new System.Drawing.Size(30, 27);
-      this.CurrancyName.TabIndex = 9;
+      this.CurrancyName.TabIndex = 4;
       this.CurrancyName.Text = "RUB";
       this.CurrancyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
@@ -139,7 +139,7 @@
       this.label4.Location = new System.Drawing.Point(3, 81);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(86, 26);
-      this.label4.TabIndex = 1;
+      this.label4.TabIndex = 3;
       this.label4.Text = "Наименование:";
       this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
@@ -150,7 +150,7 @@
       this.label3.Location = new System.Drawing.Point(3, 54);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(63, 27);
-      this.label3.TabIndex = 1;
+      this.label3.TabIndex = 2;
       this.label3.Text = "Категория:";
       this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
@@ -183,7 +183,7 @@
       this.label5.Location = new System.Drawing.Point(3, 107);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(44, 33);
-      this.label5.TabIndex = 2;
+      this.label5.TabIndex = 4;
       this.label5.Text = "Сумма:";
       this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
@@ -194,7 +194,7 @@
       this.label6.Location = new System.Drawing.Point(3, 140);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(36, 26);
-      this.label6.TabIndex = 3;
+      this.label6.TabIndex = 5;
       this.label6.Text = "Дата:";
       this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
@@ -206,7 +206,7 @@
       this.Accounts.Location = new System.Drawing.Point(128, 3);
       this.Accounts.Name = "Accounts";
       this.Accounts.Size = new System.Drawing.Size(306, 21);
-      this.Accounts.TabIndex = 4;
+      this.Accounts.TabIndex = 10;
       this.Accounts.SelectedIndexChanged += new System.EventHandler(this.Accounts_SelectedIndexChanged);
       // 
       // Categories
@@ -217,7 +217,7 @@
       this.Categories.Location = new System.Drawing.Point(128, 30);
       this.Categories.Name = "Categories";
       this.Categories.Size = new System.Drawing.Size(306, 21);
-      this.Categories.TabIndex = 5;
+      this.Categories.TabIndex = 11;
       this.Categories.SelectedIndexChanged += new System.EventHandler(this.Categories_SelectedIndexChanged);
       // 
       // Subcategories
@@ -228,7 +228,7 @@
       this.Subcategories.Location = new System.Drawing.Point(128, 57);
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(306, 21);
-      this.Subcategories.TabIndex = 6;
+      this.Subcategories.TabIndex = 12;
       // 
       // Title
       // 
@@ -237,7 +237,7 @@
       this.Title.MaxLength = 100;
       this.Title.Name = "Title";
       this.Title.Size = new System.Drawing.Size(306, 20);
-      this.Title.TabIndex = 7;
+      this.Title.TabIndex = 13;
       // 
       // DateEntry
       // 
@@ -247,7 +247,7 @@
       this.DateEntry.Location = new System.Drawing.Point(128, 143);
       this.DateEntry.Name = "DateEntry";
       this.DateEntry.Size = new System.Drawing.Size(97, 20);
-      this.DateEntry.TabIndex = 9;
+      this.DateEntry.TabIndex = 15;
       // 
       // tableLayoutPanel4
       // 
@@ -274,7 +274,7 @@
       this.Description.Name = "Description";
       this.Description.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
       this.Description.Size = new System.Drawing.Size(431, 176);
-      this.Description.TabIndex = 1;
+      this.Description.TabIndex = 16;
       // 
       // label7
       // 
@@ -283,12 +283,11 @@
       this.label7.Name = "label7";
       this.label7.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
       this.label7.Size = new System.Drawing.Size(80, 21);
-      this.label7.TabIndex = 0;
+      this.label7.TabIndex = 6;
       this.label7.Text = "Комментарий:";
       // 
       // tableLayoutPanel3
       // 
-      this.tableLayoutPanel3.BackColor = System.Drawing.SystemColors.ControlLightLight;
       this.tableLayoutPanel3.ColumnCount = 2;
       this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
       this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -305,10 +304,11 @@
       // 
       // btnDelete
       // 
+      this.btnDelete.DialogResult = System.Windows.Forms.DialogResult.Cancel;
       this.btnDelete.Location = new System.Drawing.Point(7, 7);
       this.btnDelete.Name = "btnDelete";
       this.btnDelete.Size = new System.Drawing.Size(86, 27);
-      this.btnDelete.TabIndex = 0;
+      this.btnDelete.TabIndex = 3;
       this.btnDelete.Text = "Удалить";
       this.btnDelete.UseVisualStyleBackColor = true;
       this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -330,13 +330,14 @@
       this.btnCancel.Location = new System.Drawing.Point(124, 3);
       this.btnCancel.Name = "btnCancel";
       this.btnCancel.Size = new System.Drawing.Size(86, 27);
-      this.btnCancel.TabIndex = 0;
+      this.btnCancel.TabIndex = 2;
       this.btnCancel.Text = "Отмена";
       this.btnCancel.UseVisualStyleBackColor = true;
       this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
       // 
       // btnSave
       // 
+      this.btnSave.DialogResult = System.Windows.Forms.DialogResult.Cancel;
       this.btnSave.Location = new System.Drawing.Point(32, 3);
       this.btnSave.Name = "btnSave";
       this.btnSave.Size = new System.Drawing.Size(86, 27);
@@ -354,7 +355,7 @@
       this.panel1.Name = "panel1";
       this.panel1.Padding = new System.Windows.Forms.Padding(4);
       this.panel1.Size = new System.Drawing.Size(445, 381);
-      this.panel1.TabIndex = 3;
+      this.panel1.TabIndex = 0;
       // 
       // MoneyEditor
       // 

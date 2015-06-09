@@ -95,7 +95,11 @@ namespace MoneyBook.WinApp
         this.Title.Text = this.MoneyItem.Title;
         this.Description.Text = this.MoneyItem.Description;
         this.Amount.Text = this.MoneyItem.Amount.ToString();
-        this.DateEntry.Value = this.MoneyItem.DateEntry;
+
+        if (this.MoneyItem.Id > 0)
+        {
+          this.DateEntry.Value = this.MoneyItem.DateEntry;
+        }
 
         this.btnDelete.Visible = this.MoneyItem.Id > 0;
 
@@ -270,9 +274,14 @@ namespace MoneyBook.WinApp
         if (errors.Count > 0)
         {
           MessageBox.Show(String.Format("Не все поля формы заполнены правильно:\r\n\r\n{0}", String.Join("\r\n", errors)), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+          this.DialogResult = System.Windows.Forms.DialogResult.None;
           return;
         }
 
+        this.Cursor = Cursors.WaitCursor;
+        //panel1.Enabled = tableLayoutPanel3.Enabled = false;
+        this.Enabled = false;
+        
         // если все ok, сохраняем
         this.MoneyItem.AccountId = ((Account)this.Accounts.SelectedItem).Id;
         this.MoneyItem.Amount = Convertion.ToDecimal(this.Amount.Text);
@@ -293,26 +302,43 @@ namespace MoneyBook.WinApp
         this.MoneyItem.Description = this.Description.Text;
 
         Program.CurrentUser.Save(this.MoneyItem);
-
-        this.DialogResult = System.Windows.Forms.DialogResult.OK;
-        
+       
         // закрываем окно
+        this.DialogResult = System.Windows.Forms.DialogResult.OK;
         this.Close();
       }
       catch (Exception ex)
       {
         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        this.DialogResult = System.Windows.Forms.DialogResult.None;
+        //panel1.Enabled = tableLayoutPanel3.Enabled = true;
+        this.Cursor = Cursors.Default;
+        this.Enabled = true;
       }
     }
 
     private void btnCancel_Click(object sender, EventArgs e)
     {
-
+      this.Close();
     }
 
     private void btnDelete_Click(object sender, EventArgs e)
     {
+      var currencyCode = Program.CurrentUser.Accounts[this.MoneyItem.AccountId].CurrencyCode;
 
+      // запрос на удаление
+      if (MessageBox.Show(String.Format("Вы действительно хотите удалить запись «{0}» от {3} на сумму {1:##,###,##0.00} {2}?\r\n\r\nВосстановить данные после удаления будет невозможно.\r\n\r\nНажмите «Да», чтобы удалить запись.", this.MoneyItem.Title, this.MoneyItem.Amount, currencyCode, this.MoneyItem.DateEntry.ToShortDateString()), "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+      {
+        this.DialogResult = System.Windows.Forms.DialogResult.None;
+        return;
+      }
+
+      // удаляем из базы
+      Program.CurrentUser.Delete(this.MoneyItem);
+
+      // закрываем окно
+      this.DialogResult = System.Windows.Forms.DialogResult.Abort;
+      this.Close();
     }
 
   }
