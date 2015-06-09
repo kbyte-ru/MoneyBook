@@ -341,9 +341,14 @@ namespace MoneyBook.WinApp
     private void DataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
     {
       this.UpdateButtons();
-      //btnEdit.Enabled = btnDelete.Enabled = 
-      //mnuEdit.Enabled = mnuDelete.Enabled =
-      //(e.RowIndex >= 0 && DataGridView1.Rows[e.RowIndex].Tag != null);
+      if (e.RowIndex >= 0 && DataGridView1.Rows[e.RowIndex].Tag != null)
+      {
+        tbDescription.Text = ((MoneyItem)DataGridView1.Rows[e.RowIndex].Tag).Description;
+      }
+      else
+      {
+        tbDescription.Text = "";
+      }
     }
 
     private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)

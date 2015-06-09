@@ -29,9 +29,9 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
       this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
       this.StatusTitle = new System.Windows.Forms.ToolStripStatusLabel();
       this.TotalItems = new System.Windows.Forms.ToolStripStatusLabel();
@@ -64,6 +64,7 @@
       this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
       this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
       this.ddbPeriod = new System.Windows.Forms.ToolStripDropDownButton();
+      this.mnuPeriodCurrentDay = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuPeriodCurrentWeek = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuPeriodCurrentMonth = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuPeriodCurrentQuarter = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,13 +94,18 @@
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
-      this.mnuPeriodCurrentDay = new System.Windows.Forms.ToolStripMenuItem();
+      this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+      this.tbDescription = new System.Windows.Forms.TextBox();
       this.StatusStrip1.SuspendLayout();
       this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
       this.ToolStrip3.SuspendLayout();
       this.ToolStrip2.SuspendLayout();
       this.ToolStrip1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+      this.splitContainer1.Panel1.SuspendLayout();
+      this.splitContainer1.Panel2.SuspendLayout();
+      this.splitContainer1.SuspendLayout();
       this.SuspendLayout();
       // 
       // StatusStrip1
@@ -253,14 +259,14 @@
       this.DataGridView1.ContextMenuStrip = this.contextMenuStrip1;
       this.DataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.DataGridView1.EnableHeadersVisualStyles = false;
-      this.DataGridView1.Location = new System.Drawing.Point(0, 75);
+      this.DataGridView1.Location = new System.Drawing.Point(0, 0);
       this.DataGridView1.MultiSelect = false;
       this.DataGridView1.Name = "DataGridView1";
       this.DataGridView1.ReadOnly = true;
       this.DataGridView1.RowHeadersWidth = 12;
       this.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       this.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.DataGridView1.Size = new System.Drawing.Size(659, 245);
+      this.DataGridView1.Size = new System.Drawing.Size(655, 147);
       this.DataGridView1.TabIndex = 15;
       this.DataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
       this.DataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellEnter);
@@ -311,9 +317,9 @@
       // 
       // ItemDate
       // 
-      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle4.Format = "dd.MM.yyyy";
-      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle4;
+      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle1.Format = "dd.MM.yyyy";
+      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle1;
       this.ItemDate.HeaderText = "Дата";
       this.ItemDate.MinimumWidth = 25;
       this.ItemDate.Name = "ItemDate";
@@ -323,9 +329,9 @@
       // 
       // ItemAmount
       // 
-      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle5.Format = "##,###,##0.00";
-      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle5;
+      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle2.Format = "##,###,##0.00";
+      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle2;
       this.ItemAmount.HeaderText = "Сумма";
       this.ItemAmount.MinimumWidth = 15;
       this.ItemAmount.Name = "ItemAmount";
@@ -335,8 +341,8 @@
       // 
       // ItemCurrency
       // 
-      dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle6;
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle3;
       this.ItemCurrency.HeaderText = "Валюта";
       this.ItemCurrency.MinimumWidth = 15;
       this.ItemCurrency.Name = "ItemCurrency";
@@ -462,6 +468,14 @@
       this.ddbPeriod.Size = new System.Drawing.Size(29, 22);
       this.ddbPeriod.Tag = "m";
       this.ddbPeriod.Text = "Выбрать период";
+      // 
+      // mnuPeriodCurrentDay
+      // 
+      this.mnuPeriodCurrentDay.Name = "mnuPeriodCurrentDay";
+      this.mnuPeriodCurrentDay.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodCurrentDay.Tag = "d";
+      this.mnuPeriodCurrentDay.Text = "Текущий день";
+      this.mnuPeriodCurrentDay.Click += new System.EventHandler(this.Period_Click);
       // 
       // mnuPeriodCurrentWeek
       // 
@@ -684,13 +698,35 @@
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(150, 25);
       // 
-      // mnuPeriodCurrentDay
+      // splitContainer1
       // 
-      this.mnuPeriodCurrentDay.Name = "mnuPeriodCurrentDay";
-      this.mnuPeriodCurrentDay.Size = new System.Drawing.Size(194, 22);
-      this.mnuPeriodCurrentDay.Tag = "d";
-      this.mnuPeriodCurrentDay.Text = "Текущий день";
-      this.mnuPeriodCurrentDay.Click += new System.EventHandler(this.Period_Click);
+      this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer1.Location = new System.Drawing.Point(0, 75);
+      this.splitContainer1.Name = "splitContainer1";
+      this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+      // 
+      // splitContainer1.Panel1
+      // 
+      this.splitContainer1.Panel1.Controls.Add(this.DataGridView1);
+      // 
+      // splitContainer1.Panel2
+      // 
+      this.splitContainer1.Panel2.Controls.Add(this.tbDescription);
+      this.splitContainer1.Size = new System.Drawing.Size(659, 245);
+      this.splitContainer1.SplitterDistance = 151;
+      this.splitContainer1.TabIndex = 17;
+      // 
+      // tbDescription
+      // 
+      this.tbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tbDescription.Location = new System.Drawing.Point(0, 0);
+      this.tbDescription.Multiline = true;
+      this.tbDescription.Name = "tbDescription";
+      this.tbDescription.ReadOnly = true;
+      this.tbDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+      this.tbDescription.Size = new System.Drawing.Size(655, 86);
+      this.tbDescription.TabIndex = 0;
       // 
       // MoneyHistory
       // 
@@ -698,7 +734,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
       this.Controls.Add(this.ProgressBar1);
-      this.Controls.Add(this.DataGridView1);
+      this.Controls.Add(this.splitContainer1);
       this.Controls.Add(this.ToolStrip3);
       this.Controls.Add(this.DateTo);
       this.Controls.Add(this.DateFrom);
@@ -719,6 +755,11 @@
       this.ToolStrip2.PerformLayout();
       this.ToolStrip1.ResumeLayout(false);
       this.ToolStrip1.PerformLayout();
+      this.splitContainer1.Panel1.ResumeLayout(false);
+      this.splitContainer1.Panel2.ResumeLayout(false);
+      this.splitContainer1.Panel2.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+      this.splitContainer1.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -789,5 +830,7 @@
     private MProgressBar ProgressBar1;
     private MToolStrip ToolStrip1;
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentDay;
+    private System.Windows.Forms.SplitContainer splitContainer1;
+    private System.Windows.Forms.TextBox tbDescription;
   }
 }
