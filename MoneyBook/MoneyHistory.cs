@@ -101,6 +101,9 @@ namespace MoneyBook.WinApp
 
       this.TotalAmountByCurrencies = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
 
+      this.StatusStrip1.Items.Add(new ToolStripControlHost(chkShowDetails));
+      chkShowDetails_CheckedChanged(chkShowDetails, null);
+
       this.ProgressBar1.CancelCallback = () =>
       {
         this.Cancellation = true;
@@ -112,6 +115,7 @@ namespace MoneyBook.WinApp
 
     private void MoneyHistory_Load(object sender, EventArgs e)
     {
+
       // список месяцев до текущего
       var baseDate = new DateTime(DateTime.Now.Year, 1, 1);
       for (int i = 1; i <= DateTime.Now.Month; i++)
@@ -190,6 +194,7 @@ namespace MoneyBook.WinApp
           DataGridView1.Rows.Insert(index, row);
 
           DataGridView1.CurrentCell = DataGridView1.Rows[index].Cells[0];
+          DataGridView1_CellEnter(DataGridView1, new DataGridViewCellEventArgs(0, index));
 
           // добавляем сумму
           if (!this.TotalAmountByCurrencies.ContainsKey(this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode))
@@ -227,6 +232,7 @@ namespace MoneyBook.WinApp
       {
         // обновляем строку 
         this.UpdateRow(this.DataGridView1.CurrentRow, editor.MoneyItem);
+        DataGridView1_CellEnter(DataGridView1, new DataGridViewCellEventArgs(0, this.DataGridView1.CurrentRow.Index));
 
         // вычитаем старую сумму
         if (this.TotalAmountByCurrencies.ContainsKey(editor.PrevCurrencyCode))
@@ -241,7 +247,7 @@ namespace MoneyBook.WinApp
         }
 
         this.TotalAmountByCurrencies[this.User.Accounts[editor.MoneyItem.AccountId].CurrencyCode] += editor.MoneyItem.Amount;
-
+        
         // обновляем статус
         this.UpdateStatus();
       }
@@ -343,11 +349,11 @@ namespace MoneyBook.WinApp
       this.UpdateButtons();
       if (e.RowIndex >= 0 && DataGridView1.Rows[e.RowIndex].Tag != null)
       {
-        tbDescription.Text = ((MoneyItem)DataGridView1.Rows[e.RowIndex].Tag).Description;
+        rtbDescription.Text = ((MoneyItem)DataGridView1.Rows[e.RowIndex].Tag).Description;
       }
       else
       {
-        tbDescription.Text = "";
+        rtbDescription.Text = "Комментарий отсутствует...";
       }
     }
 
@@ -586,6 +592,24 @@ namespace MoneyBook.WinApp
     {
       ProgressBar1.Left = (this.Width - ProgressBar1.Width) / 2;
       ProgressBar1.Top = (this.Height - ProgressBar1.Height) / 2;
+    }
+
+    private void chkShowDetails_CheckedChanged(object sender, EventArgs e)
+    {
+      splitContainer1.Panel2Collapsed = !chkShowDetails.Checked;
+      if (chkShowDetails.Checked)
+      {
+        chkShowDetails.Image = Properties.Resources.sticky_note_pin;
+      }
+      else
+      {
+        chkShowDetails.Image = Properties.Resources.sticky_note_pin_gray;
+      }
+    }
+
+    private void rtbDescription_LinkClicked(object sender, LinkClickedEventArgs e)
+    {
+      System.Diagnostics.Process.Start(e.LinkText);
     }
 
     #endregion
@@ -1199,6 +1223,7 @@ namespace MoneyBook.WinApp
     }
 
     #endregion
+
         
   }
 

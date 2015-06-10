@@ -41,10 +41,9 @@
       this.DateTo = new System.Windows.Forms.DateTimePicker();
       this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-      this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-      this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
-      this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
+      this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+      this.chkShowDetails = new System.Windows.Forms.CheckBox();
       this.ProgressBar1 = new MoneyBook.WinApp.MProgressBar();
       this.DataGridView1 = new MoneyBook.WinApp.MDataGridView();
       this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
@@ -94,18 +93,20 @@
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
-      this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-      this.tbDescription = new System.Windows.Forms.TextBox();
+      this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
+      this.rtbDescription = new System.Windows.Forms.RichTextBox();
       this.StatusStrip1.SuspendLayout();
       this.contextMenuStrip1.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
-      this.ToolStrip3.SuspendLayout();
-      this.ToolStrip2.SuspendLayout();
-      this.ToolStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
       this.splitContainer1.Panel2.SuspendLayout();
       this.splitContainer1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).BeginInit();
+      this.ToolStrip3.SuspendLayout();
+      this.ToolStrip2.SuspendLayout();
+      this.ToolStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
       // StatusStrip1
@@ -120,7 +121,6 @@
       this.StatusStrip1.Location = new System.Drawing.Point(0, 320);
       this.StatusStrip1.Name = "StatusStrip1";
       this.StatusStrip1.Size = new System.Drawing.Size(659, 22);
-      this.StatusStrip1.SizingGrip = false;
       this.StatusStrip1.TabIndex = 9;
       this.StatusStrip1.Text = "StatusStrip1";
       // 
@@ -149,8 +149,10 @@
       this.TotalAmount.BorderStyle = System.Windows.Forms.Border3DStyle.Bump;
       this.TotalAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
       this.TotalAmount.Name = "TotalAmount";
-      this.TotalAmount.Size = new System.Drawing.Size(12, 17);
+      this.TotalAmount.Size = new System.Drawing.Size(385, 17);
+      this.TotalAmount.Spring = true;
       this.TotalAmount.Text = "-";
+      this.TotalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // DateFrom
       // 
@@ -189,36 +191,45 @@
       this.contextMenuStrip1.Size = new System.Drawing.Size(174, 76);
       this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
       // 
-      // mnuAdd
-      // 
-      this.mnuAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
-      this.mnuAdd.Name = "mnuAdd";
-      this.mnuAdd.Size = new System.Drawing.Size(173, 22);
-      this.mnuAdd.Text = "Добавить";
-      this.mnuAdd.Click += new System.EventHandler(this.btnAdd_Click);
-      // 
       // toolStripSeparator8
       // 
       this.toolStripSeparator8.Name = "toolStripSeparator8";
       this.toolStripSeparator8.Size = new System.Drawing.Size(170, 6);
       // 
-      // mnuEdit
+      // splitContainer1
       // 
-      this.mnuEdit.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
-      this.mnuEdit.Name = "mnuEdit";
-      this.mnuEdit.ShortcutKeys = System.Windows.Forms.Keys.F2;
-      this.mnuEdit.Size = new System.Drawing.Size(173, 22);
-      this.mnuEdit.Text = "Редактировать";
-      this.mnuEdit.Click += new System.EventHandler(this.btnEdit_Click);
+      this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer1.Location = new System.Drawing.Point(0, 75);
+      this.splitContainer1.Name = "splitContainer1";
+      this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
       // 
-      // mnuDelete
+      // splitContainer1.Panel1
       // 
-      this.mnuDelete.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
-      this.mnuDelete.Name = "mnuDelete";
-      this.mnuDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-      this.mnuDelete.Size = new System.Drawing.Size(173, 22);
-      this.mnuDelete.Text = "Удалить";
-      this.mnuDelete.Click += new System.EventHandler(this.btnDelete_Click);
+      this.splitContainer1.Panel1.Controls.Add(this.DataGridView1);
+      // 
+      // splitContainer1.Panel2
+      // 
+      this.splitContainer1.Panel2.Controls.Add(this.rtbDescription);
+      this.splitContainer1.Panel2MinSize = 0;
+      this.splitContainer1.Size = new System.Drawing.Size(659, 245);
+      this.splitContainer1.SplitterDistance = 151;
+      this.splitContainer1.TabIndex = 17;
+      // 
+      // chkShowDetails
+      // 
+      this.chkShowDetails.Appearance = System.Windows.Forms.Appearance.Button;
+      this.chkShowDetails.AutoSize = true;
+      this.chkShowDetails.FlatAppearance.BorderSize = 0;
+      this.chkShowDetails.FlatAppearance.CheckedBackColor = System.Drawing.SystemColors.Control;
+      this.chkShowDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.chkShowDetails.Image = global::MoneyBook.WinApp.Properties.Resources.sticky_note_pin_gray;
+      this.chkShowDetails.Location = new System.Drawing.Point(529, 319);
+      this.chkShowDetails.Name = "chkShowDetails";
+      this.chkShowDetails.Size = new System.Drawing.Size(22, 22);
+      this.chkShowDetails.TabIndex = 18;
+      this.chkShowDetails.UseVisualStyleBackColor = true;
+      this.chkShowDetails.CheckedChanged += new System.EventHandler(this.chkShowDetails_CheckedChanged);
       // 
       // ProgressBar1
       // 
@@ -698,41 +709,50 @@
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(150, 25);
       // 
-      // splitContainer1
+      // mnuAdd
       // 
-      this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer1.Location = new System.Drawing.Point(0, 75);
-      this.splitContainer1.Name = "splitContainer1";
-      this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+      this.mnuAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
+      this.mnuAdd.Name = "mnuAdd";
+      this.mnuAdd.Size = new System.Drawing.Size(173, 22);
+      this.mnuAdd.Text = "Добавить";
+      this.mnuAdd.Click += new System.EventHandler(this.btnAdd_Click);
       // 
-      // splitContainer1.Panel1
+      // mnuEdit
       // 
-      this.splitContainer1.Panel1.Controls.Add(this.DataGridView1);
+      this.mnuEdit.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
+      this.mnuEdit.Name = "mnuEdit";
+      this.mnuEdit.ShortcutKeys = System.Windows.Forms.Keys.F2;
+      this.mnuEdit.Size = new System.Drawing.Size(173, 22);
+      this.mnuEdit.Text = "Редактировать";
+      this.mnuEdit.Click += new System.EventHandler(this.btnEdit_Click);
       // 
-      // splitContainer1.Panel2
+      // mnuDelete
       // 
-      this.splitContainer1.Panel2.Controls.Add(this.tbDescription);
-      this.splitContainer1.Size = new System.Drawing.Size(659, 245);
-      this.splitContainer1.SplitterDistance = 151;
-      this.splitContainer1.TabIndex = 17;
+      this.mnuDelete.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
+      this.mnuDelete.Name = "mnuDelete";
+      this.mnuDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+      this.mnuDelete.Size = new System.Drawing.Size(173, 22);
+      this.mnuDelete.Text = "Удалить";
+      this.mnuDelete.Click += new System.EventHandler(this.btnDelete_Click);
       // 
-      // tbDescription
+      // rtbDescription
       // 
-      this.tbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.tbDescription.Location = new System.Drawing.Point(0, 0);
-      this.tbDescription.Multiline = true;
-      this.tbDescription.Name = "tbDescription";
-      this.tbDescription.ReadOnly = true;
-      this.tbDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.tbDescription.Size = new System.Drawing.Size(655, 86);
-      this.tbDescription.TabIndex = 0;
+      this.rtbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.rtbDescription.Location = new System.Drawing.Point(0, 0);
+      this.rtbDescription.Name = "rtbDescription";
+      this.rtbDescription.ReadOnly = true;
+      this.rtbDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+      this.rtbDescription.Size = new System.Drawing.Size(655, 86);
+      this.rtbDescription.TabIndex = 0;
+      this.rtbDescription.Text = "";
+      this.rtbDescription.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDescription_LinkClicked);
       // 
       // MoneyHistory
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Controls.Add(this.chkShowDetails);
       this.Controls.Add(this.ProgressBar1);
       this.Controls.Add(this.splitContainer1);
       this.Controls.Add(this.ToolStrip3);
@@ -748,6 +768,10 @@
       this.StatusStrip1.ResumeLayout(false);
       this.StatusStrip1.PerformLayout();
       this.contextMenuStrip1.ResumeLayout(false);
+      this.splitContainer1.Panel1.ResumeLayout(false);
+      this.splitContainer1.Panel2.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+      this.splitContainer1.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.DataGridView1)).EndInit();
       this.ToolStrip3.ResumeLayout(false);
       this.ToolStrip3.PerformLayout();
@@ -755,11 +779,6 @@
       this.ToolStrip2.PerformLayout();
       this.ToolStrip1.ResumeLayout(false);
       this.ToolStrip1.PerformLayout();
-      this.splitContainer1.Panel1.ResumeLayout(false);
-      this.splitContainer1.Panel2.ResumeLayout(false);
-      this.splitContainer1.Panel2.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-      this.splitContainer1.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -831,6 +850,7 @@
     private MToolStrip ToolStrip1;
     private System.Windows.Forms.ToolStripMenuItem mnuPeriodCurrentDay;
     private System.Windows.Forms.SplitContainer splitContainer1;
-    private System.Windows.Forms.TextBox tbDescription;
+    private System.Windows.Forms.CheckBox chkShowDetails;
+    private System.Windows.Forms.RichTextBox rtbDescription;
   }
 }
