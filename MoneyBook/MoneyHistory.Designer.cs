@@ -41,9 +41,14 @@
       this.DateTo = new System.Windows.Forms.DateTimePicker();
       this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+      this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
+      this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+      this.rtbDescription = new System.Windows.Forms.RichTextBox();
       this.chkShowDetails = new System.Windows.Forms.CheckBox();
+      this.cmsPeriod = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.ProgressBar1 = new MoneyBook.WinApp.MProgressBar();
       this.DataGridView1 = new MoneyBook.WinApp.MDataGridView();
       this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
@@ -93,10 +98,6 @@
       this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.ToolStripLabel13 = new System.Windows.Forms.ToolStripLabel();
       this.Subcategories = new System.Windows.Forms.ToolStripComboBox();
-      this.mnuAdd = new System.Windows.Forms.ToolStripMenuItem();
-      this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
-      this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
-      this.rtbDescription = new System.Windows.Forms.RichTextBox();
       this.StatusStrip1.SuspendLayout();
       this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -129,6 +130,7 @@
       this.StatusTitle.Name = "StatusTitle";
       this.StatusTitle.Size = new System.Drawing.Size(161, 17);
       this.StatusTitle.Text = "Доходы с 01.06 по 30.06.2015";
+      this.StatusTitle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.StatusTitle_MouseUp);
       // 
       // TotalItems
       // 
@@ -191,10 +193,36 @@
       this.contextMenuStrip1.Size = new System.Drawing.Size(174, 76);
       this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
       // 
+      // mnuAdd
+      // 
+      this.mnuAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
+      this.mnuAdd.Name = "mnuAdd";
+      this.mnuAdd.Size = new System.Drawing.Size(173, 22);
+      this.mnuAdd.Text = "Добавить";
+      this.mnuAdd.Click += new System.EventHandler(this.btnAdd_Click);
+      // 
       // toolStripSeparator8
       // 
       this.toolStripSeparator8.Name = "toolStripSeparator8";
       this.toolStripSeparator8.Size = new System.Drawing.Size(170, 6);
+      // 
+      // mnuEdit
+      // 
+      this.mnuEdit.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
+      this.mnuEdit.Name = "mnuEdit";
+      this.mnuEdit.ShortcutKeys = System.Windows.Forms.Keys.F2;
+      this.mnuEdit.Size = new System.Drawing.Size(173, 22);
+      this.mnuEdit.Text = "Редактировать";
+      this.mnuEdit.Click += new System.EventHandler(this.btnEdit_Click);
+      // 
+      // mnuDelete
+      // 
+      this.mnuDelete.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
+      this.mnuDelete.Name = "mnuDelete";
+      this.mnuDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+      this.mnuDelete.Size = new System.Drawing.Size(173, 22);
+      this.mnuDelete.Text = "Удалить";
+      this.mnuDelete.Click += new System.EventHandler(this.btnDelete_Click);
       // 
       // splitContainer1
       // 
@@ -216,6 +244,18 @@
       this.splitContainer1.SplitterDistance = 151;
       this.splitContainer1.TabIndex = 17;
       // 
+      // rtbDescription
+      // 
+      this.rtbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.rtbDescription.Location = new System.Drawing.Point(0, 0);
+      this.rtbDescription.Name = "rtbDescription";
+      this.rtbDescription.ReadOnly = true;
+      this.rtbDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+      this.rtbDescription.Size = new System.Drawing.Size(655, 86);
+      this.rtbDescription.TabIndex = 0;
+      this.rtbDescription.Text = "";
+      this.rtbDescription.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDescription_LinkClicked);
+      // 
       // chkShowDetails
       // 
       this.chkShowDetails.Appearance = System.Windows.Forms.Appearance.Button;
@@ -230,6 +270,11 @@
       this.chkShowDetails.TabIndex = 18;
       this.chkShowDetails.UseVisualStyleBackColor = true;
       this.chkShowDetails.CheckedChanged += new System.EventHandler(this.chkShowDetails_CheckedChanged);
+      // 
+      // cmsPeriod
+      // 
+      this.cmsPeriod.Name = "contextMenuStrip2";
+      this.cmsPeriod.Size = new System.Drawing.Size(61, 4);
       // 
       // ProgressBar1
       // 
@@ -529,6 +574,7 @@
       // 
       this.mnuPeriodMonth.Name = "mnuPeriodMonth";
       this.mnuPeriodMonth.Size = new System.Drawing.Size(194, 22);
+      this.mnuPeriodMonth.Tag = "months";
       this.mnuPeriodMonth.Text = "Месяц текущего года";
       // 
       // toolStripSeparator6
@@ -709,44 +755,6 @@
       this.Subcategories.Name = "Subcategories";
       this.Subcategories.Size = new System.Drawing.Size(150, 25);
       // 
-      // mnuAdd
-      // 
-      this.mnuAdd.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
-      this.mnuAdd.Name = "mnuAdd";
-      this.mnuAdd.Size = new System.Drawing.Size(173, 22);
-      this.mnuAdd.Text = "Добавить";
-      this.mnuAdd.Click += new System.EventHandler(this.btnAdd_Click);
-      // 
-      // mnuEdit
-      // 
-      this.mnuEdit.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
-      this.mnuEdit.Name = "mnuEdit";
-      this.mnuEdit.ShortcutKeys = System.Windows.Forms.Keys.F2;
-      this.mnuEdit.Size = new System.Drawing.Size(173, 22);
-      this.mnuEdit.Text = "Редактировать";
-      this.mnuEdit.Click += new System.EventHandler(this.btnEdit_Click);
-      // 
-      // mnuDelete
-      // 
-      this.mnuDelete.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
-      this.mnuDelete.Name = "mnuDelete";
-      this.mnuDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-      this.mnuDelete.Size = new System.Drawing.Size(173, 22);
-      this.mnuDelete.Text = "Удалить";
-      this.mnuDelete.Click += new System.EventHandler(this.btnDelete_Click);
-      // 
-      // rtbDescription
-      // 
-      this.rtbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.rtbDescription.Location = new System.Drawing.Point(0, 0);
-      this.rtbDescription.Name = "rtbDescription";
-      this.rtbDescription.ReadOnly = true;
-      this.rtbDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-      this.rtbDescription.Size = new System.Drawing.Size(655, 86);
-      this.rtbDescription.TabIndex = 0;
-      this.rtbDescription.Text = "";
-      this.rtbDescription.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDescription_LinkClicked);
-      // 
       // MoneyHistory
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -852,5 +860,6 @@
     private System.Windows.Forms.SplitContainer splitContainer1;
     private System.Windows.Forms.CheckBox chkShowDetails;
     private System.Windows.Forms.RichTextBox rtbDescription;
+    private System.Windows.Forms.ContextMenuStrip cmsPeriod;
   }
 }

@@ -108,13 +108,6 @@ namespace MoneyBook.WinApp
       {
         this.Cancellation = true;
       };
-    }
-    
-    #endregion
-    #region ..обработчики..
-
-    private void MoneyHistory_Load(object sender, EventArgs e)
-    {
 
       // список месяцев до текущего
       var baseDate = new DateTime(DateTime.Now.Year, 1, 1);
@@ -123,15 +116,46 @@ namespace MoneyBook.WinApp
         // добавляем
         this.mnuPeriodMonth.DropDownItems.Add
         (
-          new ToolStripMenuItem(baseDate.AddMonths(i - 1).ToString("MMMM")) 
-          { 
-            Tag = String.Format("m-{0}", DateTime.Now.Month - i) 
+          new ToolStripMenuItem(baseDate.AddMonths(i - 1).ToString("MMMM"))
+          {
+            Tag = String.Format("m-{0}", DateTime.Now.Month - i)
           }
         );
         // обработчик клика
         this.mnuPeriodMonth.DropDownItems[this.mnuPeriodMonth.DropDownItems.Count - 1].Click += Period_Click;
       }
 
+      foreach (ToolStripItem item in this.ddbPeriod.DropDownItems)
+      {
+        if (item.GetType() == typeof(ToolStripSeparator))
+        {
+          this.cmsPeriod.Items.Add(new ToolStripSeparator());
+        }
+        else
+        {
+          var newItem = new ToolStripMenuItem(item.Text) { Tag = item.Tag };
+          this.cmsPeriod.Items.Add(newItem);
+          if (item.Tag != null && !"months".Equals(item.Tag))
+          {
+            newItem.Click += Period_Click;
+          }
+          if (((ToolStripMenuItem)item).DropDownItems.Count > 0)
+          {
+            foreach (ToolStripItem item2 in ((ToolStripMenuItem)item).DropDownItems)
+            {
+              newItem.DropDownItems.Add(new ToolStripMenuItem(item2.Text) { Tag = item2.Tag });
+              newItem.DropDownItems[newItem.DropDownItems.Count - 1].Click += Period_Click;
+            }
+          }
+        }
+      }
+    }
+    
+    #endregion
+    #region ..обработчики..
+
+    private void MoneyHistory_Load(object sender, EventArgs e)
+    {
       // восстанавливаем ранее выбранные параметры
       //this.LoadSettings();
 
@@ -141,7 +165,15 @@ namespace MoneyBook.WinApp
     
     private void btnAdd_Click(object sender, EventArgs e)
     {
-      var editor = new MoneyEditor(new MoneyItem { EntryType = this.ItemsType });
+      var editor = new MoneyEditor
+      (
+        new MoneyItem 
+        { 
+          EntryType = this.ItemsType,
+          AccountId = ((Account)this.Accounts.SelectedItem).Id,
+          CategoryId = (((Category)this.Subcategories.SelectedItem).Id > 0 ? ((Category)this.Subcategories.SelectedItem).Id : ((Category)this.Categories.SelectedItem).Id)
+        }
+      );
       editor.Owner = this.ParentForm;
       var result = editor.ShowDialog();
 
@@ -574,17 +606,33 @@ namespace MoneyBook.WinApp
 
       // todo: придумать и написать внятный комментарий к этому блоку кода
       // здесь все работает так, как задумано :)
-      if (value == 0)
+      if (value == 0 && (item.OwnerItem == null || ((item.OwnerItem!=null && !"months".Equals(item.OwnerItem.Tag)))))
       {
-        foreach (var m in ddbPeriod.DropDownItems)
+        foreach (ToolStripItem m in ddbPeriod.DropDownItems)
         {
           if (m.GetType() == typeof(ToolStripMenuItem))
           {
-            ((ToolStripMenuItem)m).Checked = false;
+            ((ToolStripMenuItem)m).Checked = item.Tag.ToString().Equals(m.Tag.ToString(), StringComparison.OrdinalIgnoreCase);
           }
         }
-        item.Checked = true;
+        /*foreach (ToolStripItem m in cmsPeriod.Items)
+        {
+          if (m.GetType() == typeof(ToolStripMenuItem))
+          {
+            ((ToolStripMenuItem)m).Checked = item.Tag.ToString().Equals(m.Tag.ToString(), StringComparison.OrdinalIgnoreCase);
+          }
+        }*/
+        if (item.Owner != cmsPeriod && (item.OwnerItem == null || (item.OwnerItem != null && item.OwnerItem.Owner != cmsPeriod)))
+        {
+          item.Checked = true;
+        }
+
         ddbPeriod.Tag = item.Tag.ToString();
+      }
+
+      if (item.Owner == cmsPeriod || (item.OwnerItem != null && item.OwnerItem.Owner == cmsPeriod))
+      {
+        btnFilter_Click(btnFilter, e);
       }
     }
 
@@ -610,6 +658,16 @@ namespace MoneyBook.WinApp
     private void rtbDescription_LinkClicked(object sender, LinkClickedEventArgs e)
     {
       System.Diagnostics.Process.Start(e.LinkText);
+    }
+
+    private void StatusTitle_MouseUp(object sender, MouseEventArgs e)
+    {
+      // || e.Button == MouseButtons.Left
+      if (e.Button == MouseButtons.Right)
+      {
+        var label = (ToolStripItem)sender;
+        this.cmsPeriod.Show(this.StatusStrip1, label.Bounds.X + e.X, label.Bounds.Y + e.Y);
+      } 
     }
 
     #endregion
