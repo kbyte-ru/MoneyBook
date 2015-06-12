@@ -34,33 +34,31 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.PasswordTextBox = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.UserNameTextBox = new System.Windows.Forms.TextBox();
             this.ShowPasswordCheckBox = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // AcceptButton
             // 
-            this.AcceptButton.Image = global::MoneyBook.WinApp.Properties.Resources.accept_button;
-            this.AcceptButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AcceptButton.Location = new System.Drawing.Point(100, 274);
             this.AcceptButton.Name = "AcceptButton";
             this.AcceptButton.Size = new System.Drawing.Size(75, 24);
             this.AcceptButton.TabIndex = 0;
-            this.AcceptButton.Text = "Apply";
+            this.AcceptButton.Text = "Создать";
             this.AcceptButton.UseVisualStyleBackColor = true;
+            this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
             // 
             // CancellButton
             // 
             this.CancellButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancellButton.Image = global::MoneyBook.WinApp.Properties.Resources.cancel;
-            this.CancellButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.CancellButton.Location = new System.Drawing.Point(181, 274);
             this.CancellButton.Name = "CancellButton";
             this.CancellButton.Size = new System.Drawing.Size(75, 24);
             this.CancellButton.TabIndex = 1;
-            this.CancellButton.Text = "Cancel";
+            this.CancellButton.Text = "Отмена";
             this.CancellButton.UseVisualStyleBackColor = true;
+            this.CancellButton.Click += new System.EventHandler(this.CancellButton_Click);
             // 
             // label1
             // 
@@ -85,15 +83,16 @@
             this.PasswordTextBox.Location = new System.Drawing.Point(77, 44);
             this.PasswordTextBox.MaxLength = 24;
             this.PasswordTextBox.Name = "PasswordTextBox";
+            this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(179, 20);
             this.PasswordTextBox.TabIndex = 4;
             // 
-            // textBox2
+            // UserNameTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(77, 18);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(179, 20);
-            this.textBox2.TabIndex = 5;
+            this.UserNameTextBox.Location = new System.Drawing.Point(77, 18);
+            this.UserNameTextBox.Name = "UserNameTextBox";
+            this.UserNameTextBox.Size = new System.Drawing.Size(179, 20);
+            this.UserNameTextBox.TabIndex = 5;
             // 
             // ShowPasswordCheckBox
             // 
@@ -104,6 +103,7 @@
             this.ShowPasswordCheckBox.TabIndex = 6;
             this.ShowPasswordCheckBox.Text = "отображать пароль при вводе";
             this.ShowPasswordCheckBox.UseVisualStyleBackColor = true;
+            this.ShowPasswordCheckBox.CheckedChanged += new System.EventHandler(this.ShowPasswordCheckBox_CheckedChanged);
             // 
             // textBox1
             // 
@@ -113,6 +113,7 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(231, 176);
             this.textBox1.TabIndex = 7;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
             // Registration
             // 
@@ -122,18 +123,19 @@
             this.ClientSize = new System.Drawing.Size(272, 309);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.ShowPasswordCheckBox);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.UserNameTextBox);
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CancellButton);
             this.Controls.Add(this.AcceptButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Registration";
-            this.Text = "Registration";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Новый пользователь";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -146,7 +148,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox PasswordTextBox;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox UserNameTextBox;
         private System.Windows.Forms.CheckBox ShowPasswordCheckBox;
         private System.Windows.Forms.TextBox textBox1;
     }

@@ -30,7 +30,7 @@ namespace MoneyBook.WinApp
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
       Application.ApplicationExit += Program.OnApplicationExit;      
-      Application.Run(new Main());
+      Application.Run(new Login());
     }
 
     static void OnApplicationExit(object sender, EventArgs e)
