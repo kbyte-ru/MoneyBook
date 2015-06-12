@@ -25,12 +25,18 @@ namespace MoneyBook.WinApp
     [STAThread]
     static void Main()
     {
+      // параметры приложения
       Program.ProfileBasePath = Path.Combine(Application.StartupPath, "Users");
 
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.ApplicationExit += Program.OnApplicationExit;      
-      Application.Run(new Login());
+      Application.ApplicationExit += Program.OnApplicationExit;
+
+      // форма входа
+      new Login().Show();
+
+      // запускаем приложение
+      Application.Run();
     }
 
     static void OnApplicationExit(object sender, EventArgs e)

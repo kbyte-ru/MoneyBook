@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MoneyBook.Core;
 
 namespace MoneyBook.WinApp
 {
@@ -18,7 +19,7 @@ namespace MoneyBook.WinApp
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -33,16 +34,25 @@ namespace MoneyBook.WinApp
 
         private void LogInButton_Click(object sender, EventArgs e)
         {
-            string selectedUser = UserNameComboBox.Text;
-            if (string.IsNullOrEmpty(selectedUser))
+          if (string.IsNullOrEmpty(UserNameComboBox.Text))
+          {
+            MessageBox.Show("Выбирите имя пользователя!\r\n\r\nЧтобы создать нового пользователя, нажмите кнопку «Создать»", "Внимание",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+          }
+          else
+          {
+            // Загружаем пользователя
+            try
             {
-                MessageBox.Show("Выбирите имя пользователя!\r\n\r\nЧтобы создать нового пользователя, нажмите кнопку «Создать»", "Внимание",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+              var f = new Main(this.UserNameComboBox.Text, this.PasswordTextBox.Text);
+              f.Show();
+              this.Close();
             }
-            else
+            catch (Exception ex)
             {
-                //Загружаем пользователя
+              MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+          }
         }
 
         private void CreateButton_Click(object sender, EventArgs e)
