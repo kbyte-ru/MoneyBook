@@ -30,6 +30,53 @@ namespace MoneyBook.WinApp
   {
 
     /// <summary>
+    /// Converts the value of the specified object to an equivalent Boolean value.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    public static bool? ToBoolean(object value, bool? @default)
+    {
+      if (!Convertion.HasValue(value)) { return @default; }
+      bool result;
+      if (!bool.TryParse(value.ToString(), out result))
+      {
+        if (value.ToString() == "1")
+        {
+          return true;
+        }
+        else if (value.ToString() == "0")
+        {
+          return false;
+        }
+        if (Array.IndexOf(new Type[] { typeof(byte), typeof(Int16), typeof(Int32), typeof(Int64) }, value.GetType()) != -1)
+        {
+          return Convertion.ToInt32(value) != 0;
+        }
+        return @default;
+      }
+      return result;
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to an equivalent Boolean value.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <param name="default">The default value is to be returned in the case of conversion errors.</param>
+    public static bool ToBoolean(object value, bool @default)
+    {
+      return Convertion.ToBoolean(value, (bool?)@default).GetValueOrDefault(@default);
+    }
+
+    /// <summary>
+    /// Converts the value of the specified object to an equivalent Boolean value.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    public static bool ToBoolean(object value)
+    {
+      return Convertion.ToBoolean(value, null).GetValueOrDefault(false);
+    }
+
+    /// <summary>
     /// Converts the value of the specified object to a 32-bit signed integer.
     /// </summary>
     /// <param name="value">The value to convert.</param>

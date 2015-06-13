@@ -17,7 +17,32 @@ namespace MoneyBook.WinApp
   public partial class MoneyHistory : UserControl
   {
 
-    #region ..поля и свойства, поля и свойства..
+    #region ..события и.. события, или события, а может быть события..
+
+    /// <summary>
+    /// Возникает при изменении статуса видимости панели комментария.
+    /// </summary>
+    public event EventHandler DetailsVisibleChanged;
+
+    protected virtual void OnDetailsVisibleChanged(EventArgs e)
+    {
+      if (this.DetailsVisibleChanged == null) { return; }
+      this.DetailsVisibleChanged(this, e);
+    }
+
+    /// <summary>
+    /// Возникает при изменении рзамера панели комментария.
+    /// </summary>
+    public event EventHandler DetailsSizeChanged;
+
+    protected virtual void OnDetailsSizeChanged(EventArgs e)
+    {
+      if (this.DetailsSizeChanged == null) { return; }
+      this.DetailsSizeChanged(this, e);
+    }
+
+    #endregion
+    #region ..поля и свойства, свойства и поля..
 
     /// <summary>
     /// Менеджер задач.
@@ -71,6 +96,42 @@ namespace MoneyBook.WinApp
         if (reloadNeed)
         {
           this.Init();
+        }
+      }
+    }
+
+    /// <summary>
+    /// Возвращает или задает значение, указывающее на отображение блока вывода комментария в списке записей.
+    /// </summary>
+    public bool ShowDetails
+    {
+      get
+      {
+        return chkShowDetails.Checked;
+      }
+      set
+      {
+        if (chkShowDetails.Checked != value)
+        {
+          chkShowDetails.Checked = value;
+        }
+      }
+    }
+
+    /// <summary>
+    /// Возвращает или задает размер блока комментария.
+    /// </summary>
+    public int DetailsSize
+    {
+      get
+      {
+        return splitContainer1.SplitterDistance;
+      }
+      set
+      {
+        if (splitContainer1.SplitterDistance != value)
+        {
+          splitContainer1.SplitterDistance = value;
         }
       }
     }
@@ -653,6 +714,8 @@ namespace MoneyBook.WinApp
       {
         chkShowDetails.Image = Properties.Resources.sticky_note_pin_gray;
       }
+
+      this.OnDetailsVisibleChanged(e);
     }
 
     private void rtbDescription_LinkClicked(object sender, LinkClickedEventArgs e)
@@ -668,6 +731,11 @@ namespace MoneyBook.WinApp
         var label = (ToolStripItem)sender;
         this.cmsPeriod.Show(this.StatusStrip1, label.Bounds.X + e.X, label.Bounds.Y + e.Y);
       } 
+    }
+    
+    private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+    {
+      this.OnDetailsSizeChanged(e);
     }
 
     #endregion
@@ -1281,7 +1349,6 @@ namespace MoneyBook.WinApp
     }
 
     #endregion
-
         
   }
 

@@ -29,6 +29,11 @@ namespace MoneyBook.WinApp
     {
       this.Expenses.User = Program.CurrentUser;
       this.Incomes.User = Program.CurrentUser;
+      this.Incomes.ShowDetails = Convertion.ToBoolean(Program.CurrentUser.Info[Program.InfoIdCustomShowDetails]);
+      if (Convert.ToInt32(Program.CurrentUser.Info[Program.InfoIdCustomDetailsSize]) > 0)
+      {
+        this.Incomes.DetailsSize = Convert.ToInt32(Program.CurrentUser.Info[Program.InfoIdCustomDetailsSize]);
+      }
     }
 
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,9 +46,47 @@ namespace MoneyBook.WinApp
 
     private void Main_FormClosed(object sender, FormClosedEventArgs e)
     {
-      Incomes.SaveSettings();
-      Expenses.SaveSettings();
+      this.Incomes.SaveSettings();
+      this.Expenses.SaveSettings();
+
+      Program.CurrentUser.Info.Set(Program.InfoIdCustomShowDetails, this.Incomes.ShowDetails, false);
+      Program.CurrentUser.Info.Set(Program.InfoIdCustomDetailsSize, this.Incomes.DetailsSize, false);
+
       Application.Exit();
+    }
+
+    private void MoneyHistory_DetailsVisibleChanged(object sender, EventArgs e)
+    {
+      var showDetails = ((MoneyHistory)sender).ShowDetails;
+      if (sender == Incomes)
+      {
+        this.Expenses.ShowDetails = showDetails;
+      }
+      else if (sender == Expenses)
+      {
+        this.Incomes.ShowDetails = showDetails;
+      }
+      else
+      {
+        MessageBox.Show("Не может этого быть!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
+    }
+
+    private void MoneyHistory_DetailsSizeChanged(object sender, EventArgs e)
+    {
+      var detailsSize = ((MoneyHistory)sender).DetailsSize;
+      if (sender == Incomes)
+      {
+        this.Expenses.DetailsSize = detailsSize;
+      }
+      else if (sender == Expenses)
+      {
+        this.Incomes.DetailsSize = detailsSize;
+      }
+      else
+      {
+        MessageBox.Show("Не может этого быть!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
     }
 
   }

@@ -121,6 +121,17 @@ namespace MoneyBook.Core
     /// <param name="id">Идентификатор записи (см. список констант).</param>
     /// <param name="value">Значение, не более 20 символов.</param>
     /// <param name="nodb">Позволяет запретить запись данных в базу. По умолчанию значение <c>false</c> - данные в базу записываются сразу.</param>
+    public void Set(InfoId id, bool value, bool nodb = false)
+    {
+      this.Set(id, value.ToString(), nodb);
+    }
+
+    /// <summary>
+    /// Добавляет, либо обновляет информацию.
+    /// </summary>
+    /// <param name="id">Идентификатор записи (см. список констант).</param>
+    /// <param name="value">Значение, не более 20 символов.</param>
+    /// <param name="nodb">Позволяет запретить запись данных в базу. По умолчанию значение <c>false</c> - данные в базу записываются сразу.</param>
     public void Set(InfoId id, Version value, bool nodb = false)
     {
       this.Set(id, value.ToString(), nodb);
@@ -282,6 +293,69 @@ namespace MoneyBook.Core
           if (constants.ContainsKey(item.Id))
           {
             item.Name = constants[item.Id];
+          }
+          else
+          {
+            if (item.Id <= 99)
+            {
+              item.Name = String.Format("Initial.{0}", item.Id);
+            }
+            else if (item.Id > 99 && item.Id <= 199)
+            {
+              item.Name = String.Format("Stat.{0}", item.Id);
+            }
+            else if (item.Id > 199 && item.Id <= 499)
+            {
+              item.Name = String.Format("Reserved.{0}", item.Id);
+            }
+            else if (item.Id > 499 && item.Id <= 519)
+            {
+              item.Name = String.Format("Settings.Desktop.{0}", item.Id);
+            }
+            else if (item.Id > 519 && item.Id <= 559)
+            {
+              item.Name = String.Format("Settings.Desktop.Incomes.{0}", item.Id);
+            }
+            else if (item.Id > 559 && item.Id <= 599)
+            {
+              item.Name = String.Format("Settings.Desktop.Expenses.{0}", item.Id);
+            }
+            else if (item.Id > 599 && item.Id <= 619)
+            {
+              item.Name = String.Format("Settings.Mobile.{0}", item.Id);
+            }
+            else if (item.Id > 619 && item.Id <= 659)
+            {
+              item.Name = String.Format("Settings.Mobile.Incomes.{0}", item.Id);
+            }
+            else if (item.Id > 659 && item.Id <= 699)
+            {
+              item.Name = String.Format("Settings.Mobile.Expenses.{0}", item.Id);
+            }
+            else if (item.Id > 699 && item.Id <= 719)
+            {
+              item.Name = String.Format("Settings.Web.{0}", item.Id);
+            }
+            else if (item.Id > 719 && item.Id <= 759)
+            {
+              item.Name = String.Format("Settings.Web.Incomes.{0}", item.Id);
+            }
+            else if (item.Id > 759 && item.Id <= 799)
+            {
+              item.Name = String.Format("Settings.Web.Expenses.{0}", item.Id);
+            }
+            else if (item.Id > 799 && item.Id <= 999)
+            {
+              item.Name = String.Format("Settings.Reserved.{0}", item.Id);
+            }
+            else if (item.Id > 999 && item.Id <= 9999)
+            {
+              item.Name = String.Format("Custom.{0}", item.Id);
+            }
+            else
+            {
+              item.Name = String.Format("Unknown.{0}", item.Id);
+            }
           }
         }
         // --

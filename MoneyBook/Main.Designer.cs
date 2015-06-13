@@ -92,13 +92,17 @@
       // Expenses
       // 
       this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Expenses.DetailsSize = 148;
       this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
       this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
       this.Expenses.Location = new System.Drawing.Point(3, 3);
       this.Expenses.Name = "Expenses";
+      this.Expenses.ShowDetails = false;
       this.Expenses.Size = new System.Drawing.Size(656, 370);
       this.Expenses.TabIndex = 0;
       this.Expenses.User = null;
+      this.Expenses.DetailsVisibleChanged += new System.EventHandler(this.MoneyHistory_DetailsVisibleChanged);
+      this.Expenses.DetailsSizeChanged += new System.EventHandler(this.MoneyHistory_DetailsSizeChanged);
       // 
       // tabIncomes
       // 
@@ -115,13 +119,17 @@
       // Incomes
       // 
       this.Incomes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Incomes.DetailsSize = 148;
       this.Incomes.Dock = System.Windows.Forms.DockStyle.Fill;
       this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
       this.Incomes.Location = new System.Drawing.Point(3, 3);
       this.Incomes.Name = "Incomes";
+      this.Incomes.ShowDetails = false;
       this.Incomes.Size = new System.Drawing.Size(656, 370);
       this.Incomes.TabIndex = 0;
       this.Incomes.User = null;
+      this.Incomes.DetailsVisibleChanged += new System.EventHandler(this.MoneyHistory_DetailsVisibleChanged);
+      this.Incomes.DetailsSizeChanged += new System.EventHandler(this.MoneyHistory_DetailsSizeChanged);
       // 
       // tabAccounts
       // 

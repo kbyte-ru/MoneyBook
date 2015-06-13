@@ -239,10 +239,10 @@
       // splitContainer1.Panel2
       // 
       this.splitContainer1.Panel2.Controls.Add(this.rtbDescription);
-      this.splitContainer1.Panel2MinSize = 0;
       this.splitContainer1.Size = new System.Drawing.Size(659, 245);
       this.splitContainer1.SplitterDistance = 151;
       this.splitContainer1.TabIndex = 17;
+      this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
       // 
       // DataGridView1
       // 

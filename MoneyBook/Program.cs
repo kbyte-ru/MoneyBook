@@ -9,6 +9,9 @@ namespace MoneyBook.WinApp
   static class Program
   {
 
+    internal const short InfoIdCustomShowDetails = 1001;
+    internal const short InfoIdCustomDetailsSize = 1002;
+
     /// <summary>
     /// Экземпляр профиля текущего пользователя.
     /// </summary>
