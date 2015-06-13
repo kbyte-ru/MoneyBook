@@ -445,7 +445,7 @@ namespace MoneyBook.WinApp
     {
       //Console.WriteLine("Amount_KeyDown");
 
-      if (e.Control && (e.KeyData.HasFlag(Keys.C) || e.KeyData.HasFlag(Keys.X) || e.KeyData.HasFlag(Keys.V)))
+      if (e.Control && (e.KeyData.HasFlag(Keys.C) || e.KeyData.HasFlag(Keys.X) || e.KeyData.HasFlag(Keys.V) || e.KeyData.HasFlag(Keys.A) || e.KeyData.HasFlag(Keys.Z)))
       {
         this.AmountKeyIsClipboard = true;
         return;

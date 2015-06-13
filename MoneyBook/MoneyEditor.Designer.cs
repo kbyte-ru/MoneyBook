@@ -275,6 +275,7 @@
       this.Description.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
       this.Description.Size = new System.Drawing.Size(431, 176);
       this.Description.TabIndex = 16;
+      this.Description.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Description_KeyDown);
       // 
       // label7
       // 

@@ -194,7 +194,7 @@ namespace MoneyBook.WinApp
 
     private void Amount_KeyDown(object sender, KeyEventArgs e)
     {
-      if (e.Control && (e.KeyData.HasFlag(Keys.C) || e.KeyData.HasFlag(Keys.X) || e.KeyData.HasFlag(Keys.V)))
+      if (e.Control && (e.KeyData.HasFlag(Keys.C) || e.KeyData.HasFlag(Keys.X) || e.KeyData.HasFlag(Keys.V) || e.KeyData.HasFlag(Keys.A) || e.KeyData.HasFlag(Keys.Z)))
       {
         this.AmountKeyIsClipboard = true;
         return;
@@ -339,6 +339,15 @@ namespace MoneyBook.WinApp
       // закрываем окно
       this.DialogResult = System.Windows.Forms.DialogResult.Abort;
       this.Close();
+    }
+
+    private void Description_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.Control && e.KeyCode == Keys.A)
+      {
+        this.Description.SelectAll();
+        e.SuppressKeyPress = true; // чтобы не было beep
+      }
     }
 
   }
