@@ -36,9 +36,15 @@
       this.tabIncomes = new System.Windows.Forms.TabPage();
       this.Incomes = new MoneyBook.WinApp.MoneyHistory();
       this.tabAccounts = new System.Windows.Forms.TabPage();
-      this.mDataGridView1 = new MoneyBook.WinApp.MDataGridView();
-      this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.pnlAccounts = new System.Windows.Forms.Panel();
+      this.Accounts = new MoneyBook.WinApp.MDataGridView();
+      this.AccountsStatus = new System.Windows.Forms.StatusStrip();
+      this.AccountsTitle = new System.Windows.Forms.ToolStripStatusLabel();
+      this.AccountsTotalAmount = new System.Windows.Forms.ToolStripStatusLabel();
+      this.mToolStrip1 = new MoneyBook.WinApp.MToolStrip();
+      this.btnAccountNew = new System.Windows.Forms.ToolStripButton();
+      this.btnAccountDelete = new System.Windows.Forms.ToolStripButton();
+      this.btnAccountEdit = new System.Windows.Forms.ToolStripButton();
       this.tabDictionaries = new System.Windows.Forms.TabPage();
       this.label1 = new System.Windows.Forms.Label();
       this.tabSettings = new System.Windows.Forms.TabPage();
@@ -49,11 +55,21 @@
       this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.tabAbout = new System.Windows.Forms.TabPage();
       this.iconList = new System.Windows.Forms.ImageList(this.components);
+      this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.tabControl1.SuspendLayout();
       this.tabExpenses.SuspendLayout();
       this.tabIncomes.SuspendLayout();
       this.tabAccounts.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.mDataGridView1)).BeginInit();
+      this.pnlAccounts.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.Accounts)).BeginInit();
+      this.AccountsStatus.SuspendLayout();
+      this.mToolStrip1.SuspendLayout();
       this.tabDictionaries.SuspendLayout();
       this.tabInfo.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dgvInfo)).BeginInit();
@@ -133,7 +149,7 @@
       // 
       // tabAccounts
       // 
-      this.tabAccounts.Controls.Add(this.mDataGridView1);
+      this.tabAccounts.Controls.Add(this.pnlAccounts);
       this.tabAccounts.ImageIndex = 2;
       this.tabAccounts.Location = new System.Drawing.Point(4, 23);
       this.tabAccounts.Name = "tabAccounts";
@@ -142,40 +158,116 @@
       this.tabAccounts.Text = "Счета";
       this.tabAccounts.UseVisualStyleBackColor = true;
       // 
-      // mDataGridView1
+      // pnlAccounts
       // 
-      this.mDataGridView1.AllowUserToAddRows = false;
-      this.mDataGridView1.AllowUserToDeleteRows = false;
-      this.mDataGridView1.AllowUserToResizeRows = false;
-      this.mDataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-      this.mDataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
-      this.mDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.mDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.mDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+      this.pnlAccounts.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.pnlAccounts.Controls.Add(this.Accounts);
+      this.pnlAccounts.Controls.Add(this.AccountsStatus);
+      this.pnlAccounts.Controls.Add(this.mToolStrip1);
+      this.pnlAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.pnlAccounts.Location = new System.Drawing.Point(0, 0);
+      this.pnlAccounts.Name = "pnlAccounts";
+      this.pnlAccounts.Size = new System.Drawing.Size(662, 376);
+      this.pnlAccounts.TabIndex = 14;
+      // 
+      // Accounts
+      // 
+      this.Accounts.AllowUserToAddRows = false;
+      this.Accounts.AllowUserToDeleteRows = false;
+      this.Accounts.AllowUserToResizeRows = false;
+      this.Accounts.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+      this.Accounts.BackgroundColor = System.Drawing.SystemColors.Window;
+      this.Accounts.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Accounts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.Accounts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column2});
-      this.mDataGridView1.EnableHeadersVisualStyles = false;
-      this.mDataGridView1.Location = new System.Drawing.Point(8, 20);
-      this.mDataGridView1.MultiSelect = false;
-      this.mDataGridView1.Name = "mDataGridView1";
-      this.mDataGridView1.ReadOnly = true;
-      this.mDataGridView1.RowHeadersWidth = 12;
-      this.mDataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-      this.mDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.mDataGridView1.Size = new System.Drawing.Size(240, 150);
-      this.mDataGridView1.TabIndex = 0;
+            this.Column2,
+            this.Column6,
+            this.Column7,
+            this.Column8,
+            this.Column9,
+            this.Column10});
+      this.Accounts.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Accounts.EnableHeadersVisualStyles = false;
+      this.Accounts.Location = new System.Drawing.Point(0, 25);
+      this.Accounts.MultiSelect = false;
+      this.Accounts.Name = "Accounts";
+      this.Accounts.ReadOnly = true;
+      this.Accounts.RowHeadersWidth = 12;
+      this.Accounts.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+      this.Accounts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+      this.Accounts.Size = new System.Drawing.Size(658, 319);
+      this.Accounts.TabIndex = 0;
       // 
-      // Column1
+      // AccountsStatus
       // 
-      this.Column1.HeaderText = "Column1";
-      this.Column1.Name = "Column1";
-      this.Column1.ReadOnly = true;
+      this.AccountsStatus.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+      this.AccountsStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AccountsTitle,
+            this.AccountsTotalAmount});
+      this.AccountsStatus.Location = new System.Drawing.Point(0, 344);
+      this.AccountsStatus.Name = "AccountsStatus";
+      this.AccountsStatus.Size = new System.Drawing.Size(658, 28);
+      this.AccountsStatus.SizingGrip = false;
+      this.AccountsStatus.TabIndex = 13;
+      this.AccountsStatus.Text = "StatusStrip1";
       // 
-      // Column2
+      // AccountsTitle
       // 
-      this.Column2.HeaderText = "Column2";
-      this.Column2.Name = "Column2";
-      this.Column2.ReadOnly = true;
+      this.AccountsTitle.Name = "AccountsTitle";
+      this.AccountsTitle.Padding = new System.Windows.Forms.Padding(4);
+      this.AccountsTitle.Size = new System.Drawing.Size(222, 23);
+      this.AccountsTitle.Text = "Общий остаток средств на 14.06.2015:";
+      // 
+      // AccountsTotalAmount
+      // 
+      this.AccountsTotalAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+      this.AccountsTotalAmount.Name = "AccountsTotalAmount";
+      this.AccountsTotalAmount.Size = new System.Drawing.Size(12, 23);
+      this.AccountsTotalAmount.Text = "-";
+      // 
+      // mToolStrip1
+      // 
+      this.mToolStrip1.CanOverflow = false;
+      this.mToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+      this.mToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnAccountNew,
+            this.btnAccountDelete,
+            this.btnAccountEdit});
+      this.mToolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+      this.mToolStrip1.Location = new System.Drawing.Point(0, 0);
+      this.mToolStrip1.Name = "mToolStrip1";
+      this.mToolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+      this.mToolStrip1.ShowItemToolTips = false;
+      this.mToolStrip1.Size = new System.Drawing.Size(658, 25);
+      this.mToolStrip1.TabIndex = 1;
+      this.mToolStrip1.Text = "mToolStrip1";
+      // 
+      // btnAccountNew
+      // 
+      this.btnAccountNew.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
+      this.btnAccountNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnAccountNew.Name = "btnAccountNew";
+      this.btnAccountNew.Size = new System.Drawing.Size(92, 22);
+      this.btnAccountNew.Text = "Новый счёт";
+      // 
+      // btnAccountDelete
+      // 
+      this.btnAccountDelete.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+      this.btnAccountDelete.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
+      this.btnAccountDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnAccountDelete.Name = "btnAccountDelete";
+      this.btnAccountDelete.Size = new System.Drawing.Size(71, 22);
+      this.btnAccountDelete.Text = "Удалить";
+      // 
+      // btnAccountEdit
+      // 
+      this.btnAccountEdit.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+      this.btnAccountEdit.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
+      this.btnAccountEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnAccountEdit.Name = "btnAccountEdit";
+      this.btnAccountEdit.Size = new System.Drawing.Size(107, 22);
+      this.btnAccountEdit.Text = "Редактировать";
       // 
       // tabDictionaries
       // 
@@ -290,6 +382,53 @@
       this.iconList.Images.SetKeyName(5, "application_terminal.png");
       this.iconList.Images.SetKeyName(6, "information_frame.png");
       // 
+      // Column1
+      // 
+      this.Column1.HeaderText = "";
+      this.Column1.MinimumWidth = 18;
+      this.Column1.Name = "Column1";
+      this.Column1.ReadOnly = true;
+      this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      this.Column1.Width = 18;
+      // 
+      // Column2
+      // 
+      this.Column2.HeaderText = "Наименование";
+      this.Column2.MinimumWidth = 20;
+      this.Column2.Name = "Column2";
+      this.Column2.ReadOnly = true;
+      this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+      // 
+      // Column6
+      // 
+      this.Column6.HeaderText = "Тип";
+      this.Column6.Name = "Column6";
+      this.Column6.ReadOnly = true;
+      // 
+      // Column7
+      // 
+      this.Column7.HeaderText = "Валюта";
+      this.Column7.Name = "Column7";
+      this.Column7.ReadOnly = true;
+      // 
+      // Column8
+      // 
+      this.Column8.HeaderText = "Остаток";
+      this.Column8.Name = "Column8";
+      this.Column8.ReadOnly = true;
+      // 
+      // Column9
+      // 
+      this.Column9.HeaderText = "Расходов";
+      this.Column9.Name = "Column9";
+      this.Column9.ReadOnly = true;
+      // 
+      // Column10
+      // 
+      this.Column10.HeaderText = "Доходов";
+      this.Column10.Name = "Column10";
+      this.Column10.ReadOnly = true;
+      // 
       // Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -309,7 +448,13 @@
       this.tabExpenses.ResumeLayout(false);
       this.tabIncomes.ResumeLayout(false);
       this.tabAccounts.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.mDataGridView1)).EndInit();
+      this.pnlAccounts.ResumeLayout(false);
+      this.pnlAccounts.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.Accounts)).EndInit();
+      this.AccountsStatus.ResumeLayout(false);
+      this.AccountsStatus.PerformLayout();
+      this.mToolStrip1.ResumeLayout(false);
+      this.mToolStrip1.PerformLayout();
       this.tabDictionaries.ResumeLayout(false);
       this.tabDictionaries.PerformLayout();
       this.tabInfo.ResumeLayout(false);
@@ -330,15 +475,28 @@
     private System.Windows.Forms.TabPage tabAbout;
     private MoneyHistory Expenses;
     private MoneyHistory Incomes;
-    private MDataGridView mDataGridView1;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+    private MDataGridView Accounts;
     private System.Windows.Forms.Label label1;
     private MDataGridView dgvInfo;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
     private System.Windows.Forms.ImageList iconList;
+    private MToolStrip mToolStrip1;
+    private System.Windows.Forms.ToolStripButton btnAccountNew;
+    private System.Windows.Forms.ToolStripButton btnAccountDelete;
+    private System.Windows.Forms.ToolStripButton btnAccountEdit;
+    internal System.Windows.Forms.StatusStrip AccountsStatus;
+    internal System.Windows.Forms.ToolStripStatusLabel AccountsTitle;
+    internal System.Windows.Forms.ToolStripStatusLabel AccountsTotalAmount;
+    private System.Windows.Forms.Panel pnlAccounts;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
 
   }
 }

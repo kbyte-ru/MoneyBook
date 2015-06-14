@@ -119,18 +119,16 @@ namespace MoneyBook.WinApp
     }
 
     /// <summary>
-    /// Возвращает или задает размер блока комментария (в процентах).
+    /// Возвращает или задает размер блока комментария.
     /// </summary>
     public int DetailsSize
     {
       get
       {
-        //return Convert.ToInt32(Math.Ceiling((splitContainer1.SplitterDistance * 100.0) / splitContainer1.Height));
         return splitContainer1.SplitterDistance;
       }
       set
       {
-        //splitContainer1.SplitterDistance = Convert.ToInt32(Math.Ceiling((splitContainer1.Height * value) / 100.0));
         splitContainer1.SplitterDistance = value;
       }
     }
