@@ -20,22 +20,22 @@ namespace MoneyBook.WinApp
     private FormWindowState LastWindowState = FormWindowState.Normal;
 
     /// <summary>
-    /// Последяя нормальная ширина формы, которую можно запомнить.
+    /// Последняя нормальная ширина формы, которую можно запомнить.
     /// </summary>
     private int LastWidth = 0;
 
     /// <summary>
-    /// Последяя нормальная высота формы, которую можно запомнить.
+    /// Последняя нормальная высота формы, которую можно запомнить.
     /// </summary>
     private int LastHeight = 0;
 
     /// <summary>
-    /// Последие координаты расположения формы по X, которые можно запомнить.
+    /// Последние координаты расположения формы по X, которые можно запомнить.
     /// </summary>
     private int LastLeft = 0;
 
     /// <summary>
-    /// Последие координаты расположения формы по Y, которые можно запомнить.
+    /// Последние координаты расположения формы по Y, которые можно запомнить.
     /// </summary>
     private int LastTop = 0;
 
@@ -47,7 +47,8 @@ namespace MoneyBook.WinApp
     }
 
     private void Main_Load(object sender, EventArgs e)
-    {      
+    {
+      this.Text = String.Format("{0} - The Money Book v{1}", Program.CurrentUser.UserName, Application.ProductVersion);
       this.Expenses.User = Program.CurrentUser;
       this.Incomes.User = Program.CurrentUser;
       // параметры окна
