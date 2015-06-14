@@ -119,7 +119,11 @@ namespace MoneyBook.WinApp
 
       // фиксируем общие параметры и параметры окна
       Program.CurrentUser.Info.Set(Program.InfoIdCustomShowDetails, this.Incomes.ShowDetails, false);
-      Program.CurrentUser.Info.Set(Program.InfoIdCustomDetailsSize, this.Incomes.DetailsSize, false);
+      if (this.Incomes.ShowDetails)
+      {
+        Program.CurrentUser.Info.Set(Program.InfoIdCustomDetailsSize, this.Incomes.DetailsSize, false);
+      }
+
       Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowState, (int)this.LastWindowState, false);
       Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowWidth, this.LastWidth, false);
       Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowHeight, this.LastHeight, false);
