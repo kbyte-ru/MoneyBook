@@ -119,20 +119,19 @@ namespace MoneyBook.WinApp
     }
 
     /// <summary>
-    /// Возвращает или задает размер блока комментария.
+    /// Возвращает или задает размер блока комментария (в процентах).
     /// </summary>
     public int DetailsSize
     {
       get
       {
+        //return Convert.ToInt32(Math.Ceiling((splitContainer1.SplitterDistance * 100.0) / splitContainer1.Height));
         return splitContainer1.SplitterDistance;
       }
       set
       {
-        if (splitContainer1.SplitterDistance != value)
-        {
-          splitContainer1.SplitterDistance = value;
-        }
+        //splitContainer1.SplitterDistance = Convert.ToInt32(Math.Ceiling((splitContainer1.Height * value) / 100.0));
+        splitContainer1.SplitterDistance = value;
       }
     }
 
@@ -732,11 +731,22 @@ namespace MoneyBook.WinApp
         this.cmsPeriod.Show(this.StatusStrip1, label.Bounds.X + e.X, label.Bounds.Y + e.Y);
       } 
     }
-    
+
+    private bool _SplitterMoving = false;
+    private void splitContainer1_SplitterMoving(object sender, SplitterCancelEventArgs e)
+    {
+      _SplitterMoving = true;
+    }
+
     private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
     {
-      this.OnDetailsSizeChanged(e);
+      if (_SplitterMoving)
+      {
+        this.OnDetailsSizeChanged(e);
+        _SplitterMoving = false;
+      }
     }
+
 
     #endregion
     #region ..методы..
@@ -1349,6 +1359,7 @@ namespace MoneyBook.WinApp
     }
 
     #endregion
+
         
   }
 

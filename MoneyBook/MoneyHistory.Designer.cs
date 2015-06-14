@@ -29,9 +29,9 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
       this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
       this.StatusTitle = new System.Windows.Forms.ToolStripStatusLabel();
       this.TotalItems = new System.Windows.Forms.ToolStripStatusLabel();
@@ -46,6 +46,10 @@
       this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
       this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+      this.rtbDescription = new System.Windows.Forms.RichTextBox();
+      this.chkShowDetails = new System.Windows.Forms.CheckBox();
+      this.cmsPeriod = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.ProgressBar1 = new MoneyBook.WinApp.MProgressBar();
       this.DataGridView1 = new MoneyBook.WinApp.MDataGridView();
       this.ItemIcon = new System.Windows.Forms.DataGridViewImageColumn();
       this.ItemCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,10 +59,6 @@
       this.ItemDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.ItemAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.ItemCurrency = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.rtbDescription = new System.Windows.Forms.RichTextBox();
-      this.chkShowDetails = new System.Windows.Forms.CheckBox();
-      this.cmsPeriod = new System.Windows.Forms.ContextMenuStrip(this.components);
-      this.ProgressBar1 = new MoneyBook.WinApp.MProgressBar();
       this.ToolStrip3 = new MoneyBook.WinApp.MToolStrip();
       this.btnAdd = new System.Windows.Forms.ToolStripButton();
       this.btnReport = new System.Windows.Forms.ToolStripButton();
@@ -240,9 +240,62 @@
       // 
       this.splitContainer1.Panel2.Controls.Add(this.rtbDescription);
       this.splitContainer1.Size = new System.Drawing.Size(659, 245);
-      this.splitContainer1.SplitterDistance = 151;
+      this.splitContainer1.SplitterDistance = 175;
       this.splitContainer1.TabIndex = 17;
+      this.splitContainer1.SplitterMoving += new System.Windows.Forms.SplitterCancelEventHandler(this.splitContainer1_SplitterMoving);
       this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
+      // 
+      // rtbDescription
+      // 
+      this.rtbDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+      this.rtbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.rtbDescription.Location = new System.Drawing.Point(0, 0);
+      this.rtbDescription.Name = "rtbDescription";
+      this.rtbDescription.ReadOnly = true;
+      this.rtbDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+      this.rtbDescription.Size = new System.Drawing.Size(655, 62);
+      this.rtbDescription.TabIndex = 0;
+      this.rtbDescription.Text = "";
+      this.rtbDescription.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDescription_LinkClicked);
+      // 
+      // chkShowDetails
+      // 
+      this.chkShowDetails.Appearance = System.Windows.Forms.Appearance.Button;
+      this.chkShowDetails.AutoSize = true;
+      this.chkShowDetails.FlatAppearance.BorderSize = 0;
+      this.chkShowDetails.FlatAppearance.CheckedBackColor = System.Drawing.SystemColors.Control;
+      this.chkShowDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.chkShowDetails.Image = global::MoneyBook.WinApp.Properties.Resources.sticky_note_pin_gray;
+      this.chkShowDetails.Location = new System.Drawing.Point(529, 319);
+      this.chkShowDetails.Name = "chkShowDetails";
+      this.chkShowDetails.Size = new System.Drawing.Size(22, 22);
+      this.chkShowDetails.TabIndex = 18;
+      this.chkShowDetails.UseVisualStyleBackColor = true;
+      this.chkShowDetails.CheckedChanged += new System.EventHandler(this.chkShowDetails_CheckedChanged);
+      // 
+      // cmsPeriod
+      // 
+      this.cmsPeriod.Name = "contextMenuStrip2";
+      this.cmsPeriod.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+      this.cmsPeriod.Size = new System.Drawing.Size(61, 4);
+      // 
+      // ProgressBar1
+      // 
+      this.ProgressBar1.ActionName = "";
+      this.ProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.ProgressBar1.CancelCallback = null;
+      this.ProgressBar1.CancelDelay = 3000;
+      this.ProgressBar1.CancelText = "Вы действительно хотите прервать операцию?";
+      this.ProgressBar1.DetailedInfo = "";
+      this.ProgressBar1.Location = new System.Drawing.Point(167, 122);
+      this.ProgressBar1.Name = "ProgressBar1";
+      this.ProgressBar1.ProgressMaximum = 100;
+      this.ProgressBar1.ProgressMinimum = 0;
+      this.ProgressBar1.ProgressValue = 0;
+      this.ProgressBar1.ShowDelay = 1000;
+      this.ProgressBar1.Size = new System.Drawing.Size(333, 142);
+      this.ProgressBar1.TabIndex = 16;
+      this.ProgressBar1.Visible = false;
       // 
       // DataGridView1
       // 
@@ -272,7 +325,7 @@
       this.DataGridView1.RowHeadersWidth = 12;
       this.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       this.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.DataGridView1.Size = new System.Drawing.Size(655, 147);
+      this.DataGridView1.Size = new System.Drawing.Size(655, 171);
       this.DataGridView1.TabIndex = 15;
       this.DataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
       this.DataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellEnter);
@@ -323,9 +376,9 @@
       // 
       // ItemDate
       // 
-      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle1.Format = "dd.MM.yyyy";
-      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle1;
+      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle4.Format = "dd.MM.yyyy";
+      this.ItemDate.DefaultCellStyle = dataGridViewCellStyle4;
       this.ItemDate.HeaderText = "Дата";
       this.ItemDate.MinimumWidth = 25;
       this.ItemDate.Name = "ItemDate";
@@ -335,9 +388,9 @@
       // 
       // ItemAmount
       // 
-      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle2.Format = "##,###,##0.00";
-      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle2;
+      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle5.Format = "##,###,##0.00";
+      this.ItemAmount.DefaultCellStyle = dataGridViewCellStyle5;
       this.ItemAmount.HeaderText = "Сумма";
       this.ItemAmount.MinimumWidth = 15;
       this.ItemAmount.Name = "ItemAmount";
@@ -347,66 +400,14 @@
       // 
       // ItemCurrency
       // 
-      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle3;
+      dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      this.ItemCurrency.DefaultCellStyle = dataGridViewCellStyle6;
       this.ItemCurrency.HeaderText = "Валюта";
       this.ItemCurrency.MinimumWidth = 15;
       this.ItemCurrency.Name = "ItemCurrency";
       this.ItemCurrency.ReadOnly = true;
       this.ItemCurrency.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
       this.ItemCurrency.Width = 50;
-      // 
-      // rtbDescription
-      // 
-      this.rtbDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-      this.rtbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.rtbDescription.Location = new System.Drawing.Point(0, 0);
-      this.rtbDescription.Name = "rtbDescription";
-      this.rtbDescription.ReadOnly = true;
-      this.rtbDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-      this.rtbDescription.Size = new System.Drawing.Size(655, 86);
-      this.rtbDescription.TabIndex = 0;
-      this.rtbDescription.Text = "";
-      this.rtbDescription.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.rtbDescription_LinkClicked);
-      // 
-      // chkShowDetails
-      // 
-      this.chkShowDetails.Appearance = System.Windows.Forms.Appearance.Button;
-      this.chkShowDetails.AutoSize = true;
-      this.chkShowDetails.FlatAppearance.BorderSize = 0;
-      this.chkShowDetails.FlatAppearance.CheckedBackColor = System.Drawing.SystemColors.Control;
-      this.chkShowDetails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.chkShowDetails.Image = global::MoneyBook.WinApp.Properties.Resources.sticky_note_pin_gray;
-      this.chkShowDetails.Location = new System.Drawing.Point(529, 319);
-      this.chkShowDetails.Name = "chkShowDetails";
-      this.chkShowDetails.Size = new System.Drawing.Size(22, 22);
-      this.chkShowDetails.TabIndex = 18;
-      this.chkShowDetails.UseVisualStyleBackColor = true;
-      this.chkShowDetails.CheckedChanged += new System.EventHandler(this.chkShowDetails_CheckedChanged);
-      // 
-      // cmsPeriod
-      // 
-      this.cmsPeriod.Name = "contextMenuStrip2";
-      this.cmsPeriod.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-      this.cmsPeriod.Size = new System.Drawing.Size(61, 4);
-      // 
-      // ProgressBar1
-      // 
-      this.ProgressBar1.ActionName = "";
-      this.ProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.ProgressBar1.CancelCallback = null;
-      this.ProgressBar1.CancelDelay = 3000;
-      this.ProgressBar1.CancelText = "Вы действительно хотите прервать операцию?";
-      this.ProgressBar1.DetailedInfo = "";
-      this.ProgressBar1.Location = new System.Drawing.Point(167, 122);
-      this.ProgressBar1.Name = "ProgressBar1";
-      this.ProgressBar1.ProgressMaximum = 100;
-      this.ProgressBar1.ProgressMinimum = 0;
-      this.ProgressBar1.ProgressValue = 0;
-      this.ProgressBar1.ShowDelay = 1000;
-      this.ProgressBar1.Size = new System.Drawing.Size(333, 142);
-      this.ProgressBar1.TabIndex = 16;
-      this.ProgressBar1.Visible = false;
       // 
       // ToolStrip3
       // 

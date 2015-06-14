@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace MoneyBook.WinApp
 {
+
   public partial class MProgressBar : UserControl
   {
 
@@ -295,8 +296,6 @@ namespace MoneyBook.WinApp
 
     #endregion    
 
-    
-
-
   }
+
 }

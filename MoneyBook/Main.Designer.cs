@@ -92,7 +92,7 @@
       // Expenses
       // 
       this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.Expenses.DetailsSize = 148;
+      this.Expenses.DetailsSize = 175;
       this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
       this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
       this.Expenses.Location = new System.Drawing.Point(3, 3);
@@ -119,7 +119,7 @@
       // Incomes
       // 
       this.Incomes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.Incomes.DetailsSize = 148;
+      this.Incomes.DetailsSize = 175;
       this.Incomes.Dock = System.Windows.Forms.DockStyle.Fill;
       this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
       this.Incomes.Location = new System.Drawing.Point(3, 3);
@@ -297,12 +297,14 @@
       this.ClientSize = new System.Drawing.Size(670, 403);
       this.Controls.Add(this.tabControl1);
       this.DoubleBuffered = true;
+      this.MinimumSize = new System.Drawing.Size(600, 400);
       this.Name = "Main";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Main";
       this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
       this.Load += new System.EventHandler(this.Main_Load);
       this.Shown += new System.EventHandler(this.Main_Shown);
+      this.SizeChanged += new System.EventHandler(this.Main_SizeChanged);
       this.tabControl1.ResumeLayout(false);
       this.tabExpenses.ResumeLayout(false);
       this.tabIncomes.ResumeLayout(false);
