@@ -11,179 +11,180 @@ using MoneyBook.Core;
 namespace MoneyBook.WinApp
 {
 
-  public partial class Main : Form
-  {
-
-    /// <summary>
-    /// Последнее состояние формы, которое можно запомнить.
-    /// </summary>
-    private FormWindowState LastWindowState = FormWindowState.Normal;
-
-    /// <summary>
-    /// Последняя нормальная ширина формы, которую можно запомнить.
-    /// </summary>
-    private int LastWidth = 0;
-
-    /// <summary>
-    /// Последняя нормальная высота формы, которую можно запомнить.
-    /// </summary>
-    private int LastHeight = 0;
-
-    /// <summary>
-    /// Последние координаты расположения формы по X, которые можно запомнить.
-    /// </summary>
-    private int LastLeft = 0;
-
-    /// <summary>
-    /// Последние координаты расположения формы по Y, которые можно запомнить.
-    /// </summary>
-    private int LastTop = 0;
-
-    public Main(string username, string password)
+    public partial class Main : Form
     {
-      Program.CurrentUser = new User(Program.ProfileBasePath, username, password);
-      
-      InitializeComponent();
-    }
 
-    private void Main_Load(object sender, EventArgs e)
-    {
-      this.Text = String.Format("{0} - The Money Book v{1}", Program.CurrentUser.UserName, Application.ProductVersion);
-      this.Expenses.User = Program.CurrentUser;
-      this.Incomes.User = Program.CurrentUser;
-      // параметры окна
-      var screen = Screen.FromPoint(this.Location);
+        /// <summary>
+        /// Последнее состояние формы, которое можно запомнить.
+        /// </summary>
+        private FormWindowState LastWindowState = FormWindowState.Normal;
 
-      // порядок имеет значение!!!
-      // размер
-      if 
-      (
-        Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]) >= 0 && 
-        Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]) <= screen.WorkingArea.Width && 
-        Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]) >= 0 &&
-        Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]) <= screen.WorkingArea.Height
-      )
-      {
-        this.Width = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]);
-        this.Height = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]);
-      }
-      // позиция
-      if
-      (
-        Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]) >= 0 &&
-        Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]) <= (screen.WorkingArea.Width - this.Width) &&
-        Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]) >= 0 &&
-        Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]) <= (screen.WorkingArea.Height - this.Height)
-      )
-      {
-        this.Left = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]);
-        this.Top = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]);
-      }
-      // состояние
-      if (Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowState]) != (int)FormWindowState.Minimized)
-      {
-        var windowState = FormWindowState.Normal;
-        if (!Enum.TryParse<FormWindowState>(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowState], out windowState))
+        /// <summary>
+        /// Последняя нормальная ширина формы, которую можно запомнить.
+        /// </summary>
+        private int LastWidth = 0;
+
+        /// <summary>
+        /// Последняя нормальная высота формы, которую можно запомнить.
+        /// </summary>
+        private int LastHeight = 0;
+
+        /// <summary>
+        /// Последние координаты расположения формы по X, которые можно запомнить.
+        /// </summary>
+        private int LastLeft = 0;
+
+        /// <summary>
+        /// Последние координаты расположения формы по Y, которые можно запомнить.
+        /// </summary>
+        private int LastTop = 0;
+
+        public Main(string username, string password)
         {
-          windowState = FormWindowState.Normal;
+            Program.CurrentUser = new User(Program.ProfileBasePath, username, password);
+
+            InitializeComponent();
         }
-        this.WindowState = windowState;
-      }
-      // панель комментария
-      this.Incomes.ShowDetails = Convertion.ToBoolean(Program.CurrentUser.Info[Program.InfoIdCustomShowDetails]);
-      if (Convert.ToInt32(Program.CurrentUser.Info[Program.InfoIdCustomDetailsSize]) > 0)
-      {
-        this.Expenses.DetailsSize = this.Incomes.DetailsSize = Convert.ToInt32(Program.CurrentUser.Info[Program.InfoIdCustomDetailsSize]);
-      }
-    }
 
-    private void Main_Shown(object sender, EventArgs e)
-    {
-    }
-
-    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      if (tabControl1.SelectedTab.Name.Equals("tabInfo"))
-      {
-        dgvInfo.DataSource = Program.CurrentUser.Info.GetAllInfo();
-      }
-    }
-
-    private void Main_FormClosed(object sender, FormClosedEventArgs e)
-    {
-      // фиксируем параметры расходов/доходов
-      this.Incomes.SaveSettings();
-      this.Expenses.SaveSettings();
-
-      // обновляем информацию о размере окна
-      Main_SizeChanged(sender, null);
-
-      // фиксируем общие параметры и параметры окна
-      Program.CurrentUser.Info.Set(Program.InfoIdCustomShowDetails, this.Incomes.ShowDetails, false);
-      if (this.Incomes.ShowDetails)
-      {
-        Program.CurrentUser.Info.Set(Program.InfoIdCustomDetailsSize, this.Incomes.DetailsSize, false);
-      }
-
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowState, (int)this.LastWindowState, false);
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowWidth, this.LastWidth, false);
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowHeight, this.LastHeight, false);
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowLeft, this.LastLeft, false);
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowTop, this.LastTop, false);
-
-      // выходим из приложения
-      Application.Exit();
-    }
-
-    private void MoneyHistory_DetailsVisibleChanged(object sender, EventArgs e)
-    {
-      var showDetails = ((MoneyHistory)sender).ShowDetails;
-      if (sender == Incomes)
-      {
-        this.Expenses.ShowDetails = showDetails;
-      }
-      else if (sender == Expenses)
-      {
-        this.Incomes.ShowDetails = showDetails;
-      }
-      else
-      {
-        MessageBox.Show("Не может этого быть!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-      }
-    }
-
-    private void MoneyHistory_DetailsSizeChanged(object sender, EventArgs e)
-    {
-      var detailsSize = ((MoneyHistory)sender).DetailsSize;
-      if (sender == Incomes)
-      {
-        this.Expenses.DetailsSize = detailsSize;
-      }
-      else if (sender == Expenses)
-      {
-        this.Incomes.DetailsSize = detailsSize;
-      }
-      else
-      {
-        MessageBox.Show("Не может этого быть!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-      }
-    }
-
-    private void Main_SizeChanged(object sender, EventArgs e)
-    {
-      if (this.WindowState != FormWindowState.Minimized)
-      {
-        this.LastWindowState = this.WindowState;
-        if (this.WindowState != FormWindowState.Maximized)
+        private void Main_Load(object sender, EventArgs e)
         {
-          this.LastWidth = this.Width;
-          this.LastHeight = this.Height;
-          this.LastLeft = this.Left;
-          this.LastTop = this.Top;
-        }
-      }
-    }
+            this.Text = String.Format("{0} - The Money Book v{1}", Program.CurrentUser.UserName, Application.ProductVersion);
+            this.Expenses.User = Program.CurrentUser;
+            this.Incomes.User = Program.CurrentUser;
+            // параметры окна
+            var screen = Screen.FromPoint(this.Location);
 
-  }
+            // порядок имеет значение!!!
+            // размер
+            if
+            (
+              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]) >= 0 &&
+              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]) <= screen.WorkingArea.Width &&
+              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]) >= 0 &&
+              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]) <= screen.WorkingArea.Height
+            )
+            {
+                this.Width = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]);
+                this.Height = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]);
+            }
+            // позиция
+            if
+            (
+              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]) >= 0 &&
+              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]) <= (screen.WorkingArea.Width - this.Width) &&
+              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]) >= 0 &&
+              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]) <= (screen.WorkingArea.Height - this.Height)
+            )
+            {
+                this.Left = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]);
+                this.Top = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]);
+            }
+            // состояние
+            if (Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowState]) != (int)FormWindowState.Minimized)
+            {
+                var windowState = FormWindowState.Normal;
+                if (!Enum.TryParse<FormWindowState>(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowState], out windowState))
+                {
+                    windowState = FormWindowState.Normal;
+                }
+                this.WindowState = windowState;
+            }
+            // панель комментария
+            this.Incomes.ShowDetails = Convertion.ToBoolean(Program.CurrentUser.Info[Program.InfoIdCustomShowDetails]);
+            int customDetails = 0;
+            if (Int32.TryParse(Program.CurrentUser.Info[Program.InfoIdCustomDetailsSize], out customDetails) && customDetails > 0)
+            {
+                this.Expenses.DetailsSize = this.Incomes.DetailsSize = customDetails;
+            }
+        }
+
+        private void Main_Shown(object sender, EventArgs e)
+        {
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab.Name.Equals("tabInfo"))
+            {
+                dgvInfo.DataSource = Program.CurrentUser.Info.GetAllInfo();
+            }
+        }
+
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // фиксируем параметры расходов/доходов
+            this.Incomes.SaveSettings();
+            this.Expenses.SaveSettings();
+
+            // обновляем информацию о размере окна
+            Main_SizeChanged(sender, null);
+
+            // фиксируем общие параметры и параметры окна
+            Program.CurrentUser.Info.Set(Program.InfoIdCustomShowDetails, this.Incomes.ShowDetails, false);
+            if (this.Incomes.ShowDetails)
+            {
+                Program.CurrentUser.Info.Set(Program.InfoIdCustomDetailsSize, this.Incomes.DetailsSize, false);
+            }
+
+            Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowState, (int)this.LastWindowState, false);
+            Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowWidth, this.LastWidth, false);
+            Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowHeight, this.LastHeight, false);
+            Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowLeft, this.LastLeft, false);
+            Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowTop, this.LastTop, false);
+
+            // выходим из приложения
+            Application.Exit();
+        }
+
+        private void MoneyHistory_DetailsVisibleChanged(object sender, EventArgs e)
+        {
+            var showDetails = ((MoneyHistory)sender).ShowDetails;
+            if (sender == Incomes)
+            {
+                this.Expenses.ShowDetails = showDetails;
+            }
+            else if (sender == Expenses)
+            {
+                this.Incomes.ShowDetails = showDetails;
+            }
+            else
+            {
+                MessageBox.Show("Не может этого быть!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void MoneyHistory_DetailsSizeChanged(object sender, EventArgs e)
+        {
+            var detailsSize = ((MoneyHistory)sender).DetailsSize;
+            if (sender == Incomes)
+            {
+                this.Expenses.DetailsSize = detailsSize;
+            }
+            else if (sender == Expenses)
+            {
+                this.Incomes.DetailsSize = detailsSize;
+            }
+            else
+            {
+                MessageBox.Show("Не может этого быть!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Main_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                this.LastWindowState = this.WindowState;
+                if (this.WindowState != FormWindowState.Maximized)
+                {
+                    this.LastWidth = this.Width;
+                    this.LastHeight = this.Height;
+                    this.LastLeft = this.Left;
+                    this.LastTop = this.Top;
+                }
+            }
+        }
+
+    }
 
 }

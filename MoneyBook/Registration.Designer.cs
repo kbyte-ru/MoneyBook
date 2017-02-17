@@ -44,7 +44,7 @@
             this.AcceptButton.Location = new System.Drawing.Point(100, 274);
             this.AcceptButton.Name = "AcceptButton";
             this.AcceptButton.Size = new System.Drawing.Size(75, 24);
-            this.AcceptButton.TabIndex = 0;
+            this.AcceptButton.TabIndex = 9;
             this.AcceptButton.Text = "Создать";
             this.AcceptButton.UseVisualStyleBackColor = true;
             this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
@@ -55,7 +55,7 @@
             this.CancellButton.Location = new System.Drawing.Point(181, 274);
             this.CancellButton.Name = "CancellButton";
             this.CancellButton.Size = new System.Drawing.Size(75, 24);
-            this.CancellButton.TabIndex = 1;
+            this.CancellButton.TabIndex = 10;
             this.CancellButton.Text = "Отмена";
             this.CancellButton.UseVisualStyleBackColor = true;
             this.CancellButton.Click += new System.EventHandler(this.CancellButton_Click);
@@ -85,7 +85,7 @@
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(179, 20);
-            this.PasswordTextBox.TabIndex = 4;
+            this.PasswordTextBox.TabIndex = 6;
             // 
             // UserNameTextBox
             // 
@@ -100,7 +100,7 @@
             this.ShowPasswordCheckBox.Location = new System.Drawing.Point(77, 69);
             this.ShowPasswordCheckBox.Name = "ShowPasswordCheckBox";
             this.ShowPasswordCheckBox.Size = new System.Drawing.Size(179, 17);
-            this.ShowPasswordCheckBox.TabIndex = 6;
+            this.ShowPasswordCheckBox.TabIndex = 7;
             this.ShowPasswordCheckBox.Text = "отображать пароль при вводе";
             this.ShowPasswordCheckBox.UseVisualStyleBackColor = true;
             this.ShowPasswordCheckBox.CheckedChanged += new System.EventHandler(this.ShowPasswordCheckBox_CheckedChanged);
@@ -112,11 +112,12 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(231, 176);
-            this.textBox1.TabIndex = 7;
+            this.textBox1.TabIndex = 8;
             this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
             // Registration
             // 
+            this.AcceptButton = this.AcceptButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancellButton;

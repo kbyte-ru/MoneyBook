@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountTypes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AccountTypes.Designer.cs">
+      <DependentUpon>AccountTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Convertion.cs" />
     <Compile Include="DevaultValues.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -110,6 +116,9 @@
       <DependentUpon>Registration.cs</DependentUpon>
     </Compile>
     <Compile Include="TaskManager.cs" />
+    <EmbeddedResource Include="AccountTypes.resx">
+      <DependentUpon>AccountTypes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
