@@ -13,7 +13,6 @@ namespace UnitTestProject1
   [TestClass]
   public class UserTest
   {
-
     [TestMethod]
     public void TestMethod1()
     {

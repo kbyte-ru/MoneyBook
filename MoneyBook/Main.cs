@@ -185,6 +185,10 @@ namespace MoneyBook.WinApp
             }
         }
 
+        private void btnAccountTypeNew_Click(object sender, EventArgs e)
+        {
+            var accountType = new AccountTypeEditor();
+            accountType.ShowDialog();
+        }
     }
-
 }

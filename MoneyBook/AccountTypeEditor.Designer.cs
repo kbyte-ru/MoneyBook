@@ -1,6 +1,6 @@
 ﻿namespace MoneyBook.WinApp
 {
-    partial class AccountTypes
+    partial class AccountTypeEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.AcceptButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.AccountTypeName = new System.Windows.Forms.TextBox();
             this.Picture = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -48,7 +48,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.AccountTypeName, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.Picture, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -67,7 +67,7 @@
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 27);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 10;
             this.label1.Text = "Картинка:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -78,7 +78,7 @@
             this.label2.Location = new System.Drawing.Point(3, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 26);
-            this.label2.TabIndex = 1;
+            this.label2.TabIndex = 11;
             this.label2.Text = "Наименование:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -94,19 +94,21 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(301, 33);
-            this.tableLayoutPanel2.TabIndex = 2;
+            this.tableLayoutPanel2.TabIndex = 12;
             // 
             // AcceptButton
             // 
             this.AcceptButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.AcceptButton.Enabled = false;
             this.AcceptButton.Location = new System.Drawing.Point(72, 3);
             this.AcceptButton.Name = "AcceptButton";
             this.AcceptButton.Size = new System.Drawing.Size(75, 27);
             this.AcceptButton.TabIndex = 3;
             this.AcceptButton.Text = "Сохранить";
             this.AcceptButton.UseVisualStyleBackColor = true;
+            this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
             // 
             // CancelButton
             // 
@@ -119,13 +121,15 @@
             this.CancelButton.Text = "Отмена";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // AccountTypeName
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(140, 30);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(301, 20);
-            this.textBox1.TabIndex = 2;
+            this.AccountTypeName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AccountTypeName.Location = new System.Drawing.Point(140, 30);
+            this.AccountTypeName.MaxLength = 50;
+            this.AccountTypeName.Name = "AccountTypeName";
+            this.AccountTypeName.Size = new System.Drawing.Size(301, 20);
+            this.AccountTypeName.TabIndex = 2;
+            this.AccountTypeName.TextChanged += new System.EventHandler(this.AccountTypeName_TextChanged);
             // 
             // Picture
             // 
@@ -136,18 +140,18 @@
             this.Picture.Size = new System.Drawing.Size(301, 21);
             this.Picture.TabIndex = 1;
             // 
-            // AccountTypes
+            // AccountTypeEditor
             // 
-            this.AcceptButton = this.AcceptButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton;
             this.ClientSize = new System.Drawing.Size(444, 92);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "AccountTypes";
+            this.Name = "AccountTypeEditor";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Добавить";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -164,7 +168,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button AcceptButton;
         private System.Windows.Forms.Button CancelButton;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox AccountTypeName;
         private System.Windows.Forms.ComboBox Picture;
 
     }
