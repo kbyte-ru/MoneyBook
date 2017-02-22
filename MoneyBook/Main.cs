@@ -56,28 +56,33 @@ namespace MoneyBook.WinApp
 
             // порядок имеет значение!!!
             // размер
+
+            int windowsWidth = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]);
+            int windowHeight = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]);
             if
             (
-              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]) >= 0 &&
-              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]) <= screen.WorkingArea.Width &&
-              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]) >= 0 &&
-              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]) <= screen.WorkingArea.Height
+              windowsWidth > 0 &&
+              windowsWidth <= screen.WorkingArea.Width &&
+              windowHeight > 0 &&
+              windowHeight <= screen.WorkingArea.Height               
             )
             {
-                this.Width = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]);
-                this.Height = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]);
+                this.Width = windowsWidth;
+                this.Height = windowHeight;
             }
             // позиция
+            int windowLeft = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]);
+            int windowTop = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]);
             if
             (
-              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]) >= 0 &&
-              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]) <= (screen.WorkingArea.Width - this.Width) &&
-              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]) >= 0 &&
-              Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]) <= (screen.WorkingArea.Height - this.Height)
+              windowLeft > 0 &&
+              windowLeft <= (screen.WorkingArea.Width - this.Width) &&
+              windowTop > 0 &&
+              windowTop <= (screen.WorkingArea.Height - this.Height)
             )
             {
-                this.Left = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]);
-                this.Top = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]);
+                this.Left = windowLeft;
+                this.Top = windowTop;
             }
             // состояние
             if (Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowState]) != (int)FormWindowState.Minimized)
@@ -190,5 +195,12 @@ namespace MoneyBook.WinApp
             var accountType = new AccountTypeEditor();
             accountType.ShowDialog();
         }
+
+        private void btnAccountTypeAdd_Click(object sender, EventArgs e)
+        {
+            var accountTypeAdd = new AccountTypeEditor();
+            accountTypeAdd.ShowDialog();
+        }
+
     }
 }
