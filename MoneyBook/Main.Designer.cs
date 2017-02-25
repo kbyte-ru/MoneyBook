@@ -32,25 +32,11 @@
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabExpenses = new System.Windows.Forms.TabPage();
+      this.Expenses = new MoneyBook.WinApp.MoneyHistory();
       this.tabIncomes = new System.Windows.Forms.TabPage();
+      this.Incomes = new MoneyBook.WinApp.MoneyHistory();
       this.tabAccounts = new System.Windows.Forms.TabPage();
       this.pnlAccounts = new System.Windows.Forms.Panel();
-      this.AccountsStatus = new System.Windows.Forms.StatusStrip();
-      this.AccountsTitle = new System.Windows.Forms.ToolStripStatusLabel();
-      this.AccountsTotalAmount = new System.Windows.Forms.ToolStripStatusLabel();
-      this.tabDictionaries = new System.Windows.Forms.TabPage();
-      this.listBox1 = new System.Windows.Forms.ListBox();
-      this.toolStrip5 = new System.Windows.Forms.ToolStrip();
-      this.toolStripButton16 = new System.Windows.Forms.ToolStripButton();
-      this.toolStripButton17 = new System.Windows.Forms.ToolStripButton();
-      this.toolStripButton18 = new System.Windows.Forms.ToolStripButton();
-      this.tabSettings = new System.Windows.Forms.TabPage();
-      this.tabInfo = new System.Windows.Forms.TabPage();
-      this.tabAbout = new System.Windows.Forms.TabPage();
-      this.iconList = new System.Windows.Forms.ImageList(this.components);
-      this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-      this.Expenses = new MoneyBook.WinApp.MoneyHistory();
-      this.Incomes = new MoneyBook.WinApp.MoneyHistory();
       this.Accounts = new MoneyBook.WinApp.MDataGridView();
       this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,29 +45,43 @@
       this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.AccountsStatus = new System.Windows.Forms.StatusStrip();
+      this.AccountsTitle = new System.Windows.Forms.ToolStripStatusLabel();
+      this.AccountsTotalAmount = new System.Windows.Forms.ToolStripStatusLabel();
       this.mToolStrip1 = new MoneyBook.WinApp.MToolStrip();
       this.btnAccountNew = new System.Windows.Forms.ToolStripButton();
       this.btnAccountDelete = new System.Windows.Forms.ToolStripButton();
       this.btnAccountEdit = new System.Windows.Forms.ToolStripButton();
+      this.tabDictionaries = new System.Windows.Forms.TabPage();
+      this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+      this.lstDictionaries = new System.Windows.Forms.ListBox();
+      this.toolStrip5 = new System.Windows.Forms.ToolStrip();
+      this.btnAddDictionaryItem = new System.Windows.Forms.ToolStripButton();
+      this.btnEditDictionaryItem = new System.Windows.Forms.ToolStripButton();
+      this.btnDeleteDictionaryItem = new System.Windows.Forms.ToolStripButton();
+      this.tabSettings = new System.Windows.Forms.TabPage();
+      this.tabInfo = new System.Windows.Forms.TabPage();
       this.dgvInfo = new MoneyBook.WinApp.MDataGridView();
       this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.tabAbout = new System.Windows.Forms.TabPage();
+      this.iconList = new System.Windows.Forms.ImageList(this.components);
       this.tabControl1.SuspendLayout();
       this.tabExpenses.SuspendLayout();
       this.tabIncomes.SuspendLayout();
       this.tabAccounts.SuspendLayout();
       this.pnlAccounts.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.Accounts)).BeginInit();
       this.AccountsStatus.SuspendLayout();
+      this.mToolStrip1.SuspendLayout();
       this.tabDictionaries.SuspendLayout();
-      this.toolStrip5.SuspendLayout();
-      this.tabInfo.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
       this.splitContainer1.Panel2.SuspendLayout();
       this.splitContainer1.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.Accounts)).BeginInit();
-      this.mToolStrip1.SuspendLayout();
+      this.toolStrip5.SuspendLayout();
+      this.tabInfo.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dgvInfo)).BeginInit();
       this.SuspendLayout();
       // 
@@ -115,6 +115,21 @@
       this.tabExpenses.Text = "Расходы";
       this.tabExpenses.UseVisualStyleBackColor = true;
       // 
+      // Expenses
+      // 
+      this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Expenses.DetailsSize = 175;
+      this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
+      this.Expenses.Location = new System.Drawing.Point(3, 3);
+      this.Expenses.Name = "Expenses";
+      this.Expenses.ShowDetails = false;
+      this.Expenses.Size = new System.Drawing.Size(670, 429);
+      this.Expenses.TabIndex = 0;
+      this.Expenses.User = null;
+      this.Expenses.DetailsVisibleChanged += new System.EventHandler(this.MoneyHistory_DetailsVisibleChanged);
+      this.Expenses.DetailsSizeChanged += new System.EventHandler(this.MoneyHistory_DetailsSizeChanged);
+      // 
       // tabIncomes
       // 
       this.tabIncomes.Controls.Add(this.Incomes);
@@ -126,6 +141,21 @@
       this.tabIncomes.TabIndex = 1;
       this.tabIncomes.Text = "Доходы";
       this.tabIncomes.UseVisualStyleBackColor = true;
+      // 
+      // Incomes
+      // 
+      this.Incomes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.Incomes.DetailsSize = 175;
+      this.Incomes.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
+      this.Incomes.Location = new System.Drawing.Point(3, 3);
+      this.Incomes.Name = "Incomes";
+      this.Incomes.ShowDetails = false;
+      this.Incomes.Size = new System.Drawing.Size(670, 429);
+      this.Incomes.TabIndex = 0;
+      this.Incomes.User = null;
+      this.Incomes.DetailsVisibleChanged += new System.EventHandler(this.MoneyHistory_DetailsVisibleChanged);
+      this.Incomes.DetailsSizeChanged += new System.EventHandler(this.MoneyHistory_DetailsSizeChanged);
       // 
       // tabAccounts
       // 
@@ -149,190 +179,6 @@
       this.pnlAccounts.Name = "pnlAccounts";
       this.pnlAccounts.Size = new System.Drawing.Size(676, 435);
       this.pnlAccounts.TabIndex = 14;
-      // 
-      // AccountsStatus
-      // 
-      this.AccountsStatus.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
-      this.AccountsStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AccountsTitle,
-            this.AccountsTotalAmount});
-      this.AccountsStatus.Location = new System.Drawing.Point(0, 403);
-      this.AccountsStatus.Name = "AccountsStatus";
-      this.AccountsStatus.Size = new System.Drawing.Size(672, 28);
-      this.AccountsStatus.SizingGrip = false;
-      this.AccountsStatus.TabIndex = 13;
-      this.AccountsStatus.Text = "StatusStrip1";
-      // 
-      // AccountsTitle
-      // 
-      this.AccountsTitle.Name = "AccountsTitle";
-      this.AccountsTitle.Padding = new System.Windows.Forms.Padding(4);
-      this.AccountsTitle.Size = new System.Drawing.Size(222, 23);
-      this.AccountsTitle.Text = "Общий остаток средств на 14.06.2015:";
-      // 
-      // AccountsTotalAmount
-      // 
-      this.AccountsTotalAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-      this.AccountsTotalAmount.Name = "AccountsTotalAmount";
-      this.AccountsTotalAmount.Size = new System.Drawing.Size(12, 23);
-      this.AccountsTotalAmount.Text = "-";
-      // 
-      // tabDictionaries
-      // 
-      this.tabDictionaries.Controls.Add(this.splitContainer1);
-      this.tabDictionaries.ImageIndex = 3;
-      this.tabDictionaries.Location = new System.Drawing.Point(4, 23);
-      this.tabDictionaries.Name = "tabDictionaries";
-      this.tabDictionaries.Size = new System.Drawing.Size(676, 435);
-      this.tabDictionaries.TabIndex = 3;
-      this.tabDictionaries.Text = "Справочники";
-      this.tabDictionaries.UseVisualStyleBackColor = true;
-      // 
-      // listBox1
-      // 
-      this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.listBox1.FormattingEnabled = true;
-      this.listBox1.IntegralHeight = false;
-      this.listBox1.Items.AddRange(new object[] {
-            "Статьи расходов",
-            "Категории расходов",
-            "Статьи доходов",
-            "Категории доходов",
-            "Типы счетов",
-            "Список валют"});
-      this.listBox1.Location = new System.Drawing.Point(0, 0);
-      this.listBox1.Name = "listBox1";
-      this.listBox1.Size = new System.Drawing.Size(139, 431);
-      this.listBox1.TabIndex = 1;
-      // 
-      // toolStrip5
-      // 
-      this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton16,
-            this.toolStripButton17,
-            this.toolStripButton18});
-      this.toolStrip5.Location = new System.Drawing.Point(0, 0);
-      this.toolStrip5.Name = "toolStrip5";
-      this.toolStrip5.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-      this.toolStrip5.Size = new System.Drawing.Size(527, 25);
-      this.toolStrip5.TabIndex = 0;
-      this.toolStrip5.Text = "toolStrip5";
-      // 
-      // toolStripButton16
-      // 
-      this.toolStripButton16.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
-      this.toolStripButton16.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.toolStripButton16.Name = "toolStripButton16";
-      this.toolStripButton16.Size = new System.Drawing.Size(79, 22);
-      this.toolStripButton16.Text = "Добавить";
-      // 
-      // toolStripButton17
-      // 
-      this.toolStripButton17.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
-      this.toolStripButton17.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.toolStripButton17.Name = "toolStripButton17";
-      this.toolStripButton17.Size = new System.Drawing.Size(107, 22);
-      this.toolStripButton17.Text = "Редактировать";
-      // 
-      // toolStripButton18
-      // 
-      this.toolStripButton18.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
-      this.toolStripButton18.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.toolStripButton18.Name = "toolStripButton18";
-      this.toolStripButton18.Size = new System.Drawing.Size(71, 22);
-      this.toolStripButton18.Text = "Удалить";
-      // 
-      // tabSettings
-      // 
-      this.tabSettings.ImageIndex = 4;
-      this.tabSettings.Location = new System.Drawing.Point(4, 23);
-      this.tabSettings.Name = "tabSettings";
-      this.tabSettings.Size = new System.Drawing.Size(676, 435);
-      this.tabSettings.TabIndex = 4;
-      this.tabSettings.Text = "Параметры";
-      this.tabSettings.UseVisualStyleBackColor = true;
-      // 
-      // tabInfo
-      // 
-      this.tabInfo.Controls.Add(this.dgvInfo);
-      this.tabInfo.ImageIndex = 5;
-      this.tabInfo.Location = new System.Drawing.Point(4, 23);
-      this.tabInfo.Name = "tabInfo";
-      this.tabInfo.Size = new System.Drawing.Size(676, 435);
-      this.tabInfo.TabIndex = 6;
-      this.tabInfo.Text = "Info";
-      this.tabInfo.UseVisualStyleBackColor = true;
-      // 
-      // tabAbout
-      // 
-      this.tabAbout.ImageIndex = 6;
-      this.tabAbout.Location = new System.Drawing.Point(4, 23);
-      this.tabAbout.Name = "tabAbout";
-      this.tabAbout.Size = new System.Drawing.Size(676, 435);
-      this.tabAbout.TabIndex = 5;
-      this.tabAbout.Text = "О программе...";
-      this.tabAbout.UseVisualStyleBackColor = true;
-      // 
-      // iconList
-      // 
-      this.iconList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconList.ImageStream")));
-      this.iconList.TransparentColor = System.Drawing.Color.Transparent;
-      this.iconList.Images.SetKeyName(0, "coins_delete.png");
-      this.iconList.Images.SetKeyName(1, "coins_add.png");
-      this.iconList.Images.SetKeyName(2, "entity.png");
-      this.iconList.Images.SetKeyName(3, "category.png");
-      this.iconList.Images.SetKeyName(4, "gear_in.png");
-      this.iconList.Images.SetKeyName(5, "application_terminal.png");
-      this.iconList.Images.SetKeyName(6, "information_frame.png");
-      // 
-      // splitContainer1
-      // 
-      this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-      this.splitContainer1.Name = "splitContainer1";
-      // 
-      // splitContainer1.Panel1
-      // 
-      this.splitContainer1.Panel1.Controls.Add(this.listBox1);
-      // 
-      // splitContainer1.Panel2
-      // 
-      this.splitContainer1.Panel2.Controls.Add(this.toolStrip5);
-      this.splitContainer1.Size = new System.Drawing.Size(676, 435);
-      this.splitContainer1.SplitterDistance = 143;
-      this.splitContainer1.SplitterWidth = 2;
-      this.splitContainer1.TabIndex = 2;
-      // 
-      // Expenses
-      // 
-      this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.Expenses.DetailsSize = 175;
-      this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
-      this.Expenses.Location = new System.Drawing.Point(3, 3);
-      this.Expenses.Name = "Expenses";
-      this.Expenses.ShowDetails = false;
-      this.Expenses.Size = new System.Drawing.Size(670, 429);
-      this.Expenses.TabIndex = 0;
-      this.Expenses.User = null;
-      this.Expenses.DetailsVisibleChanged += new System.EventHandler(this.MoneyHistory_DetailsVisibleChanged);
-      this.Expenses.DetailsSizeChanged += new System.EventHandler(this.MoneyHistory_DetailsSizeChanged);
-      // 
-      // Incomes
-      // 
-      this.Incomes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      this.Incomes.DetailsSize = 175;
-      this.Incomes.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
-      this.Incomes.Location = new System.Drawing.Point(3, 3);
-      this.Incomes.Name = "Incomes";
-      this.Incomes.ShowDetails = false;
-      this.Incomes.Size = new System.Drawing.Size(670, 429);
-      this.Incomes.TabIndex = 0;
-      this.Incomes.User = null;
-      this.Incomes.DetailsVisibleChanged += new System.EventHandler(this.MoneyHistory_DetailsVisibleChanged);
-      this.Incomes.DetailsSizeChanged += new System.EventHandler(this.MoneyHistory_DetailsSizeChanged);
       // 
       // Accounts
       // 
@@ -410,6 +256,33 @@
       this.Column10.Name = "Column10";
       this.Column10.ReadOnly = true;
       // 
+      // AccountsStatus
+      // 
+      this.AccountsStatus.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+      this.AccountsStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AccountsTitle,
+            this.AccountsTotalAmount});
+      this.AccountsStatus.Location = new System.Drawing.Point(0, 403);
+      this.AccountsStatus.Name = "AccountsStatus";
+      this.AccountsStatus.Size = new System.Drawing.Size(672, 28);
+      this.AccountsStatus.SizingGrip = false;
+      this.AccountsStatus.TabIndex = 13;
+      this.AccountsStatus.Text = "StatusStrip1";
+      // 
+      // AccountsTitle
+      // 
+      this.AccountsTitle.Name = "AccountsTitle";
+      this.AccountsTitle.Padding = new System.Windows.Forms.Padding(4);
+      this.AccountsTitle.Size = new System.Drawing.Size(222, 23);
+      this.AccountsTitle.Text = "Общий остаток средств на 14.06.2015:";
+      // 
+      // AccountsTotalAmount
+      // 
+      this.AccountsTotalAmount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+      this.AccountsTotalAmount.Name = "AccountsTotalAmount";
+      this.AccountsTotalAmount.Size = new System.Drawing.Size(12, 23);
+      this.AccountsTotalAmount.Text = "-";
+      // 
       // mToolStrip1
       // 
       this.mToolStrip1.CanOverflow = false;
@@ -452,6 +325,114 @@
       this.btnAccountEdit.Name = "btnAccountEdit";
       this.btnAccountEdit.Size = new System.Drawing.Size(107, 22);
       this.btnAccountEdit.Text = "Редактировать";
+      // 
+      // tabDictionaries
+      // 
+      this.tabDictionaries.Controls.Add(this.splitContainer1);
+      this.tabDictionaries.ImageIndex = 3;
+      this.tabDictionaries.Location = new System.Drawing.Point(4, 23);
+      this.tabDictionaries.Name = "tabDictionaries";
+      this.tabDictionaries.Size = new System.Drawing.Size(676, 435);
+      this.tabDictionaries.TabIndex = 3;
+      this.tabDictionaries.Text = "Справочники";
+      this.tabDictionaries.UseVisualStyleBackColor = true;
+      // 
+      // splitContainer1
+      // 
+      this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+      this.splitContainer1.Name = "splitContainer1";
+      // 
+      // splitContainer1.Panel1
+      // 
+      this.splitContainer1.Panel1.Controls.Add(this.lstDictionaries);
+      // 
+      // splitContainer1.Panel2
+      // 
+      this.splitContainer1.Panel2.Controls.Add(this.toolStrip5);
+      this.splitContainer1.Size = new System.Drawing.Size(676, 435);
+      this.splitContainer1.SplitterDistance = 143;
+      this.splitContainer1.SplitterWidth = 2;
+      this.splitContainer1.TabIndex = 2;
+      // 
+      // lstDictionaries
+      // 
+      this.lstDictionaries.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.lstDictionaries.FormattingEnabled = true;
+      this.lstDictionaries.IntegralHeight = false;
+      this.lstDictionaries.Items.AddRange(new object[] {
+            "Статьи расходов",
+            "Категории расходов",
+            "Статьи доходов",
+            "Категории доходов",
+            "Типы счетов",
+            "Список валют"});
+      this.lstDictionaries.Location = new System.Drawing.Point(0, 0);
+      this.lstDictionaries.Name = "lstDictionaries";
+      this.lstDictionaries.Size = new System.Drawing.Size(139, 431);
+      this.lstDictionaries.TabIndex = 1;
+      // 
+      // toolStrip5
+      // 
+      this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnAddDictionaryItem,
+            this.btnEditDictionaryItem,
+            this.btnDeleteDictionaryItem});
+      this.toolStrip5.Location = new System.Drawing.Point(0, 0);
+      this.toolStrip5.Name = "toolStrip5";
+      this.toolStrip5.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+      this.toolStrip5.Size = new System.Drawing.Size(527, 25);
+      this.toolStrip5.TabIndex = 0;
+      this.toolStrip5.Text = "toolStrip5";
+      // 
+      // btnAddDictionaryItem
+      // 
+      this.btnAddDictionaryItem.Image = global::MoneyBook.WinApp.Properties.Resources.plus;
+      this.btnAddDictionaryItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnAddDictionaryItem.Name = "btnAddDictionaryItem";
+      this.btnAddDictionaryItem.Size = new System.Drawing.Size(79, 22);
+      this.btnAddDictionaryItem.Text = "Добавить";
+      this.btnAddDictionaryItem.Click += new System.EventHandler(this.btnAddDictionaryItem_Click);
+      // 
+      // btnEditDictionaryItem
+      // 
+      this.btnEditDictionaryItem.Image = global::MoneyBook.WinApp.Properties.Resources.application_form_edit;
+      this.btnEditDictionaryItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnEditDictionaryItem.Name = "btnEditDictionaryItem";
+      this.btnEditDictionaryItem.Size = new System.Drawing.Size(107, 22);
+      this.btnEditDictionaryItem.Text = "Редактировать";
+      this.btnEditDictionaryItem.Click += new System.EventHandler(this.btnEditDictionaryItem_Click);
+      // 
+      // btnDeleteDictionaryItem
+      // 
+      this.btnDeleteDictionaryItem.Image = global::MoneyBook.WinApp.Properties.Resources.cross;
+      this.btnDeleteDictionaryItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnDeleteDictionaryItem.Name = "btnDeleteDictionaryItem";
+      this.btnDeleteDictionaryItem.Size = new System.Drawing.Size(71, 22);
+      this.btnDeleteDictionaryItem.Text = "Удалить";
+      this.btnDeleteDictionaryItem.Click += new System.EventHandler(this.btnDeleteDictionaryItem_Click);
+      // 
+      // tabSettings
+      // 
+      this.tabSettings.ImageIndex = 4;
+      this.tabSettings.Location = new System.Drawing.Point(4, 23);
+      this.tabSettings.Name = "tabSettings";
+      this.tabSettings.Size = new System.Drawing.Size(676, 435);
+      this.tabSettings.TabIndex = 4;
+      this.tabSettings.Text = "Параметры";
+      this.tabSettings.UseVisualStyleBackColor = true;
+      // 
+      // tabInfo
+      // 
+      this.tabInfo.Controls.Add(this.dgvInfo);
+      this.tabInfo.ImageIndex = 5;
+      this.tabInfo.Location = new System.Drawing.Point(4, 23);
+      this.tabInfo.Name = "tabInfo";
+      this.tabInfo.Size = new System.Drawing.Size(676, 435);
+      this.tabInfo.TabIndex = 6;
+      this.tabInfo.Text = "Info";
+      this.tabInfo.UseVisualStyleBackColor = true;
       // 
       // dgvInfo
       // 
@@ -502,6 +483,28 @@
       this.Column4.ReadOnly = true;
       this.Column4.Width = 275;
       // 
+      // tabAbout
+      // 
+      this.tabAbout.ImageIndex = 6;
+      this.tabAbout.Location = new System.Drawing.Point(4, 23);
+      this.tabAbout.Name = "tabAbout";
+      this.tabAbout.Size = new System.Drawing.Size(676, 435);
+      this.tabAbout.TabIndex = 5;
+      this.tabAbout.Text = "О программе...";
+      this.tabAbout.UseVisualStyleBackColor = true;
+      // 
+      // iconList
+      // 
+      this.iconList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconList.ImageStream")));
+      this.iconList.TransparentColor = System.Drawing.Color.Transparent;
+      this.iconList.Images.SetKeyName(0, "coins_delete.png");
+      this.iconList.Images.SetKeyName(1, "coins_add.png");
+      this.iconList.Images.SetKeyName(2, "entity.png");
+      this.iconList.Images.SetKeyName(3, "category.png");
+      this.iconList.Images.SetKeyName(4, "gear_in.png");
+      this.iconList.Images.SetKeyName(5, "application_terminal.png");
+      this.iconList.Images.SetKeyName(6, "information_frame.png");
+      // 
       // Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -523,20 +526,20 @@
       this.tabAccounts.ResumeLayout(false);
       this.pnlAccounts.ResumeLayout(false);
       this.pnlAccounts.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.Accounts)).EndInit();
       this.AccountsStatus.ResumeLayout(false);
       this.AccountsStatus.PerformLayout();
+      this.mToolStrip1.ResumeLayout(false);
+      this.mToolStrip1.PerformLayout();
       this.tabDictionaries.ResumeLayout(false);
-      this.toolStrip5.ResumeLayout(false);
-      this.toolStrip5.PerformLayout();
-      this.tabInfo.ResumeLayout(false);
       this.splitContainer1.Panel1.ResumeLayout(false);
       this.splitContainer1.Panel2.ResumeLayout(false);
       this.splitContainer1.Panel2.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
       this.splitContainer1.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.Accounts)).EndInit();
-      this.mToolStrip1.ResumeLayout(false);
-      this.mToolStrip1.PerformLayout();
+      this.toolStrip5.ResumeLayout(false);
+      this.toolStrip5.PerformLayout();
+      this.tabInfo.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.dgvInfo)).EndInit();
       this.ResumeLayout(false);
 
@@ -576,10 +579,10 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
     private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
     private System.Windows.Forms.ToolStrip toolStrip5;
-    private System.Windows.Forms.ToolStripButton toolStripButton16;
-    private System.Windows.Forms.ToolStripButton toolStripButton17;
-    private System.Windows.Forms.ToolStripButton toolStripButton18;
-    private System.Windows.Forms.ListBox listBox1;
+    private System.Windows.Forms.ToolStripButton btnAddDictionaryItem;
+    private System.Windows.Forms.ToolStripButton btnEditDictionaryItem;
+    private System.Windows.Forms.ToolStripButton btnDeleteDictionaryItem;
+    private System.Windows.Forms.ListBox lstDictionaries;
     private System.Windows.Forms.SplitContainer splitContainer1;
   }
 }

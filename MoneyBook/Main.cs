@@ -194,18 +194,6 @@ namespace MoneyBook.WinApp
       }
     }
 
-    private void btnAccountTypeNew_Click(object sender, EventArgs e)
-    {
-      var accountType = new AccountTypeEditor(this.User);
-      accountType.ShowDialog();
-    }
-
-    private void btnAccountTypeAdd_Click(object sender, EventArgs e)
-    {
-      var accountTypeAdd = new AccountTypeEditor(this.User);
-      accountTypeAdd.ShowDialog();
-    }
-
     private void ReloadAccounts()
     {
       this.Accounts.SuspendLayout();
@@ -244,6 +232,29 @@ namespace MoneyBook.WinApp
       }
 
       this.Accounts.ResumeLayout();
+    }
+
+    private void btnAddDictionaryItem_Click(object sender, EventArgs e)
+    {
+      int index = lstDictionaries.SelectedIndex;
+      
+      // TODO: нужно сделать константы и список наполнять с использованием этих констант, чтобы было проще менять
+
+      if (index == 4)
+      {
+        var accountTypeAdd = new AccountTypeEditor(this.User);
+        accountTypeAdd.ShowDialog();
+      }
+    }
+
+    private void btnEditDictionaryItem_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btnDeleteDictionaryItem_Click(object sender, EventArgs e)
+    {
+
     }
 
   }

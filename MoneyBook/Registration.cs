@@ -115,7 +115,7 @@ namespace MoneyBook.WinApp
         var accountType = new AccountType();
         accountType.Name = fields[0].Trim();
         accountType.IconId = this.GetIconIdOrDefault(fields[1].Trim());
-
+        
         user.Save(accountType);
       }
     }
