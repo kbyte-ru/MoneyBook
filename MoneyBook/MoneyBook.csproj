@@ -60,6 +60,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DefaultValues.resx</DependentUpon>
     </Compile>
+    <Compile Include="IconsViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IconsViewer.Designer.cs">
+      <DependentUpon>IconsViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     <Compile Include="TaskManager.cs" />
     <EmbeddedResource Include="AccountTypeEditor.resx">
       <DependentUpon>AccountTypeEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IconsViewer.resx">
+      <DependentUpon>IconsViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
