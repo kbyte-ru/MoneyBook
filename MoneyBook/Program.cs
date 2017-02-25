@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace MoneyBook.WinApp
@@ -15,6 +13,7 @@ namespace MoneyBook.WinApp
     /// <summary>
     /// Экземпляр профиля текущего пользователя.
     /// </summary>
+    [Obsolete("Лучше передавать ссылку.", true)]
     internal static MoneyBook.Core.User CurrentUser = null;
 
     /// <summary>
@@ -44,11 +43,6 @@ namespace MoneyBook.WinApp
 
     static void OnApplicationExit(object sender, EventArgs e)
     {
-      if (Program.CurrentUser != null)
-      {
-        Program.CurrentUser.Flush();
-        //Program.CurrentUser = null;
-      }
     }
 
   }

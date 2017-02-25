@@ -225,6 +225,7 @@ namespace MoneyBook.WinApp
     {
       var editor = new MoneyEditor
       (
+        this.User,
         new MoneyItem 
         { 
           EntryType = this.ItemsType,
@@ -314,7 +315,7 @@ namespace MoneyBook.WinApp
         return;
       }
 
-      var editor = new MoneyEditor((MoneyItem)DataGridView1.CurrentRow.Tag);
+      var editor = new MoneyEditor(this.User, (MoneyItem)DataGridView1.CurrentRow.Tag);
       editor.Owner = this.ParentForm;
       var result = editor.ShowDialog();
 

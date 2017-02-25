@@ -695,11 +695,16 @@ namespace MoneyBook.Core
       }
     }
 
+    /// <summary>
+    /// Выполняет запись служебных данных в базу и освобождает ресурсы.
+    /// </summary>
+    /// <remarks>Вызывать по заверешению работы пользователя.</remarks>
     public void Flush()
     {
       // обновление информации
       long totalTime = 0;
       long.TryParse(this.Info[InfoId.Stat.TotalTime], out totalTime);
+
       this.Info.Set(InfoId.Stat.TotalTime, totalTime + Convert.ToInt64(DateTime.Now.Subtract(this.SessionDate).TotalSeconds), true);
 
       this.Info.Flush();

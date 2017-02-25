@@ -11,7 +11,7 @@ using MoneyBook.Core;
 namespace MoneyBook.WinApp
 {
 
-  public partial class MoneyEditor : Form
+  public partial class MoneyEditor : MForm
   {
 
     private bool AmountKeyIsClipboard = false;
@@ -22,7 +22,7 @@ namespace MoneyBook.WinApp
     public decimal PrevAmount { get; protected set; }
     public string PrevCurrencyCode { get; protected set; }
 
-    public MoneyEditor(MoneyItem moneyItem)
+    public MoneyEditor(User user, MoneyItem moneyItem) : base(user)
     {
       if (moneyItem == null)
       {
@@ -52,7 +52,7 @@ namespace MoneyBook.WinApp
     {
       try
       {
-        foreach (var item in Program.CurrentUser.Accounts.Values)
+        foreach (var item in this.User.Accounts.Values)
         {
           this.Accounts.Items.Add(item);
 
@@ -71,9 +71,9 @@ namespace MoneyBook.WinApp
           Accounts_SelectedIndexChanged(this.Accounts, null);
         }
 
-        var selectedCategory = Program.CurrentUser.Categories.Values.FirstOrDefault(c => c.Id == this.MoneyItem.CategoryId);
+        var selectedCategory = this.User.Categories.Values.FirstOrDefault(c => c.Id == this.MoneyItem.CategoryId);
 
-        foreach (var item in Program.CurrentUser.Categories.Values.Where(c => c.ParentId == 0 && c.CategoryType == this.MoneyItem.EntryType))
+        foreach (var item in this.User.Categories.Values.Where(c => c.ParentId == 0 && c.CategoryType == this.MoneyItem.EntryType))
         {
           this.Categories.Items.Add(item);
 
@@ -119,7 +119,7 @@ namespace MoneyBook.WinApp
     {
       if (this.Accounts.SelectedItem != null)
       {
-        var c = Program.CurrentUser.Currencies[((Account)this.Accounts.SelectedItem).CurrencyCode];
+        var c = this.User.Currencies[((Account)this.Accounts.SelectedItem).CurrencyCode];
         CurrancyName.Text = c.ShortName;
       }
       else
@@ -137,7 +137,7 @@ namespace MoneyBook.WinApp
       {
         var categoryId = ((Category)this.Categories.SelectedItem).Id;
 
-        foreach (var item in Program.CurrentUser.Categories.Values.Where(c => c.ParentId == categoryId && c.CategoryType == this.MoneyItem.EntryType))
+        foreach (var item in this.User.Categories.Values.Where(c => c.ParentId == categoryId && c.CategoryType == this.MoneyItem.EntryType))
         {
           this.Subcategories.Items.Add(item);
 
@@ -301,7 +301,7 @@ namespace MoneyBook.WinApp
         this.MoneyItem.Title = this.Title.Text;
         this.MoneyItem.Description = this.Description.Text;
 
-        Program.CurrentUser.Save(this.MoneyItem);
+        this.User.Save(this.MoneyItem);
        
         // закрываем окно
         this.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -324,7 +324,7 @@ namespace MoneyBook.WinApp
 
     private void btnDelete_Click(object sender, EventArgs e)
     {
-      var currencyCode = Program.CurrentUser.Accounts[this.MoneyItem.AccountId].CurrencyCode;
+      var currencyCode = this.User.Accounts[this.MoneyItem.AccountId].CurrencyCode;
 
       // запрос на удаление
       if (MessageBox.Show(String.Format("Вы действительно хотите удалить запись «{0}» от {3} на сумму {1:##,###,##0.00} {2}?\r\n\r\nВосстановить данные после удаления будет невозможно.\r\n\r\nНажмите «Да», чтобы удалить запись.", this.MoneyItem.Title, this.MoneyItem.Amount, currencyCode, this.MoneyItem.DateEntry.ToShortDateString()), "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
@@ -334,7 +334,7 @@ namespace MoneyBook.WinApp
       }
 
       // удаляем из базы
-      Program.CurrentUser.Delete(this.MoneyItem);
+      this.User.Delete(this.MoneyItem);
 
       // закрываем окно
       this.DialogResult = System.Windows.Forms.DialogResult.Abort;

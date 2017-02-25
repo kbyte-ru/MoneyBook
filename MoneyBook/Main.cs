@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MoneyBook.Core;
 
 namespace MoneyBook.WinApp
 {
 
-  public partial class Main : Form
+  public partial class Main : MForm
   {
 
     /// <summary>
@@ -39,18 +33,16 @@ namespace MoneyBook.WinApp
     /// </summary>
     private int LastTop = 0;
 
-    public Main(string username, string password)
+    public Main(User user) : base(user)
     {
-      Program.CurrentUser = new User(Program.ProfileBasePath, username, password);
-
       InitializeComponent();
     }
 
     private void Main_Load(object sender, EventArgs e)
     {
-      this.Text = String.Format("{0} - The Money Book v{1}", Program.CurrentUser.UserName, Application.ProductVersion);
-      this.Expenses.User = Program.CurrentUser;
-      this.Incomes.User = Program.CurrentUser;
+      this.Text = String.Format("{0} - The Money Book v{1}", this.User.UserName, Application.ProductVersion);
+      this.Expenses.User = this.User;
+      this.Incomes.User = this.User;
       this.ReloadAccounts();
 
       // параметры окна
@@ -59,8 +51,9 @@ namespace MoneyBook.WinApp
       // порядок имеет значение!!!
       // размер
 
-      int windowsWidth = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowWidth]);
-      int windowHeight = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowHeight]);
+      int windowsWidth = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.WindowWidth]);
+      int windowHeight = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.WindowHeight]);
+
       if
       (
         windowsWidth > 0 &&
@@ -72,9 +65,11 @@ namespace MoneyBook.WinApp
         this.Width = windowsWidth;
         this.Height = windowHeight;
       }
+
       // позиция
-      int windowLeft = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowLeft]);
-      int windowTop = Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowTop]);
+      int windowLeft = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.WindowLeft]);
+      int windowTop = Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.WindowTop]);
+
       if
       (
         windowLeft > 0 &&
@@ -86,20 +81,24 @@ namespace MoneyBook.WinApp
         this.Left = windowLeft;
         this.Top = windowTop;
       }
+
       // состояние
-      if (Convertion.ToInt32(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowState]) != (int)FormWindowState.Minimized)
+      if (Convertion.ToInt32(this.User.Info[InfoId.Settings.Desktop.WindowState]) != (int)FormWindowState.Minimized)
       {
         var windowState = FormWindowState.Normal;
-        if (!Enum.TryParse<FormWindowState>(Program.CurrentUser.Info[InfoId.Settings.Desktop.WindowState], out windowState))
+        if (!Enum.TryParse<FormWindowState>(this.User.Info[InfoId.Settings.Desktop.WindowState], out windowState))
         {
           windowState = FormWindowState.Normal;
         }
         this.WindowState = windowState;
       }
+
       // панель комментария
-      this.Incomes.ShowDetails = Convertion.ToBoolean(Program.CurrentUser.Info[Program.InfoIdCustomShowDetails]);
+      this.Incomes.ShowDetails = Convertion.ToBoolean(this.User.Info[Program.InfoIdCustomShowDetails]);
+
       int customDetails = 0;
-      if (Int32.TryParse(Program.CurrentUser.Info[Program.InfoIdCustomDetailsSize], out customDetails) && customDetails > 0)
+
+      if (Int32.TryParse(this.User.Info[Program.InfoIdCustomDetailsSize], out customDetails) && customDetails > 0)
       {
         this.Expenses.DetailsSize = this.Incomes.DetailsSize = customDetails;
       }
@@ -113,7 +112,7 @@ namespace MoneyBook.WinApp
     {
       if (tabControl1.SelectedTab.Name.Equals("tabInfo"))
       {
-        dgvInfo.DataSource = Program.CurrentUser.Info.GetAllInfo();
+        dgvInfo.DataSource = this.User.Info.GetAllInfo();
       }
     }
 
@@ -127,17 +126,20 @@ namespace MoneyBook.WinApp
       Main_SizeChanged(sender, null);
 
       // фиксируем общие параметры и параметры окна
-      Program.CurrentUser.Info.Set(Program.InfoIdCustomShowDetails, this.Incomes.ShowDetails, false);
+      this.User.Info.Set(Program.InfoIdCustomShowDetails, this.Incomes.ShowDetails, false);
+
       if (this.Incomes.ShowDetails)
       {
-        Program.CurrentUser.Info.Set(Program.InfoIdCustomDetailsSize, this.Incomes.DetailsSize, false);
+        this.User.Info.Set(Program.InfoIdCustomDetailsSize, this.Incomes.DetailsSize, false);
       }
 
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowState, (int)this.LastWindowState, false);
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowWidth, this.LastWidth, false);
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowHeight, this.LastHeight, false);
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowLeft, this.LastLeft, false);
-      Program.CurrentUser.Info.Set(InfoId.Settings.Desktop.WindowTop, this.LastTop, false);
+      this.User.Info.Set(InfoId.Settings.Desktop.WindowState, (int)this.LastWindowState, false);
+      this.User.Info.Set(InfoId.Settings.Desktop.WindowWidth, this.LastWidth, false);
+      this.User.Info.Set(InfoId.Settings.Desktop.WindowHeight, this.LastHeight, false);
+      this.User.Info.Set(InfoId.Settings.Desktop.WindowLeft, this.LastLeft, false);
+      this.User.Info.Set(InfoId.Settings.Desktop.WindowTop, this.LastTop, false);
+
+      this.User.Flush();
 
       // выходим из приложения
       Application.Exit();
@@ -194,13 +196,13 @@ namespace MoneyBook.WinApp
 
     private void btnAccountTypeNew_Click(object sender, EventArgs e)
     {
-      var accountType = new AccountTypeEditor();
+      var accountType = new AccountTypeEditor(this.User);
       accountType.ShowDialog();
     }
 
     private void btnAccountTypeAdd_Click(object sender, EventArgs e)
     {
-      var accountTypeAdd = new AccountTypeEditor();
+      var accountTypeAdd = new AccountTypeEditor(this.User);
       accountTypeAdd.ShowDialog();
     }
 
@@ -212,7 +214,7 @@ namespace MoneyBook.WinApp
 
       this.Accounts.Rows.Clear();
 
-      foreach (var account in Program.CurrentUser.Accounts.Values)
+      foreach (var account in this.User.Accounts.Values)
       {
         var row = new DataGridViewRow();
 
@@ -221,7 +223,7 @@ namespace MoneyBook.WinApp
 
         if (account.IconId > 0)
         {
-          iconCell.Value = Program.CurrentUser.GetIcon(account.IconId);
+          iconCell.Value = this.User.GetIcon(account.IconId);
         }
         else
         {
@@ -230,7 +232,7 @@ namespace MoneyBook.WinApp
 
         row.Cells.Add(iconCell);
         row.Cells.Add(new DataGridViewTextBoxCell { Value = account.Name });
-        row.Cells.Add(new DataGridViewTextBoxCell { Value = Program.CurrentUser.AccountTypes[account.AccountTypeId].Name });
+        row.Cells.Add(new DataGridViewTextBoxCell { Value = this.User.AccountTypes[account.AccountTypeId].Name });
         row.Cells.Add(new DataGridViewTextBoxCell { Value = account.CurrencyCode });
         row.Cells.Add(new DataGridViewTextBoxCell { Value = 0 }); // TODO: либо добавить счетчик (скорее всего), либо считать в режиме реального времени
         row.Cells.Add(new DataGridViewTextBoxCell { Value = account.TotalExpenseEntries });

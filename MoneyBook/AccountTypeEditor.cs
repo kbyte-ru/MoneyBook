@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MoneyBook.WinApp
 {
-    public partial class AccountTypeEditor : Form
+    public partial class AccountTypeEditor : MForm
     {
-        public AccountTypeEditor()
+        public AccountTypeEditor(User user) : base(user)
         {
             InitializeComponent();
         }
@@ -24,7 +24,7 @@ namespace MoneyBook.WinApp
             ///TODO
             ///добавить функционал добавления ид картинки
             ///accountType.IconId            
-            Program.CurrentUser.Save(accountType);
+            this.User.Save(accountType);
             this.Close();
         }
 
