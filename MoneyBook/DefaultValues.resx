@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountTypes" xml:space="preserve">
-    <value>Наличные|moneycoin
-Кредитная карта|card
-Банковский счёт|bank
-WebMoney|wm
-Яндекс.Деньги|money_yandex
-PayPal|paypal</value>
+    <value>Наличные|icon_moneycoin
+Кредитная карта|icon_card
+Банковский счёт|icon_bank
+WebMoney|icon_wm
+Яндекс.Деньги|icon_money_yandex
+PayPal|icon_paypal</value>
     <comment>Название|имя ресурса иконки</comment>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="card" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_card" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\card.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="coins" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_coins" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\coins.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Currencies" xml:space="preserve">
@@ -157,117 +157,117 @@ JPY|Японская Йена|¥</value>
     <comment>Код валюты по умолчанию.</comment>
   </data>
   <data name="Expenses" xml:space="preserve">
-    <value>&lt;Разные расходы&gt;|#000000|#faebeb|item_еxpense
-Услуги связи|#000000|#caeeff|global_telecom
-Транспортные расходы|#000000|#ccffcc|item_еxpense
-Продукты питания|#000000|#f1d6c0|item_еxpense
-Компьютер и комлектующие|#000000|#fce7cf|laptop
-ТВ-, видео-, аудио- техника|#000000|#fce7cf|tv
-Бытовые приборы, кухонная техника|#000000|#ffffff|item_еxpense
-Мебель|#000000|#ffffff|item_еxpense
-Недвижимость|#000000|#e8e8e8|house_one
-Коммунальные платежи|#000000|#e4cbcb|item_еxpense
-Образование|#000000|#c4ffff|item_еxpense
-Красота, здоровье, спорт|#000000|#ffe1f0|item_еxpense
-Долги/Кредиты|#000000|#ecd9ff|item_еxpense
-Отдых и развлечения|#000000|#ffcc99|mustache
-Благотворительность, подарки|#000000#|#b0e6ff|item_еxpense
-Путешествия|#000000|#c0ff82|plane
-Переводы между счетами|#555555|#ffffff|item_еxpense</value>
+    <value>&lt;Разные расходы&gt;|#000000|#faebeb|icon_item_еxpense
+Услуги связи|#000000|#caeeff|icon_global_telecom
+Транспортные расходы|#000000|#ccffcc|icon_item_еxpense
+Продукты питания|#000000|#f1d6c0|icon_item_еxpense
+Компьютер и комлектующие|#000000|#fce7cf|icon_laptop
+ТВ-, видео-, аудио- техника|#000000|#fce7cf|icon_tv
+Бытовые приборы, кухонная техника|#000000|#ffffff|icon_item_еxpense
+Мебель|#000000|#ffffff|icon_item_еxpense
+Недвижимость|#000000|#e8e8e8|icon_house_one
+Коммунальные платежи|#000000|#e4cbcb|icon_item_еxpense
+Образование|#000000|#c4ffff|icon_item_еxpense
+Красота, здоровье, спорт|#000000|#ffe1f0|icon_item_еxpense
+Долги/Кредиты|#000000|#ecd9ff|icon_item_еxpense
+Отдых и развлечения|#000000|#ffcc99|icon_mustache
+Благотворительность, подарки|#000000|#b0e6ff|icon_item_еxpense
+Путешествия|#000000|#c0ff82|icon_plane
+Переводы между счетами|#555555|#ffffff|icon_item_еxpense</value>
     <comment>Перечень расходов:
 Название|Цвет шрифта|Цвет фона|имя ресурса иконки</comment>
   </data>
   <data name="Incomes" xml:space="preserve">
-    <value>&lt;Разные доходы&gt;|#000000|#e1f4e1|item_income
-Заработная плата|#000000|#ffffaa|item_income
-Проценты по вкладам|#000000|#bff9b0|item_income
-Дивиденды|#000000|#affaf4|item_income
-Возврат долгов|#000000|#baf0b9|item_income
-Займы и кредиты|#000000|#f5b4b4|item_income
-Подарки, выигрыши|#000000|#e7e79c|item_income
-Переводы между счетами|#555555|#ffffff|item_income</value>
+    <value>&lt;Разные доходы&gt;|#000000|#e1f4e1|icon_item_income
+Заработная плата|#000000|#ffffaa|icon_item_income
+Проценты по вкладам|#000000|#bff9b0|icon_item_income
+Дивиденды|#000000|#affaf4|icon_item_income
+Возврат долгов|#000000|#baf0b9|icon_item_income
+Займы и кредиты|#000000|#f5b4b4|icon_item_income
+Подарки, выигрыши|#000000|#e7e79c|icon_item_income
+Переводы между счетами|#555555|#ffffff|icon_item_income</value>
     <comment>Перечень доходов:
 Название|Цвет шрифта|Цвет фона|имя ресурса иконки</comment>
   </data>
-  <data name="moneycoin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_moneycoin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\moneycoin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="money_yandex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_money_yandex" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\money.yandex.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="paypal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_paypal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\paypal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="wm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_wm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\wm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="car" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_car" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\car.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="chiken_leg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_chiken_leg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\chiken_leg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cutlery" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_cutlery" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\cutlery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="document_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_document_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\document_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="document_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_document_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\document_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="document_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_document_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\document_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dollar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_dollar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\dollar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="entity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_entity" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\entity.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="euro" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_euro" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\euro.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="film" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_film" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\film.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="finance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_finance" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\finance.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="global_telecom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_global_telecom" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\global_telecom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="heart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_heart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\heart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="house_one" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_house_one" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\house_one.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="laptop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_laptop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\laptop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="money_bag" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_money_bag" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\money_bag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="mustache" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_mustache" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\mustache.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pizza" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_pizza" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\pizza.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="plane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_plane" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\plane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pound" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_pound" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\pound.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="train" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_train" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\train.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="tv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_tv" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\tv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bank" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="icon_bank" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\bank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -61,66 +61,16 @@ namespace MoneyBook.WinApp {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Наличные|moneycoin
-        ///Кредитная карта|card
-        ///Банковский счёт|bank
-        ///WebMoney|wm
-        ///Яндекс.Деньги|money_yandex
-        ///PayPal|paypal.
+        ///   Ищет локализованную строку, похожую на Наличные|icon_moneycoin
+        ///Кредитная карта|icon_card
+        ///Банковский счёт|icon_bank
+        ///WebMoney|icon_wm
+        ///Яндекс.Деньги|icon_money_yandex
+        ///PayPal|icon_paypal.
         /// </summary>
         internal static string AccountTypes {
             get {
                 return ResourceManager.GetString("AccountTypes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap bank {
-            get {
-                object obj = ResourceManager.GetObject("bank", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap car {
-            get {
-                object obj = ResourceManager.GetObject("car", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap card {
-            get {
-                object obj = ResourceManager.GetObject("card", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap chiken_leg {
-            get {
-                object obj = ResourceManager.GetObject("chiken_leg", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap coins {
-            get {
-                object obj = ResourceManager.GetObject("coins", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -138,16 +88,6 @@ namespace MoneyBook.WinApp {
         internal static string Currencies {
             get {
                 return ResourceManager.GetString("Currencies", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap cutlery {
-            get {
-                object obj = ResourceManager.GetObject("cutlery", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -170,77 +110,16 @@ namespace MoneyBook.WinApp {
         }
         
         /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap document_green {
-            get {
-                object obj = ResourceManager.GetObject("document_green", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap document_red {
-            get {
-                object obj = ResourceManager.GetObject("document_red", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap document_yellow {
-            get {
-                object obj = ResourceManager.GetObject("document_yellow", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap dollar {
-            get {
-                object obj = ResourceManager.GetObject("dollar", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap entity {
-            get {
-                object obj = ResourceManager.GetObject("entity", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap euro {
-            get {
-                object obj = ResourceManager.GetObject("euro", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на &lt;Разные расходы&gt;|#000000|#faebeb|item_еxpense
-        ///Услуги связи|#000000|#caeeff|global_telecom
-        ///Транспортные расходы|#000000|#ccffcc|item_еxpense
-        ///Продукты питания|#000000|#f1d6c0|item_еxpense
-        ///Компьютер и комлектующие|#000000|#fce7cf|laptop
-        ///ТВ-, видео-, аудио- техника|#000000|#fce7cf|tv
-        ///Бытовые приборы, кухонная техника|#000000|#ffffff|item_еxpense
-        ///Мебель|#000000|#ffffff|item_еxpense
-        ///Недвижимость|#000000|#e8e8e8|house_one
-        ///Коммунальные платежи|#000000|#e4cbcb|item_еxpense
-        ///Образование|#000000|#c4ffff|item_ [остаток строки не уместился]&quot;;.
+        ///   Ищет локализованную строку, похожую на &lt;Разные расходы&gt;|#000000|#faebeb|icon_item_еxpense
+        ///Услуги связи|#000000|#caeeff|icon_global_telecom
+        ///Транспортные расходы|#000000|#ccffcc|icon_item_еxpense
+        ///Продукты питания|#000000|#f1d6c0|icon_item_еxpense
+        ///Компьютер и комлектующие|#000000|#fce7cf|icon_laptop
+        ///ТВ-, видео-, аудио- техника|#000000|#fce7cf|icon_tv
+        ///Бытовые приборы, кухонная техника|#000000|#ffffff|icon_item_еxpense
+        ///Мебель|#000000|#ffffff|icon_item_еxpense
+        ///Недвижимость|#000000|#e8e8e8|icon_house_one
+        ///Коммунальные платежи|#000000|#e4cbcb|ic [остаток строки не уместился]&quot;;.
         /// </summary>
         internal static string Expenses {
             get {
@@ -251,9 +130,9 @@ namespace MoneyBook.WinApp {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap film {
+        internal static System.Drawing.Bitmap icon_bank {
             get {
-                object obj = ResourceManager.GetObject("film", resourceCulture);
+                object obj = ResourceManager.GetObject("icon_bank", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -261,9 +140,9 @@ namespace MoneyBook.WinApp {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap finance {
+        internal static System.Drawing.Bitmap icon_car {
             get {
-                object obj = ResourceManager.GetObject("finance", resourceCulture);
+                object obj = ResourceManager.GetObject("icon_car", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -271,9 +150,9 @@ namespace MoneyBook.WinApp {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap global_telecom {
+        internal static System.Drawing.Bitmap icon_card {
             get {
-                object obj = ResourceManager.GetObject("global_telecom", resourceCulture);
+                object obj = ResourceManager.GetObject("icon_card", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -281,9 +160,9 @@ namespace MoneyBook.WinApp {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heart {
+        internal static System.Drawing.Bitmap icon_chiken_leg {
             get {
-                object obj = ResourceManager.GetObject("heart", resourceCulture);
+                object obj = ResourceManager.GetObject("icon_chiken_leg", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -291,146 +170,266 @@ namespace MoneyBook.WinApp {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap house_one {
+        internal static System.Drawing.Bitmap icon_coins {
             get {
-                object obj = ResourceManager.GetObject("house_one", resourceCulture);
+                object obj = ResourceManager.GetObject("icon_coins", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на &lt;Разные доходы&gt;|#000000|#e1f4e1|item_income
-        ///Заработная плата|#000000|#ffffaa|item_income
-        ///Проценты по вкладам|#000000|#bff9b0|item_income
-        ///Дивиденды|#000000|#affaf4|item_income
-        ///Возврат долгов|#000000|#baf0b9|item_income
-        ///Займы и кредиты|#000000|#f5b4b4|item_income
-        ///Подарки, выигрыши|#000000|#e7e79c|item_income
-        ///Переводы между счетами|#555555|#ffffff|item_income.
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_cutlery {
+            get {
+                object obj = ResourceManager.GetObject("icon_cutlery", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_document_green {
+            get {
+                object obj = ResourceManager.GetObject("icon_document_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_document_red {
+            get {
+                object obj = ResourceManager.GetObject("icon_document_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_document_yellow {
+            get {
+                object obj = ResourceManager.GetObject("icon_document_yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_dollar {
+            get {
+                object obj = ResourceManager.GetObject("icon_dollar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_entity {
+            get {
+                object obj = ResourceManager.GetObject("icon_entity", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_euro {
+            get {
+                object obj = ResourceManager.GetObject("icon_euro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_film {
+            get {
+                object obj = ResourceManager.GetObject("icon_film", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_finance {
+            get {
+                object obj = ResourceManager.GetObject("icon_finance", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_global_telecom {
+            get {
+                object obj = ResourceManager.GetObject("icon_global_telecom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_heart {
+            get {
+                object obj = ResourceManager.GetObject("icon_heart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_house_one {
+            get {
+                object obj = ResourceManager.GetObject("icon_house_one", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_laptop {
+            get {
+                object obj = ResourceManager.GetObject("icon_laptop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_money_bag {
+            get {
+                object obj = ResourceManager.GetObject("icon_money_bag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_money_yandex {
+            get {
+                object obj = ResourceManager.GetObject("icon_money_yandex", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_moneycoin {
+            get {
+                object obj = ResourceManager.GetObject("icon_moneycoin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_mustache {
+            get {
+                object obj = ResourceManager.GetObject("icon_mustache", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_paypal {
+            get {
+                object obj = ResourceManager.GetObject("icon_paypal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_pizza {
+            get {
+                object obj = ResourceManager.GetObject("icon_pizza", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_plane {
+            get {
+                object obj = ResourceManager.GetObject("icon_plane", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_pound {
+            get {
+                object obj = ResourceManager.GetObject("icon_pound", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_train {
+            get {
+                object obj = ResourceManager.GetObject("icon_train", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_tv {
+            get {
+                object obj = ResourceManager.GetObject("icon_tv", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_wm {
+            get {
+                object obj = ResourceManager.GetObject("icon_wm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на &lt;Разные доходы&gt;|#000000|#e1f4e1|icon_item_income
+        ///Заработная плата|#000000|#ffffaa|icon_item_income
+        ///Проценты по вкладам|#000000|#bff9b0|icon_item_income
+        ///Дивиденды|#000000|#affaf4|icon_item_income
+        ///Возврат долгов|#000000|#baf0b9|icon_item_income
+        ///Займы и кредиты|#000000|#f5b4b4|icon_item_income
+        ///Подарки, выигрыши|#000000|#e7e79c|icon_item_income
+        ///Переводы между счетами|#555555|#ffffff|icon_item_income.
         /// </summary>
         internal static string Incomes {
             get {
                 return ResourceManager.GetString("Incomes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap laptop {
-            get {
-                object obj = ResourceManager.GetObject("laptop", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap money_bag {
-            get {
-                object obj = ResourceManager.GetObject("money_bag", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap money_yandex {
-            get {
-                object obj = ResourceManager.GetObject("money_yandex", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap moneycoin {
-            get {
-                object obj = ResourceManager.GetObject("moneycoin", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap mustache {
-            get {
-                object obj = ResourceManager.GetObject("mustache", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap paypal {
-            get {
-                object obj = ResourceManager.GetObject("paypal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pizza {
-            get {
-                object obj = ResourceManager.GetObject("pizza", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap plane {
-            get {
-                object obj = ResourceManager.GetObject("plane", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pound {
-            get {
-                object obj = ResourceManager.GetObject("pound", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap train {
-            get {
-                object obj = ResourceManager.GetObject("train", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap tv {
-            get {
-                object obj = ResourceManager.GetObject("tv", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap wm {
-            get {
-                object obj = ResourceManager.GetObject("wm", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
