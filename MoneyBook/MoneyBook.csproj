@@ -55,10 +55,10 @@
       <DependentUpon>AccountTypeEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Convertion.cs" />
-    <Compile Include="DevaultValues.Designer.cs">
+    <Compile Include="DefaultValues.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DevaultValues.resx</DependentUpon>
+      <DependentUpon>DefaultValues.resx</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -145,10 +145,10 @@
     <EmbeddedResource Include="Registration.resx">
       <DependentUpon>Registration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DevaultValues.resx">
+    <EmbeddedResource Include="DefaultValues.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>DevaultValues.Designer.cs</LastGenOutput>
+      <LastGenOutput>DefaultValues.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
