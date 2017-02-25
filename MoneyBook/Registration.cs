@@ -125,6 +125,7 @@ namespace MoneyBook.WinApp
       var account = new Account();
       account.Name = DefaultValues.DefaultAccount;
       account.CurrencyCode = DefaultValues.DefaultCurrency;
+      account.AccountTypeId = 1;
       // TODO: иконка
 
       user.Save(account);
