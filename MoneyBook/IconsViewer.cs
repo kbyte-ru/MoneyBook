@@ -30,22 +30,39 @@ namespace MoneyBook.WinApp
       }
     }
 
-    public IconsViewer(User user) : base(user)
+    public IconsViewer(User user, int selectedIconId) : base(user)
     {
       InitializeComponent();
+      this.SelectedIconId = selectedIconId;
     }
 
     private void IconsViewer_Load(object sender, System.EventArgs e)
     {
       this.LoadIcons();
 
-      if (this.listView1.Items.Count > 0)
+      if (this.listView1.Items.Count <= 0)
+      {
+        this.SelectedIconId = 0;
+      }
+
+      if (this.listView1.Items.Count > 0 && this.SelectedIconId == 0)
       {
         this.SelectedIconId = Convert.ToInt32(this.listView1.Items[0].ImageKey);
       }
-      else
+
+      if (this.SelectedIconId > 0)
       {
-        this.SelectedIconId = 0;
+        int index = this.listView1.Items.IndexOfKey(this.SelectedIconId.ToString());
+
+        if (index == -1)
+        {
+          this.SelectedIconId = 0;
+        }
+        else
+        {
+          this.listView1.FocusedItem = this.listView1.Items[index];
+          this.listView1.FocusedItem.Selected = true;
+        }
       }
     }
 
@@ -71,7 +88,7 @@ namespace MoneyBook.WinApp
             this.imageList1.Images.Add(key, Properties.Resources.cross);
           }
 
-          this.listView1.Items.Add(null, key);
+          this.listView1.Items.Add(icon.Id.ToString(), null, key);
         }
       }
     }
@@ -100,6 +117,15 @@ namespace MoneyBook.WinApp
       this.Close();
     }
 
+    private void listView1_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+    {
+      if (e.Button == System.Windows.Forms.MouseButtons.Left && this.listView1.FocusedItem != null)
+      {
+        // this.SelectedIconId = Convert.ToInt32(this.listView1.FocusedItem.ImageKey);
+        this.DialogResult = System.Windows.Forms.DialogResult.OK;
+        this.Close();
+      }
+    }
   }
 
 }

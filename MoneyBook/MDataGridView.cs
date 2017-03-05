@@ -18,7 +18,7 @@ namespace MoneyBook.WinApp
       this.AllowUserToResizeRows = false;
       this.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
       this.BackgroundColor = SystemColors.Window;
-      this.BorderStyle = BorderStyle.Fixed3D;
+      this.BorderStyle = BorderStyle.None;
       this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       // this.Dock =DockStyle.Fill;
       this.EnableHeadersVisualStyles = false;

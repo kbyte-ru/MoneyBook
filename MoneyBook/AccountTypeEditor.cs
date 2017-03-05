@@ -26,15 +26,13 @@ namespace MoneyBook.WinApp
     private void AccountTypeName_TextChanged(object sender, EventArgs e)
     {
       var textBox = sender as TextBox;
-      if (textBox != null && textBox.Text.Length > 0)
-        AcceptButton.Enabled = true;
-      else
-        AcceptButton.Enabled = false;
+
+      AcceptButton.Enabled = (textBox != null && textBox.Text.Length > 0);
     }
 
     private void btnSelectIcon_Click(object sender, EventArgs e)
     {
-      var f = new IconsViewer(this.User);
+      var f = new IconsViewer(this.User, Convertion.ToInt32(this.picIcon.Tag));
       f.Owner = this;
 
       if (f.ShowDialog() == DialogResult.OK)

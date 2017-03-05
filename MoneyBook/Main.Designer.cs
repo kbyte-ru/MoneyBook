@@ -117,7 +117,6 @@
       // 
       // Expenses
       // 
-      this.Expenses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
       this.Expenses.DetailsSize = 175;
       this.Expenses.Dock = System.Windows.Forms.DockStyle.Fill;
       this.Expenses.ItemsType = MoneyBook.Core.EntryType.Expense;
@@ -144,7 +143,6 @@
       // 
       // Incomes
       // 
-      this.Incomes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
       this.Incomes.DetailsSize = 175;
       this.Incomes.Dock = System.Windows.Forms.DockStyle.Fill;
       this.Incomes.ItemsType = MoneyBook.Core.EntryType.Income;
@@ -170,7 +168,6 @@
       // 
       // pnlAccounts
       // 
-      this.pnlAccounts.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
       this.pnlAccounts.Controls.Add(this.Accounts);
       this.pnlAccounts.Controls.Add(this.AccountsStatus);
       this.pnlAccounts.Controls.Add(this.mToolStrip1);
@@ -206,7 +203,7 @@
       this.Accounts.RowHeadersWidth = 12;
       this.Accounts.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       this.Accounts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.Accounts.Size = new System.Drawing.Size(672, 378);
+      this.Accounts.Size = new System.Drawing.Size(676, 382);
       this.Accounts.TabIndex = 0;
       // 
       // Column1
@@ -262,9 +259,9 @@
       this.AccountsStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AccountsTitle,
             this.AccountsTotalAmount});
-      this.AccountsStatus.Location = new System.Drawing.Point(0, 403);
+      this.AccountsStatus.Location = new System.Drawing.Point(0, 407);
       this.AccountsStatus.Name = "AccountsStatus";
-      this.AccountsStatus.Size = new System.Drawing.Size(672, 28);
+      this.AccountsStatus.Size = new System.Drawing.Size(676, 28);
       this.AccountsStatus.SizingGrip = false;
       this.AccountsStatus.TabIndex = 13;
       this.AccountsStatus.Text = "StatusStrip1";
@@ -296,7 +293,7 @@
       this.mToolStrip1.Name = "mToolStrip1";
       this.mToolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
       this.mToolStrip1.ShowItemToolTips = false;
-      this.mToolStrip1.Size = new System.Drawing.Size(672, 25);
+      this.mToolStrip1.Size = new System.Drawing.Size(676, 25);
       this.mToolStrip1.TabIndex = 1;
       this.mToolStrip1.Text = "mToolStrip1";
       // 
@@ -339,7 +336,6 @@
       // 
       // splitContainer1
       // 
-      this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
       this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.splitContainer1.Location = new System.Drawing.Point(0, 0);
       this.splitContainer1.Name = "splitContainer1";
@@ -370,7 +366,7 @@
             "Список валют"});
       this.lstDictionaries.Location = new System.Drawing.Point(0, 0);
       this.lstDictionaries.Name = "lstDictionaries";
-      this.lstDictionaries.Size = new System.Drawing.Size(139, 431);
+      this.lstDictionaries.Size = new System.Drawing.Size(143, 435);
       this.lstDictionaries.TabIndex = 1;
       // 
       // toolStrip5
@@ -382,7 +378,7 @@
       this.toolStrip5.Location = new System.Drawing.Point(0, 0);
       this.toolStrip5.Name = "toolStrip5";
       this.toolStrip5.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-      this.toolStrip5.Size = new System.Drawing.Size(527, 25);
+      this.toolStrip5.Size = new System.Drawing.Size(531, 25);
       this.toolStrip5.TabIndex = 0;
       this.toolStrip5.Text = "toolStrip5";
       // 
@@ -441,7 +437,7 @@
       this.dgvInfo.AllowUserToResizeRows = false;
       this.dgvInfo.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
       this.dgvInfo.BackgroundColor = System.Drawing.SystemColors.Window;
-      this.dgvInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.dgvInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
       this.dgvInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       this.dgvInfo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column3,
